@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Lupus Addons Manager - Świat Lupus
+// @name         Kaczor Addons Manager - Lupus
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  loader
-// @author       lupus
+// @author       kaczka
 // @match        https://lupus.margonem.pl/*
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue

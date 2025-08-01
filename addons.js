@@ -2617,6 +2617,7 @@ if (savedGuilds) {
 
     // Śledzenie wykrytych tytanów
     let lastDetectedTitans = new Set();
+const COOLDOWN_TIME = 5 * 60 * 1000;
 
     const styles = `
         #titan-notifier-button {
@@ -3039,7 +3040,7 @@ if (savedGuilds) {
         }
     }
 
-async function sendTitanRespawnNotification(titanName, titanLevel) {
+async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {}) {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl || !isNotifierEnabled()) return false;
 
@@ -3059,13 +3060,22 @@ async function sendTitanRespawnNotification(titanName, titanLevel) {
         }
     }
 
+    // Pobierz dodatkowe informacje
+    const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
+    const mapName = titanData.mapName || getCurrentMapName() || 'Nieznana mapa';
+    const finderName = titanData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
+
     const embed = {
-        title: `TYTAN ZRESPIŁ! ${titanName}`,
-        description: `**${titanName}** (LvL ${titanLevel}) zrespił!\n\nŚwiat: ${window.location.hostname.split('.')[0]}`,
+        title: `TYTAN ZRESPIŁ!`,
+        description: `**${titanName} (Lvl ${titanLevel})**\n\n` +
+                    `**Mapa:** ${mapName}\n` +
+                    `**Znalazł:** ${finderName}\n` +
+                    `**Świat:** ${worldName}`,
         color: 0x9d4edd,
         footer: {
             text: `Kaczor Addons - Titans on Discord • ${timestamp}`
         },
+        timestamp: new Date().toISOString()
     };
 
     try {
@@ -3086,89 +3096,174 @@ async function sendTitanRespawnNotification(titanName, titanLevel) {
         return false;
     }
 }
+function getCurrentMapName() {
+    try {
+        // Próbuj różne sposoby pobrania nazwy mapy
+        if (typeof Engine !== 'undefined') {
+            if (Engine.map && Engine.map.d && Engine.map.d.name) {
+                return Engine.map.d.name;
+            }
+            if (Engine.map && Engine.map.name) {
+                return Engine.map.name;
+            }
+            if (Engine.gameMap && Engine.gameMap.name) {
+                return Engine.gameMap.name;
+            }
+        }
+
+        // Sprawdź czy istnieje globalna zmienna z mapą
+        if (typeof map !== 'undefined' && map.name) {
+            return map.name;
+        }
+
+        // Sprawdź w HTML - niektóre gry wyświetlają nazwę mapy w interfejsie
+        const mapElement = document.querySelector('.map-name, #map-name, [class*="map"]');
+        if (mapElement && mapElement.textContent) {
+            return mapElement.textContent.trim();
+        }
+
+        return 'Nieznana mapa';
+    } catch (error) {
+        console.error('Błąd pobierania nazwy mapy:', error);
+        return 'Nieznana mapa';
+    }
+}
+
+function getCurrentPlayerName() {
+    try {
+        // Próbuj różne sposoby pobrania nazwy gracza
+        if (typeof Engine !== 'undefined') {
+            if (Engine.hero && Engine.hero.d && Engine.hero.d.nick) {
+                return Engine.hero.d.nick;
+            }
+            if (Engine.hero && Engine.hero.nick) {
+                return Engine.hero.nick;
+            }
+            if (Engine.player && Engine.player.nick) {
+                return Engine.player.nick;
+            }
+        }
+
+        // Sprawdź czy istnieje globalna zmienna z graczem
+        if (typeof hero !== 'undefined' && hero.nick) {
+            return hero.nick;
+        }
+
+        // Sprawdź w HTML - nazwa gracza często jest wyświetlana w interfejsie
+        const playerElement = document.querySelector('.player-name, #player-name, [class*="nick"], [class*="player"]');
+        if (playerElement && playerElement.textContent) {
+            return playerElement.textContent.trim();
+        }
+
+        return 'Nieznany gracz';
+    } catch (error) {
+        console.error('Błąd pobierania nazwy gracza:', error);
+        return 'Nieznany gracz';
+    }
+}
+
     // Funkcja sprawdzająca respawn tytanów
-    async function checkTitanRespawns() {
-        if (!isNotifierEnabled()) return;
+// Funkcja sprawdzająca respawn tytanów - KOMPLETNA WERSJA
+async function checkTitanRespawns() {
+    if (!isNotifierEnabled()) return;
 
-        try {
-            if (typeof Engine === 'undefined' || !Engine.npcs) return;
+    try {
+        if (typeof Engine === 'undefined' || !Engine.npcs) return;
+        let npcs = [];
 
-            let npcs = [];
+        // Próbuj różne metody dostępu do NPC-ów
+        if (Engine.npcs.check && typeof Engine.npcs.check === 'function') {
+            try {
+                const npcCheck = Engine.npcs.check();
+                if (npcCheck && typeof npcCheck === 'object') {
+                    npcs = Object.entries(npcCheck);
+                }
+            } catch (e) {}
+        }
 
-            // Próbuj różne metody dostępu do NPC-ów
-            if (Engine.npcs.check && typeof Engine.npcs.check === 'function') {
-                try {
-                    const npcCheck = Engine.npcs.check();
-                    if (npcCheck && typeof npcCheck === 'object') {
-                        npcs = Object.entries(npcCheck);
-                    }
-                } catch (e) {}
-            }
+        if (npcs.length === 0 && Engine.npcs.list) {
+            try {
+                npcs = Object.entries(Engine.npcs.list);
+            } catch (e) {}
+        }
 
-            if (npcs.length === 0 && Engine.npcs.list) {
-                try {
-                    npcs = Object.entries(Engine.npcs.list);
-                } catch (e) {}
-            }
+        if (npcs.length === 0 && Engine.map && Engine.map.npcs) {
+            try {
+                npcs = Object.entries(Engine.map.npcs);
+            } catch (e) {}
+        }
 
-            if (npcs.length === 0 && Engine.map && Engine.map.npcs) {
-                try {
-                    npcs = Object.entries(Engine.map.npcs);
-                } catch (e) {}
-            }
+        const currentTitans = new Set();
 
-            const currentTitans = new Set();
+        // Przejrzyj wszystkich NPC-ów
+        for (const [npcId, npcData] of npcs) {
+            try {
+                let titanName = null;
+                let titanLevel = null;
+                let titanWt = null;
 
-            // Przejrzyj wszystkich NPC-ów
-            for (const [npcId, npcData] of npcs) {
-                try {
-                    let titanName = null;
-                    let titanLevel = null;
-                    let titanWt = null;
+                // Różne struktury danych w zależności od metody
+                if (npcData && npcData.d) {
+                    const titanData = npcData.d;
+                    titanName = titanData.nick || titanData.name;
+                    titanLevel = titanData.lvl || titanData.elasticLevel;
+                    titanWt = titanData.wt;
+                } else if (npcData && npcData[1] && npcData[1].d) {
+                    const titanData = npcData[1].d;
+                    titanName = titanData.nick || titanData.name;
+                    titanLevel = titanData.lvl || titanData.wt;
+                    titanWt = titanData.wt;
+                } else if (npcData && typeof npcData === 'object') {
+                    titanName = npcData.nick || npcData.name;
+                    titanLevel = npcData.lvl || npcData.elasticLevel || npcData.wt;
+                    titanWt = npcData.wt;
+                }
 
-                    // Różne struktury danych w zależności od metody
-                    if (npcData && npcData.d) {
-                        const titanData = npcData.d;
-                        titanName = titanData.nick || titanData.name;
-                        titanLevel = titanData.lvl || titanData.elasticLevel;
-                        titanWt = titanData.wt;
-                    } else if (npcData && npcData[1] && npcData[1].d) {
-                        const titanData = npcData[1].d;
-                        titanName = titanData.nick || titanData.name;
-                        titanLevel = titanData.lvl || titanData.wt;
-                        titanWt = titanData.wt;
-                    } else if (npcData && typeof npcData === 'object') {
-                        titanName = npcData.nick || npcData.name;
-                        titanLevel = npcData.lvl || npcData.elasticLevel || npcData.wt;
-                        titanWt = npcData.wt;
-                    }
+                // Sprawdź czy to tytan (wt > 99)
+                if (titanWt && titanWt > 99) {
+                    const finalTitanName = titanName || 'Nieznany Tytan';
+                    const finalTitanLevel = titanLevel || titanWt;
+                    const titanKey = `${npcId}_${finalTitanName}_${finalTitanLevel}`;
 
-                    // Sprawdź czy to tytan (wt > 99)
-                    if (titanWt && titanWt > 99) {
-                        const finalTitanName = titanName || 'Nieznany Tytan';
-                        const finalTitanLevel = titanLevel || titanWt;
-                        const titanKey = `${npcId}_${finalTitanName}_${finalTitanLevel}`;
+                    currentTitans.add(titanKey);
 
-                        currentTitans.add(titanKey);
+                    // TUTAJ JEST CAŁY KOD KTÓRY BYŁ POZA FUNKCJĄ:
+                    if (!lastDetectedTitans.has(titanKey)) {
+                        const notificationKey = `${finalTitanName}_${finalTitanLevel}`;
+                        const sentTitans = JSON.parse(localStorage.getItem('titanNotifierSentTitans') || '{}');
+                        const lastSent = sentTitans[notificationKey] || 0;
+                        const now = Date.now();
 
-                        // Jeśli tytan nie był wcześniej wykryty, wyślij powiadomienie
-                        if (!lastDetectedTitans.has(titanKey)) {
-                            const success = await sendTitanRespawnNotification(finalTitanName, finalTitanLevel);
+                        if (now - lastSent > COOLDOWN_TIME) {
+                            const additionalData = {
+                                mapName: getCurrentMapName(),
+                                finderName: getCurrentPlayerName(),
+                                npcData: npcData
+                            };
+
+                            // TERAZ await JEST WEWNĄTRZ FUNKCJI async - TO JEST OK!
+                            const success = await sendTitanRespawnNotification(finalTitanName, finalTitanLevel, additionalData);
                             if (success) {
                                 addToNotificationLog(finalTitanName, finalTitanLevel);
+                                sentTitans[notificationKey] = now;
+                                localStorage.setItem('titanNotifierSentTitans', JSON.stringify(sentTitans));
                             }
                         }
                     }
-                } catch (error) {}
+                }
+
+            } catch (error) {
+                console.error(`Błąd przy przetwarzaniu NPC ${npcId}:`, error);
             }
-
-            // Zaktualizuj listę wykrytych tytanów
-            lastDetectedTitans = currentTitans;
-
-        } catch (error) {
-            console.error('Błąd sprawdzania tytanów:', error);
         }
+
+        // Zaktualizuj listę wykrytych tytanów
+        lastDetectedTitans = currentTitans;
+
+    } catch (error) {
+        console.error('Błąd w głównym bloku try:', error);
     }
+} // <- TUTAJ KOŃCZY SIĘ FUNKCJA async
 
     // Funkcja przeciągania przycisku
     function makeDraggable(element) {
@@ -3259,7 +3354,7 @@ async function sendTitanRespawnNotification(titanName, titanLevel) {
             {name: "Tanroth", level: 300},
             {name: "Kolga", level: 50},
             {name: "Duva", level: 90},
-            {name: "Blodughadda", level: 130},
+            {name: "Blodughaddy", level: 130},
             {name: "Bara", level: 170},
             {name: "Unn", level: 210},
             {name: "Himinglava", level: 250},
@@ -3506,7 +3601,7 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
         console.log('Dodatek uruchomiony!');
     }
 
-    // Uruchom gdy strona się załaduje
+// Uruchom gdy strona się załaduje
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

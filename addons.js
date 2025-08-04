@@ -3354,7 +3354,7 @@ async function checkTitanRespawns() {
             {name: "Tanroth", level: 300},
             {name: "Kolga", level: 50},
             {name: "Duva", level: 90},
-            {name: "Blodughaddy", level: 130},
+            {name: "Blodughadda", level: 130},
             {name: "Bara", level: 170},
             {name: "Unn", level: 210},
             {name: "Himinglava", level: 250},

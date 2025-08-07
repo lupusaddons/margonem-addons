@@ -3158,7 +3158,7 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
 
     const embed = {
         title: `!#TYTAN#!`,
-        description: `**${titanName} (Lvl ${titanLevel})**\n\n` +
+        description: `**${titanName} (Lvl ${titanLevel})**\n${rolePing}\n\n` +
                     `**Mapa:** ${mapName}\n` +
                     `**Znalazł:** ${finderName}\n` +
                     `**Świat:** ${worldName}`,
@@ -3176,8 +3176,8 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                content: rolePing, // Ping tutaj
-                embeds: [embed]    // Embed bez pingu
+                content: '', // Usunięto ping z content
+                embeds: [embed]    // Ping teraz jest w embed description
             })
         });
 

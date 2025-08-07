@@ -3157,7 +3157,7 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
     const finderName = titanData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
 
     const embed = {
-        title: `TYTAN ZRESPIŁ!`,
+        title: `!#TYTAN#!`,
         description: `**${titanName} (Lvl ${titanLevel})**\n\n` +
                     `**Mapa:** ${mapName}\n` +
                     `**Znalazł:** ${finderName}\n` +

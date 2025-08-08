@@ -1222,7 +1222,7 @@ function showWebhookSettings() {
     modal.onclick = e => e.target === modal && document.body.removeChild(modal);
 }
 
-async function sendToDiscord(titanName, players) {
+ToDiscord(titanName, players) {
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');
@@ -1299,7 +1299,7 @@ async function sendToDiscord(titanName, players) {
         alert(`❌ Błąd wysyłania na Discord:\n${error.message}`);
     }
 }
-async function sendAllTitansToDiscord() {
+AllTitansToDiscord() {
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');
@@ -2320,7 +2320,7 @@ if (savedGuilds) {
     }
 
     // Funkcja wysyłania na Discord
-    async function sendDiscordNotification(titanName, players) {
+    DiscordNotification(titanName, players) {
         const webhookUrl = getDiscordWebhookUrl();
         if (!webhookUrl || !isNotifierEnabled()) return false;
 
@@ -3158,7 +3158,7 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
 
     const embed = {
         title: `!#TYTAN#!`,
-        description: `**${titanName} (Lvl ${titanLevel})**\n${rolePing}\n\n` +
+        description: `**${titanName} (Lvl ${titanLevel})**\n\n` +
                     `**Mapa:** ${mapName}\n` +
                     `**Znalazł:** ${finderName}\n` +
                     `**Świat:** ${worldName}`,
@@ -3176,8 +3176,8 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                content: '', // Usunięto ping z content
-                embeds: [embed]    // Ping teraz jest w embed description
+                content: rolePing, // ZMIANA: Ping roli jest teraz w content (poza embedem)
+                embeds: [embed]    // Embed bez pingu
             })
         });
 

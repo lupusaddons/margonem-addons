@@ -1222,7 +1222,7 @@ function showWebhookSettings() {
     modal.onclick = e => e.target === modal && document.body.removeChild(modal);
 }
 
-ToDiscord(titanName, players) {
+async function sendToDiscord(titanName, players) { 
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');

@@ -3707,7 +3707,7 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
         }
     };
 
-   const styles = `
+const styles = `
         .addon-manager {
             position: fixed;
             top: 10px;
@@ -3735,16 +3735,16 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
             min-width: 120px;
         }
 
-        .addon-toggle-btn::before {
-            content: '';
-            width: 16px;
-            height: 16px;
-            background-image: url('https://media.discordapp.net/attachments/793585855717048343/1402060185220157480/raw.png?ex=6894840d&is=6893328d&hm=419bd627f091951fc1ac2f8a1396bd59700961b93eaf760431f28f57747da87f&=&format=webp&quality=lossless&width=960&height=960');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            flex-shrink: 0;
-        }
+    .addon-toggle-btn::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background-image: url('https://raw.githubusercontent.com/krystianasaaa/margonem-addons/main/images/ikonka.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
 
         .addon-toggle-btn:hover {
             background: #36393f;
@@ -3808,16 +3808,16 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
             gap: 8px;
         }
 
-        .addon-menu-header::before {
-            content: '';
-            width: 18px;
-            height: 18px;
-            background-image: url('https://media.discordapp.net/attachments/793585855717048343/1402060185220157480/raw.png?ex=6894840d&is=6893328d&hm=419bd627f091951fc1ac2f8a1396bd59700961b93eaf760431f28f57747da87f&=&format=webp&quality=lossless&width=960&height=960');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            flex-shrink: 0;
-        }
+      .addon-menu-header::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background-image: url('https://raw.githubusercontent.com/krystianasaaa/margonem-addons/main/images/ikonka.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
 
         .addon-menu.dragging {
             transition: none !important;

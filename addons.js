@@ -1299,7 +1299,7 @@ async function sendToDiscord(titanName, players) {
         alert(`❌ Błąd wysyłania na Discord:\n${error.message}`);
     }
 }
-AllTitansToDiscord() {
+async function sendAllTitansToDiscord() {
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');

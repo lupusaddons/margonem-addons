@@ -1299,7 +1299,7 @@ async function sendToDiscord(titanName, players) {
         alert(`❌ Błąd wysyłania na Discord:\n${error.message}`);
     }
 }
-async function sendAllTitansToDiscord() {
+async function AllTitansToDiscord() {
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');
@@ -2320,7 +2320,7 @@ if (savedGuilds) {
     }
 
     // Funkcja wysyłania na Discord
-    DiscordNotification(titanName, players) {
+    async function sendDiscordNotification(titanName, players) {
         const webhookUrl = getDiscordWebhookUrl();
         if (!webhookUrl || !isNotifierEnabled()) return false;
 

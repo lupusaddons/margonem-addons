@@ -127,7 +127,7 @@
         {level: 271, name: "Teza"}, {level: 272, name: "Barba/Tan"}, {level: 300, name: "Barba/Tan"}
     ];
 
-    const creatorList = ["dreaming kwaczuszka" , "pogromca karpia"];
+    const creatorList = ["dreaming kwaczuszka " , "pogromca karpia"];
     const guildColors = JSON.parse(localStorage.getItem('guildColors') || '{}');
 	const playerGuilds = {};
 	let observedGuilds = [];
@@ -159,7 +159,16 @@ const themes = {
     color: var(--guild-text-color, #90EE90) !important;
 }
 }.creator-player .col-nick{color:#ff6666!important;font-weight:bold!important}.creator-player .player-emoji{color:#ff0000!important;font-size:12px!important;text-shadow:0 0 3px rgba(255,0,0,0.5)!important}#level-summary{padding:12px;background:linear-gradient(135deg,rgba(15,76,117,0.6),rgba(50,130,184,0.4));border-top:1px solid rgba(15,76,117,0.5);color:#e8f4fd;font-size:11px;line-height:1.6;border-radius:0 0 8px 8px;position:relative}.summary-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;flex-wrap:wrap;gap:4px}.summary-row:last-child{margin-bottom:0}.summary-row.counts-row{justify-content:flex-start}.summary-counts{display:flex;flex-wrap:wrap;gap:4px;font-weight:bold}.titan-count{background:rgba(0,0,0,0.3);padding:2px 4px;border-radius:4px;font-size:9px;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:2px;transition:all 0.2s ease;user-select:none}.titan-count:hover{background:rgba(51,51,51,0.6);transform:scale(1.05);border:1px solid rgba(102,102,102,0.6);box-shadow:0 2px 8px rgba(102,102,102,0.3);cursor:pointer}.titan-count.highlight{background:rgba(255,107,107,0.3);color:#ff6b6b;border:1px solid rgba(255,107,107,0.5)}.titan-count.highlight:hover{background:rgba(255,107,107,0.5);border:1px solid rgba(255,107,107,0.8);box-shadow:0 2px 8px rgba(255,107,107,0.4)}
-.last-refresh{color:#a8dadc;font-size:9px;font-style:italic}.collapsed #online-content,.collapsed #online-box-controls{display:none}.collapsed #online-box{height:auto!important;width:auto!important;min-width:250px}#table-body::-webkit-scrollbar{width:8px}#table-body::-webkit-scrollbar-track{background:rgba(0,0,0,0.3);border-radius:4px}#table-body::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#0f4c75,#3282b8);border-radius:4px}#table-body::-webkit-scrollbar-thumb:hover{background:linear-gradient(135deg,#3282b8,#0f4c75)}.resizer{width:14px;height:14px;position:absolute;right:2px;bottom:2px;cursor:se-resize;background:linear-gradient(135deg,#0f4c75,#3282b8);border-radius:3px;z-index:10;opacity:0.7;transition:opacity 0.2s}.resizer:hover{opacity:1}@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}#online-box{animation:fadeIn 0.3s ease-out}.vip-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;display:flex;justify-content:center;align-items:center}.vip-dialog{background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid #0f4c75;border-radius:12px;padding:20px;width:400px;max-height:500px;color:#e8f4fd;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}.vip-modal h3{margin-top:0;color:#3282b8}.vip-input-row{margin-bottom:15px}.vip-input-row input{width:70%;padding:8px;background:rgba(50,130,184,0.2);border:1px solid #0f4c75;border-radius:4px;color:#e8f4fd;margin-right:10px}.vip-input-row button{padding:8px 12px;background:#3282b8;border:none;border-radius:4px;color:white;cursor:pointer}.vip-list-container{max-height:300px;overflow-y:auto;margin-bottom:15px;border:1px solid #0f4c75;border-radius:4px;padding:10px;background:rgba(0,0,0,0.3)}.vip-item{display:flex;justify-content:space-between;align-items:center;padding:5px;margin:2px 0;background:rgba(50,130,184,0.1);border-radius:4px}.vip-remove-btn{background:#ff4444;border:none;border-radius:3px;color:white;padding:2px 6px;cursor:pointer;font-size:12px}.vip-close-btn{background:#666;border:none;border-radius:4px;color:white;cursor:pointer;padding:8px 16px}#summary-box{position:fixed;background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid #0f4c75;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9998;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow:hidden;backdrop-filter:blur(10px);min-width:280px;min-height:120px}#summary-box-header{background:linear-gradient(135deg,#0f4c75,#3282b8);color:white;padding:8px 12px;font-weight:bold;font-size:12px;cursor:move;user-select:none;display:flex;justify-content:space-between;align-items:center}#summary-box-title{color:white;font-weight:bold;display:flex;align-items:center;gap:6px}#summary-box-buttons{display:flex;gap:4px}#summary-box-buttons button{background:rgba(255,255,255,0.2);border:none;color:white;font-size:12px;cursor:pointer;padding:3px 6px;border-radius:3px;transition:all 0.2s;font-weight:bold}#summary-box-buttons button:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}#summary-content{padding:8px;color:#e8f4fd;font-size:10px;line-height:1.4}.show-main-btn{position:fixed;top:10px;right:10px;z-index:10001;background:linear-gradient(135deg,#0f4c75,#3282b8);border:2px solid #0f4c75;color:white;padding:8px;border-radius:50%;cursor:move;font-size:12px;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:all 0.2s;opacity:0.8;user-select:none;width:55px;height:55px;display:flex;align-items:center;justify-content:center}.show-main-btn:hover{transform:scale(1.05) rotate(15deg);box-shadow:0 6px 20px rgba(0,0,0,0.4);opacity:1}#level-summary.detached{display:none}#send-all-btn{position:relative}#send-all-btn:hover::after{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:4px;font-size:10px;white-space:nowrap;z-index:1000}#summary-box .detached-controls{padding:8px;text-align:center;border-top:1px solid rgba(15,76,117,0.5);background:rgba(0,0,0,0.2)}#summary-box .detached-controls button{background:#3282b8;border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:10px;margin:0 2px}#summary-box .detached-controls button:hover{background:#4a9fd1}.guild-select{background:linear-gradient(135deg,rgba(15,76,117,0.3),rgba(50,130,184,0.2));color:#e8f4fd;border:1px solid rgba(15,76,117,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-select:focus{border-color:#3282b8;box-shadow:0 0 10px rgba(50,130,184,0.3)}.guild-select option{background:#16213e;color:#e8f4fd}.guild-management-dialog .vip-input-row select{width:100%;background:linear-gradient(135deg,rgba(15,76,117,0.3),rgba(50,130,184,0.2));color:#e8f4fd;border:1px solid rgba(15,76,117,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-management-dialog .vip-input-row select:focus{border-color:#3282b8;box-shadow:0 0 10px rgba(50,130,184,0.3)}.guild-management-dialog .vip-input-row select option{background:#16213e;color:#e8f4fd}
+.last-refresh{color:#a8dadc;font-size:9px;font-style:italic}.collapsed #online-content,.collapsed #online-box-controls{display:none}.collapsed #online-box{height:auto!important;width:auto!important;min-width:250px}#table-body::-webkit-scrollbar{width:8px}#table-body::-webkit-scrollbar-track{background:rgba(0,0,0,0.3);border-radius:4px}#table-body::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#0f4c75,#3282b8);border-radius:4px}#table-body::-webkit-scrollbar-thumb:hover{background:linear-gradient(135deg,#3282b8,#0f4c75)}.resizer{width:14px;height:14px;position:absolute;right:2px;bottom:2px;cursor:se-resize;background:linear-gradient(135deg,#0f4c75,#3282b8);border-radius:3px;z-index:10;opacity:0.7;transition:opacity 0.2s}.resizer:hover{opacity:1}@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}#online-box{animation:fadeIn 0.3s ease-out}.vip-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;display:flex;justify-content:center;align-items:center}.vip-dialog{background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid #0f4c75;border-radius:12px;padding:20px;width:400px;max-height:500px;color:#e8f4fd;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}.vip-modal h3{margin-top:0;color:#3282b8}.vip-input-row{margin-bottom:15px}.vip-input-row input{width:70%;padding:8px;background:rgba(50,130,184,0.2);border:1px solid #0f4c75;border-radius:4px;color:#e8f4fd;margin-right:10px}.vip-input-row button{padding:8px 12px;background:#3282b8;border:none;border-radius:4px;color:white;cursor:pointer}.vip-list-container{max-height:300px;overflow-y:auto;margin-bottom:15px;border:1px solid #0f4c75;border-radius:4px;padding:10px;background:rgba(0,0,0,0.3)}.vip-item{display:flex;justify-content:space-between;align-items:center;padding:5px;margin:2px 0;background:rgba(50,130,184,0.1);border-radius:4px}.vip-remove-btn{background:#ff4444;border:none;border-radius:3px;color:white;padding:2px 6px;cursor:pointer;font-size:12px}.vip-close-btn{background:#666;border:none;border-radius:4px;color:white;cursor:pointer;padding:8px 16px}#summary-box{position:fixed;background:linear-gradient(135deg,#1a1a2e,#16213e);border:2px solid #0f4c75;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9998;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow:hidden;backdrop-filter:blur(10px);min-width:280px;min-height:120px}#summary-box-header{background:linear-gradient(135deg,#0f4c75,#3282b8);color:white;padding:8px 12px;font-weight:bold;font-size:12px;cursor:move;user-select:none;display:flex;justify-content:space-between;align-items:center}#summary-box-title{color:white;font-weight:bold;display:flex;align-items:center;gap:6px}#summary-box-buttons{display:flex;gap:4px}#summary-box-buttons button{background:rgba(255,255,255,0.2);border:none;color:white;font-size:12px;cursor:pointer;padding:3px 6px;border-radius:3px;transition:all 0.2s;font-weight:bold}#summary-box-buttons button:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}#summary-content{padding:8px;color:#e8f4fd;font-size:10px;line-height:1.4}.show-main-btn{position:fixed;top:10px;right:10px;z-index:10001;background:linear-gradient(135deg,#0f4c75,#3282b8);border:2px solid #0f4c75;color:white;padding:8px;border-radius:50%;cursor:move;font-size:12px;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:all 0.2s;opacity:0.8;user-select:none;width:55px;height:55px;display:flex;align-items:center;justify-content:center}.show-main-btn:hover{transform:scale(1.05) rotate(15deg);box-shadow:0 6px 20px rgba(0,0,0,0.4);opacity:1}#level-summary.detached{display:none}#send-all-btn{position:relative}#send-all-btn:hover::after{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:4px;font-size:10px;white-space:nowrap;z-index:1000}#summary-box .detached-controls{padding:8px;text-align:center;border-top:1px solid rgba(15,76,117,0.5);background:rgba(0,0,0,0.2)}#summary-box .detached-controls button{background:#3282b8;border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:10px;margin:0 2px}#summary-box .detached-controls button:hover{background:#4a9fd1}#guild-toggle-detached-btn.selected-guilds-mode {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
+    border: 1px solid #ff4444 !important;
+}
+
+#guild-toggle-detached-btn.all-guilds-mode {
+    background: linear-gradient(135deg, #28a745, #20c997) !important;
+    border: 1px solid #17a2b8 !important;
+}
+.guild-select{background:linear-gradient(135deg,rgba(15,76,117,0.3),rgba(50,130,184,0.2));color:#e8f4fd;border:1px solid rgba(15,76,117,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-select:focus{border-color:#3282b8;box-shadow:0 0 10px rgba(50,130,184,0.3)}.guild-select option{background:#16213e;color:#e8f4fd}.guild-management-dialog .vip-input-row select{width:100%;background:linear-gradient(135deg,rgba(15,76,117,0.3),rgba(50,130,184,0.2));color:#e8f4fd;border:1px solid rgba(15,76,117,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-management-dialog .vip-input-row select:focus{border-color:#3282b8;box-shadow:0 0 10px rgba(50,130,184,0.3)}.guild-management-dialog .vip-input-row select option{background:#16213e;color:#e8f4fd}
 #guild-button{
     background:linear-gradient(135deg,#28a745,#20c997);
     border:2px solid #17a2b8;
@@ -304,7 +313,15 @@ const themes = {
 `,
 
 black: `#online-box{position:fixed;background:linear-gradient(135deg,#000000,#1a1a1a);border:2px solid #333333;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9999;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow:hidden;backdrop-filter:blur(10px);min-width:260px;min-height:100px}#online-box.hidden{display:none}#online-box-header{background:linear-gradient(135deg,#000000,#333333);color:white;padding:12px 15px;font-weight:bold;font-size:14px;cursor:move;user-select:none;position:relative;display:flex;justify-content:space-between;align-items:center}#online-box-title{color:white;font-weight:bold;display:flex;align-items:center;gap:8px}#online-box-title .emoji{font-size:16px;animation:pulse 2s infinite}#vip-button{background:linear-gradient(135deg,#333333,#555555);border:2px solid #666666;color:white;font-size:14px;cursor:pointer;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-weight:bold;box-shadow:0 2px 8px rgba(255,255,255,0.1);margin-left:8px}#vip-button:hover{transform:scale(1.1) rotate(10deg);box-shadow:0 4px 12px rgba(255,255,255,0.2)}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}#online-box-buttons{display:flex;gap:5px}#online-box-buttons button{background:rgba(255,255,255,0.2);border:none;color:white;font-size:14px;cursor:pointer;padding:4px 8px;border-radius:4px;transition:all 0.2s;font-weight:bold}#online-box-buttons button:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}#online-box-buttons button#theme-btn{background:linear-gradient(135deg,#ff6b6b,#ee5a52);border:2px solid #ff4444;color:white}#online-box-buttons button#theme-btn:hover{background:linear-gradient(135deg,#ee5a52,#ff6b6b);transform:translateY(-1px) scale(1.05)}#online-box-controls{padding:10px;background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(51,51,51,0.5)}#filter-select{width:100%;background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(51,51,51,0.2));color:#e8f4fd;border:1px solid rgba(51,51,51,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}#filter-select:focus{border-color:#666666;box-shadow:0 0 10px rgba(102,102,102,0.3)}#filter-select option{background:#1a1a1a;color:#e8f4fd}#online-content{display:flex;flex-direction:column;height:calc(100% - 180px);background:rgba(0,0,0,0.2)}#table-header{background:linear-gradient(135deg,rgba(0,0,0,0.4),rgba(51,51,51,0.3));color:#cccccc;padding:8px;font-size:12px;font-weight:bold;border-bottom:1px solid rgba(51,51,51,0.5);display:flex;position:sticky;top:0;z-index:10}#table-header>div{padding:0 8px}#table-header .col-nick{flex:1;text-align:left}#table-header .col-level{width:60px;text-align:right}#table-header .col-titan{width:80px;text-align:right}#table-body{flex:1;overflow-y:auto;position:relative}.player-row{display:flex;padding:6px 8px;color:#e8f4fd;font-size:12px;border-bottom:1px solid rgba(51,51,51,0.2);transition:all 0.2s}.player-row:hover{background:linear-gradient(135deg,rgba(0,0,0,0.2),rgba(51,51,51,0.1))}.player-row>div{padding:0 8px}.player-row .col-nick{flex:1;text-align:left;display:flex;align-items:center;gap:4px}.player-row .col-level{width:60px;text-align:right}.player-row .col-titan{width:80px;text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:4px}.titan-highlight{color:#ff6b6b!important;font-weight:bold!important;text-shadow:0 0 5px rgba(255,107,107,0.3)}.player-emoji{font-size:10px;opacity:0.8}.titan-emoji{font-size:10px;opacity:0.9}.vip-player{background:linear-gradient(135deg,rgba(255,215,0,0.1),rgba(255,165,0,0.1));border-left:3px solid #ffd700}.no-data{text-align:center;color:#a8dadc;padding:20px;font-style:italic;font-size:12px}.creator-player{background:linear-gradient(135deg,rgba(255,0,0,0.15),rgba(139,0,0,0.15))!important;border-left:4px solid #ff0000!important;color:#ff4444!important}.creator-label{color:#ff0000!important;font-weight:bold!important;font-size:10px!important;margin-left:6px!important;padding:2px 4px!important;background:rgba(255,0,0,0.2)!important;border-radius:3px!important;display:inline-block!important;text-shadow:none!important}.creator-player .col-nick{color:#ff6666!important;font-weight:bold!important}.creator-player .player-emoji{color:#ff0000!important;font-size:12px!important;text-shadow:0 0 3px rgba(255,0,0,0.5)!important}#level-summary{padding:12px;background:linear-gradient(135deg,rgba(0,0,0,0.6),rgba(51,51,51,0.4));border-top:1px solid rgba(51,51,51,0.5);color:#e8f4fd;font-size:11px;line-height:1.6;border-radius:0 0 8px 8px;position:relative}.summary-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;flex-wrap:wrap;gap:4px}.summary-row:last-child{margin-bottom:0}.summary-row.counts-row{justify-content:flex-start}.summary-counts{display:flex;flex-wrap:wrap;gap:4px;font-weight:bold}.titan-count{background:rgba(0,0,0,0.3);padding:2px 4px;border-radius:4px;font-size:9px;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:2px;transition:all 0.2s ease;user-select:none}.titan-count:hover{background:rgba(50,130,184,0.4);transform:scale(1.05);border:1px solid rgba(50,130,184,0.6);box-shadow:0 2px 8px rgba(50,130,184,0.3);cursor:pointer}.titan-count.highlight{background:rgba(255,107,107,0.3);color:#ff6b6b;border:1px solid rgba(255,107,107,0.5)}.titan-count.highlight:hover{background:rgba(255,107,107,0.5);border:1px solid rgba(255,107,107,0.8);box-shadow:0 2px 8px rgba(255,107,107,0.4)}
-.last-refresh{color:#a8dadc;font-size:9px;font-style:italic}.collapsed #online-content,.collapsed #online-box-controls{display:none}.collapsed #online-box{height:auto!important;width:auto!important;min-width:250px}#table-body::-webkit-scrollbar{width:8px}#table-body::-webkit-scrollbar-track{background:rgba(0,0,0,0.3);border-radius:4px}#table-body::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#000000,#333333);border-radius:4px}#table-body::-webkit-scrollbar-thumb:hover{background:linear-gradient(135deg,#333333,#555555)}.resizer{width:14px;height:14px;position:absolute;right:2px;bottom:2px;cursor:se-resize;background:linear-gradient(135deg,#000000,#333333);border-radius:3px;z-index:10;opacity:0.7;transition:opacity 0.2s}.resizer:hover{opacity:1}@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}#online-box{animation:fadeIn 0.3s ease-out}.vip-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;display:flex;justify-content:center;align-items:center}.vip-dialog{background:linear-gradient(135deg,#000000,#1a1a1a);border:2px solid #333333;border-radius:12px;padding:20px;width:400px;max-height:500px;color:#e8f4fd;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}.vip-modal h3{margin-top:0;color:#cccccc}.vip-input-row{margin-bottom:15px}.vip-input-row input{width:70%;padding:8px;background:rgba(51,51,51,0.2);border:1px solid #333333;border-radius:4px;color:#e8f4fd;margin-right:10px}.vip-input-row button{padding:8px 12px;background:#333333;border:none;border-radius:4px;color:white;cursor:pointer}.vip-list-container{max-height:300px;overflow-y:auto;margin-bottom:15px;border:1px solid #333333;border-radius:4px;padding:10px;background:rgba(0,0,0,0.3)}.vip-item{display:flex;justify-content:space-between;align-items:center;padding:5px;margin:2px 0;background:rgba(51,51,51,0.1);border-radius:4px}.vip-remove-btn{background:#ff4444;border:none;border-radius:3px;color:white;padding:2px 6px;cursor:pointer;font-size:12px}.vip-close-btn{background:#666;border:none;border-radius:4px;color:white;cursor:pointer;padding:8px 16px}#summary-box{position:fixed;background:linear-gradient(135deg,#000000,#1a1a1a);border:2px solid #333333;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9998;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow:hidden;backdrop-filter:blur(10px);min-width:280px;min-height:120px}#summary-box-header{background:linear-gradient(135deg,#000000,#333333);color:white;padding:8px 12px;font-weight:bold;font-size:12px;cursor:move;user-select:none;display:flex;justify-content:space-between;align-items:center}#summary-box-title{color:white;font-weight:bold;display:flex;align-items:center;gap:6px}#summary-box-buttons{display:flex;gap:4px}#summary-box-buttons button{background:rgba(255,255,255,0.2);border:none;color:white;font-size:12px;cursor:pointer;padding:3px 6px;border-radius:3px;transition:all 0.2s;font-weight:bold}#summary-box-buttons button:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}#summary-content{padding:8px;color:#e8f4fd;font-size:10px;line-height:1.4}.show-main-btn{position:fixed;top:10px;right:10px;z-index:10001;background:linear-gradient(135deg,#000000,#333333);border:2px solid #333333;color:white;padding:8px;border-radius:50%;cursor:move;font-size:12px;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:all 0.2s;opacity:0.8;user-select:none;width:55px;height:55px;display:flex;align-items:center;justify-content:center}.show-main-btn:hover{transform:scale(1.05) rotate(15deg);box-shadow:0 6px 20px rgba(0,0,0,0.4);opacity:1}#level-summary.detached{display:none}#send-all-btn{position:relative}#send-all-btn:hover::after{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:4px;font-size:10px;white-space:nowrap;z-index:1000}#summary-box .detached-controls{padding:8px;text-align:center;border-top:1px solid rgba(51,51,51,0.5);background:rgba(0,0,0,0.2)}#summary-box .detached-controls button{background:#333333;border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:10px;margin:0 2px}#summary-box .detached-controls button:hover{background:#555555}.guild-select{background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(51,51,51,0.2));color:#e8f4fd;border:1px solid rgba(51,51,51,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-select:focus{border-color:#666666;box-shadow:0 0 10px rgba(102,102,102,0.3)}.guild-select option{background:#1a1a1a;color:#e8f4fd}.guild-management-dialog .vip-input-row select{width:100%;background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(51,51,51,0.2));color:#e8f4fd;border:1px solid rgba(51,51,51,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-management-dialog .vip-input-row select:focus{border-color:#666666;box-shadow:0 0 10px rgba(102,102,102,0.3)}.guild-management-dialog .vip-input-row select option{background:#1a1a1a;color:#e8f4fd}#guild-button{
+.last-refresh{color:#a8dadc;font-size:9px;font-style:italic}.collapsed #online-content,.collapsed #online-box-controls{display:none}.collapsed #online-box{height:auto!important;width:auto!important;min-width:250px}#table-body::-webkit-scrollbar{width:8px}#table-body::-webkit-scrollbar-track{background:rgba(0,0,0,0.3);border-radius:4px}#table-body::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#000000,#333333);border-radius:4px}#table-body::-webkit-scrollbar-thumb:hover{background:linear-gradient(135deg,#333333,#555555)}.resizer{width:14px;height:14px;position:absolute;right:2px;bottom:2px;cursor:se-resize;background:linear-gradient(135deg,#000000,#333333);border-radius:3px;z-index:10;opacity:0.7;transition:opacity 0.2s}.resizer:hover{opacity:1}@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}#online-box{animation:fadeIn 0.3s ease-out}.vip-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:10000;display:flex;justify-content:center;align-items:center}.vip-dialog{background:linear-gradient(135deg,#000000,#1a1a1a);border:2px solid #333333;border-radius:12px;padding:20px;width:400px;max-height:500px;color:#e8f4fd;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}.vip-modal h3{margin-top:0;color:#cccccc}.vip-input-row{margin-bottom:15px}.vip-input-row input{width:70%;padding:8px;background:rgba(51,51,51,0.2);border:1px solid #333333;border-radius:4px;color:#e8f4fd;margin-right:10px}.vip-input-row button{padding:8px 12px;background:#333333;border:none;border-radius:4px;color:white;cursor:pointer}.vip-list-container{max-height:300px;overflow-y:auto;margin-bottom:15px;border:1px solid #333333;border-radius:4px;padding:10px;background:rgba(0,0,0,0.3)}.vip-item{display:flex;justify-content:space-between;align-items:center;padding:5px;margin:2px 0;background:rgba(51,51,51,0.1);border-radius:4px}.vip-remove-btn{background:#ff4444;border:none;border-radius:3px;color:white;padding:2px 6px;cursor:pointer;font-size:12px}.vip-close-btn{background:#666;border:none;border-radius:4px;color:white;cursor:pointer;padding:8px 16px}#summary-box{position:fixed;background:linear-gradient(135deg,#000000,#1a1a1a);border:2px solid #333333;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);z-index:9998;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;overflow:hidden;backdrop-filter:blur(10px);min-width:280px;min-height:120px}#summary-box-header{background:linear-gradient(135deg,#000000,#333333);color:white;padding:8px 12px;font-weight:bold;font-size:12px;cursor:move;user-select:none;display:flex;justify-content:space-between;align-items:center}#summary-box-title{color:white;font-weight:bold;display:flex;align-items:center;gap:6px}#summary-box-buttons{display:flex;gap:4px}#summary-box-buttons button{background:rgba(255,255,255,0.2);border:none;color:white;font-size:12px;cursor:pointer;padding:3px 6px;border-radius:3px;transition:all 0.2s;font-weight:bold}#summary-box-buttons button:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}#summary-content{padding:8px;color:#e8f4fd;font-size:10px;line-height:1.4}.show-main-btn{position:fixed;top:10px;right:10px;z-index:10001;background:linear-gradient(135deg,#000000,#333333);border:2px solid #333333;color:white;padding:8px;border-radius:50%;cursor:move;font-size:12px;box-shadow:0 4px 16px rgba(0,0,0,0.3);transition:all 0.2s;opacity:0.8;user-select:none;width:55px;height:55px;display:flex;align-items:center;justify-content:center}.show-main-btn:hover{transform:scale(1.05) rotate(15deg);box-shadow:0 6px 20px rgba(0,0,0,0.4);opacity:1}#level-summary.detached{display:none}#send-all-btn{position:relative}#send-all-btn:hover::after{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:4px;font-size:10px;white-space:nowrap;z-index:1000}#summary-box .detached-controls{padding:8px;text-align:center;border-top:1px solid rgba(51,51,51,0.5);background:rgba(0,0,0,0.2)}#summary-box .detached-controls button{background:#333333;border:none;color:white;padding:4px 8px;border-radius:4px;cursor:pointer;font-size:10px;margin:0 2px}#summary-box .detached-controls button:hover{background:#555555}#guild-toggle-detached-btn.selected-guilds-mode {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52) !important;
+    border: 1px solid #ff4444 !important;
+}
+
+#guild-toggle-detached-btn.all-guilds-mode {
+    background: linear-gradient(135deg, #28a745, #20c997) !important;
+    border: 1px solid #17a2b8 !important;
+}.guild-select{background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(51,51,51,0.2));color:#e8f4fd;border:1px solid rgba(51,51,51,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-select:focus{border-color:#666666;box-shadow:0 0 10px rgba(102,102,102,0.3)}.guild-select option{background:#1a1a1a;color:#e8f4fd}.guild-management-dialog .vip-input-row select{width:100%;background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(51,51,51,0.2));color:#e8f4fd;border:1px solid rgba(51,51,51,0.5);border-radius:6px;padding:8px;font-size:12px;outline:none;transition:all 0.2s}.guild-management-dialog .vip-input-row select:focus{border-color:#666666;box-shadow:0 0 10px rgba(102,102,102,0.3)}.guild-management-dialog .vip-input-row select option{background:#1a1a1a;color:#e8f4fd}#guild-button{
     background:linear-gradient(135deg,#28a745,#20c997);
     border:2px solid #17a2b8;
     color:white;
@@ -608,6 +625,20 @@ function toggleGuildSelection(guild) {
     }
     setSelectedGuilds(selected);
 }
+function updateGuildToggleButton(button) {
+    if (!button) return;
+
+    if (showOnlySelectedGuilds) {
+        button.className = 'selected-guilds-mode';
+        button.innerHTML = '🎯 Wybrane klany';
+        button.title = 'Tryb: Tylko wybrane klany - Kliknij aby przełączyć';
+    } else {
+        button.className = 'all-guilds-mode';
+        button.innerHTML = '🏰 Wszystkie klany';
+        button.title = 'Tryb: Wszystkie klany - Kliknij aby przełączyć';
+    }
+}
+
 
 function setSelectedGuild(guild) {
     localStorage.setItem('selectedGuild', guild);
@@ -772,6 +803,7 @@ summaryBox.innerHTML = `
     </div>
     <div id="summary-content"></div>
     <div class="detached-controls">
+        <button id="guild-toggle-detached-btn">🏰 Wszystkie klany</button>
         <button id="send-all-detached-btn">📤 Wyślij wszystkie</button>
     </div>
     <div class="resizer"></div>
@@ -783,6 +815,10 @@ summaryBox.innerHTML = `
             summaryBox.querySelector('#attach-summary-btn').onclick = () => {
                 attachSummary();
             };
+summaryBox.querySelector('#guild-toggle-detached-btn').onclick = () => {
+    toggleGuildFilterMode();
+    updateGuildToggleButton(summaryBox.querySelector('#guild-toggle-detached-btn'));
+};
 summaryBox.querySelector('#send-all-detached-btn').onclick = () => {
     sendAllTitansToDiscord();
 };
@@ -1262,7 +1298,7 @@ async function sendToDiscord(titanName, players) {
             text: `Kaczor Addons - Players Online - Lupus • ${timestamp} • Łącznie: ${players.length} graczy`
         },
         thumbnail: {
-            url: "https://cdn.discordapp.com/emojis/123456789.png" // Opcjonalnie - dodaj link do ikony
+            url: "https://cdn.discordapp.com/emojis/123456789.png"
         }
     };
 
@@ -1563,9 +1599,21 @@ function generateSummaryHTML(players) {
         `;
     }
 
-    // ZAWSZE używaj wszystkich graczy do podsumowania, niezależnie od filtrów klanów
+    // NOWY KOD - FILTRUJ GRACZY WEDŁUG TRYBU KLANÓW
+    let filteredPlayers = players;
+    const selectedGuilds = getSelectedGuilds();
+
+    if (showOnlySelectedGuilds && selectedGuilds.length > 0) {
+        filteredPlayers = players.filter(p => {
+            const playerGuild = getPlayerGuild(p.n);
+            return playerGuild && selectedGuilds.includes(playerGuild);
+        });
+    }
+    // KONIEC NOWEGO KODU
+
+    // Użyj przefiltrowanych graczy do liczenia
     const titanCounts = {}, titanSummary = {};
-    players.forEach(p => {
+    filteredPlayers.forEach(p => {
         const titan = getTitanName(p.l);
         getTitanGroup(titan).forEach(g => titanCounts[g] = (titanCounts[g] || 0) + 1);
         titanSummary[titan] = (titanSummary[titan] || 0) + 1;
@@ -1577,8 +1625,7 @@ function generateSummaryHTML(players) {
             const count = titanSummary[name];
             const emoji = getTitanEmoji(name);
 
-            // Sprawdź ilu graczy z wybranych klanów jest na tym tytanie
-            const selectedGuilds = getSelectedGuilds();
+            // ZAWSZE pokaż licznik wybranych klanów jeśli są wybrane klany
             let selectedGuildCount = 0;
             if (selectedGuilds.length > 0) {
                 selectedGuildCount = players.filter(p => {
@@ -1587,15 +1634,15 @@ function generateSummaryHTML(players) {
                 }).length;
             }
 
-            // Pokaż informację o wybranych klanach jeśli są ustawione
-            const guildInfo = selectedGuilds.length > 0 && selectedGuildCount > 0 ?
+            // Pokaż informację o wybranych klanach TYLKO w trybie "Wszystkie klany"
+            const guildInfo = (!showOnlySelectedGuilds && selectedGuilds.length > 0 && selectedGuildCount > 0) ?
                 ` (🎯${selectedGuildCount})` : '';
 
             return `<span class="titan-count ${count >= 3 ? 'highlight' : ''}">${emoji} ${name}: ${count}${guildInfo}</span>`;
         });
 
     if (titanSummary['-']) {
-        const selectedGuilds = getSelectedGuilds();
+        // Także dla "-" pokaż licznik wybranych klanów
         let selectedGuildCount = 0;
         if (selectedGuilds.length > 0) {
             selectedGuildCount = players.filter(p => {
@@ -1604,20 +1651,24 @@ function generateSummaryHTML(players) {
             }).length;
         }
 
-        const guildInfo = selectedGuilds.length > 0 && selectedGuildCount > 0 ?
+        const guildInfo = (!showOnlySelectedGuilds && selectedGuilds.length > 0 && selectedGuildCount > 0) ?
             ` (🎯${selectedGuildCount})` : '';
 
         summaryCountsHtml.push(`<span class="titan-count">❌ -: ${titanSummary['-']}${guildInfo}</span>`);
     }
 
-    // Pokaż informację o filtrach klanów
-    const selectedGuilds = getSelectedGuilds();
-    const guildFilterInfo = selectedGuilds.length > 0 ?
-        `<div style="font-size: 9px; color: #FFA500; margin-top: 2px;">🎯 Wybrane klany: ${selectedGuilds.join(', ')}</div>` : '';
+    // Pokaż informację o filtrach klanów - ZMODYFIKOWANE
+    const guildFilterInfo = showOnlySelectedGuilds && selectedGuilds.length > 0 ?
+        `<div style="font-size: 9px; color: #FFA500; margin-top: 2px;">🎯 Tryb: Tylko wybrane klany (${selectedGuilds.length})</div>` : '';
+
+    // ZMODYFIKOWANA LINIA - pokaż liczbę przefiltrowanych graczy
+    const playerCountText = showOnlySelectedGuilds && selectedGuilds.length > 0 ?
+        `👥 Gracze z wybranych klanów: ${filteredPlayers.length}/${players.length}` :
+        `👥 Gracze online: ${players.length}`;
 
     return `
         <div class="summary-row">
-            <div style="font-weight: bold; color: #3282b8;">👥 Gracze online: ${players.length}</div>
+            <div style="font-weight: bold; color: #3282b8;">${playerCountText}</div>
             <div class="last-refresh">${lastRefreshTime ? `🕐 Ostatnie odświeżenie: ${lastRefreshTime.toLocaleTimeString('pl-PL')}` : ''}</div>
         </div>
         <div class="summary-row counts-row">
@@ -1675,6 +1726,10 @@ function addTitanClickListeners(container) {
 
         // Użyj aktualnych danych z globalnej zmiennej
         summaryContent.innerHTML = generateSummaryHTML(currentPlayersData);
+const guildToggleBtn = summaryBox.querySelector('#guild-toggle-detached-btn');
+if (guildToggleBtn) {
+    updateGuildToggleButton(guildToggleBtn);
+}
         addTitanClickListeners(summaryContent); // Dla odpięte podsumowanie
     }
 

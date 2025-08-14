@@ -118,6 +118,7 @@
     let currentFilter = "all", lastRefreshTime = null;
     let isMainBoxHidden = false, isSummaryDetached = false;
     let currentPlayersData = null;
+    let showOnlySelectedGuilds = localStorage.getItem('showOnlySelectedGuilds') === 'true';
     const titanList = [
         {level: 64, name: "Orla/Kic"}, {level: 65, name: "Kic"}, {level: 83, name: "Kic"}, {level: 88, name: "Rene"},
         {level: 114, name: "Rene"}, {level: 120, name: "Arcy"}, {level: 144, name: "Arcy"}, {level: 164, name: "Zoons/Łowka"}, {level: 167, name: "Zoons/Łowka"},
@@ -1222,7 +1223,7 @@ function showWebhookSettings() {
     modal.onclick = e => e.target === modal && document.body.removeChild(modal);
 }
 
-async function sendToDiscord(titanName, players) { 
+async function sendToDiscord(titanName, players) {
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');
@@ -1299,7 +1300,7 @@ async function sendToDiscord(titanName, players) {
         alert(`❌ Błąd wysyłania na Discord:\n${error.message}`);
     }
 }
-async function AllTitansToDiscord() {
+async function sendAllTitansToDiscord() {
     const webhookUrl = getDiscordWebhookUrl();
     if (!webhookUrl) {
         alert('❌ Nie ustawiono URL webhook Discord!\nUstaw go klikając na przedział w podsumowaniu, następnie klikając zębatkę.');
@@ -1398,6 +1399,49 @@ async function AllTitansToDiscord() {
     } catch (error) {
         alert(`❌ Błąd wysyłania na Discord:\n${error.message}`);
     }
+}
+function toggleGuildFilterMode() {
+    showOnlySelectedGuilds = !showOnlySelectedGuilds;
+    localStorage.setItem('showOnlySelectedGuilds', showOnlySelectedGuilds.toString());
+
+    const guildButton = document.querySelector('#guild-button');
+    if (guildButton) {
+        // Zmień wygląd przycisku w zależności od trybu
+        if (showOnlySelectedGuilds) {
+            guildButton.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a52)';
+            guildButton.innerHTML = '🎯';
+            guildButton.title = 'Tryb: Tylko wybrane klany - Kliknij aby przełączyć';
+        } else {
+            guildButton.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            guildButton.innerHTML = '🏰';
+            guildButton.title = 'Tryb: Wszystkie klany - Kliknij aby przełączyć';
+        }
+    }
+
+    // Natychmiast odśwież widok
+    if (typeof fetchPlayers === 'function') {
+        fetchPlayers();
+    }
+
+    // Pokaż komunikat o zmianie trybu
+    const modeMsg = document.createElement('div');
+    modeMsg.style.cssText = `
+        position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10002;
+        background: linear-gradient(135deg, ${showOnlySelectedGuilds ? '#ff6b6b, #ee5a52' : '#28a745, #20c997'});
+        color: white; padding: 8px 16px; border-radius: 6px;
+        font-weight: bold; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease-out;
+    `;
+    modeMsg.innerHTML = showOnlySelectedGuilds ?
+        '🎯 Tryb: Tylko wybrane klany' :
+        '🏰 Tryb: Wszystkie klany';
+    document.body.appendChild(modeMsg);
+
+    setTimeout(() => {
+        if (modeMsg.parentNode) {
+            modeMsg.remove();
+        }
+    }, 2000);
 }
 
 function showTitanPlayers(titanName) {
@@ -1718,7 +1762,15 @@ if (savedPos.x !== undefined && savedPos.y !== undefined) {
 
             // Event listeners
             box.querySelector('#vip-button').onclick = showVipManagement;
-			box.querySelector('#guild-button').onclick = showGuildManagement;
+			box.querySelector('#guild-button').onclick = (e) => {
+    if (e.shiftKey || e.ctrlKey) {
+        // Shift+klik lub Ctrl+klik otwiera zarządzanie klanami
+        showGuildManagement();
+    } else {
+        // Zwykły klik przełącza tryb filtrowania
+        toggleGuildFilterMode();
+    }
+};
             box.querySelector('#refresh-btn').onclick = fetchPlayers;
             box.querySelector('#hide-btn').onclick = hideMainBox;
 box.querySelector('#theme-btn').onclick = switchTheme;
@@ -1773,6 +1825,21 @@ box.querySelector('#table-body').addEventListener('wheel', (e) => {
         });
 
 players.filter(p => {
+    // Najpierw sprawdź tryb filtrowania klanów
+    if (showOnlySelectedGuilds) {
+        const selectedGuilds = getSelectedGuilds();
+        if (selectedGuilds.length > 0) {
+            const playerGuild = getPlayerGuild(p.n);
+            const isInSelectedGuild = playerGuild && selectedGuilds.includes(playerGuild);
+
+            // Jeśli gracz nie jest w wybranym klanie, odfiltruj go
+            if (!isInSelectedGuild) {
+                return false;
+            }
+        }
+    }
+
+    // Następnie zastosuj standardowe filtry
     if (currentFilter === 'all') return true;
     if (currentFilter === 'selected-guilds') {
         const selectedGuilds = getSelectedGuilds();
@@ -1881,6 +1948,18 @@ if (playerGuild && !isCreator && !isVip) {
 
     updateSummaryContent();
 updateFilterOptions();
+const guildButton = box.querySelector('#guild-button');
+if (guildButton) {
+    if (showOnlySelectedGuilds) {
+        guildButton.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a52)';
+        guildButton.innerHTML = '🎯';
+        guildButton.title = 'Tryb: Tylko wybrane klany - Kliknij aby przełączyć, Shift+klik aby zarządzać';
+    } else {
+        guildButton.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+        guildButton.innerHTML = '🏰';
+        guildButton.title = 'Tryb: Wszystkie klany - Kliknij aby przełączyć, Shift+klik aby zarządzać';
+    }
+}
 }
 
 function makeDraggable(el, headerSelector) {

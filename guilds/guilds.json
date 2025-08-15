@@ -1,484 +1,236 @@
-// Członkowie klanu Redroom - 109 graczy
-const guild_Lupus_149 = {
-    name: "Redroom",
-    members: [
-        "Kiniocs",
-        "Smalchini Toffichini",
-        "Ketirezov Komornikov",
-        "Skonaldo",
-        "number one yapper",
-        "kajmi",
-        "Bumson",
-        "krul podziemia",
-        "pawel z kiniem",
-        "Kaculek Nekromanta",
-        "kochac disa",
-        "Jandol",
-        "Flopp",
-        "Fizyczny Gorth",
-        "Hisagi",
-        "Zabawka Hako",
-        "Skopcona Edytka",
-        "El Trebron",
-        "Encara Messi I",
-        "amistad",
-        "Tiqson",
-        "Czarodziej Bartek",
-        "Rosaline",
-        "Twardomir",
-        "Kapusta Topowa",
-        "osobisty ochroniasz",
-        "Wolnir na Topke",
-        "Marshallowy",
-        "Mroczny Bandziorek",
-        "Efes",
-        "Varreziak",
-        "Blight",
-        "Stary Syberyjczyk",
-        "Isir",
-        "Vxyr",
-        "Gawriił Harkin",
-        "Rasmey",
-        "Browuś",
-        "Asetorek",
-        "unia prosze",
-        "Mac",
-        "zwei sieben",
-        "Al-Fedee",
-        "Skibidi Sigma Rizzler",
-        "Marcin Sigma",
-        "sigma ukraine boy",
-        "Bwakale",
-        "Exclusi",
-        "Pokaż Co Masz",
-        "Uysol",
-        "Habibi I",
-        "Kolekcjoner Ekipa",
-        "Nie Pokazujcie Mu",
-        "Marit Bjoergen",
-        "Żaba w kotle",
-        "jeden z karkuwek",
-        "Hellbomber",
-        "Treebron",
-        "Kaculek",
-        "Terrorista Keti",
-        "Maguowy Zadymiarz",
-        "Vajsensraysen",
-        "Billadenek Kox",
-        "Po Prostu Wolnir",
-        "Młodyy Al Capone",
-        "Og Farmer",
-        "Isirek",
-        "żółw-",
-        "Scozzari",
-        "knur opasy",
-        "The Shax",
-        "Slowpoke Rodriguez",
-        "Gewehr",
-        "Odmów Mi Synu",
-        "Eovacius",
-        "Sokano",
-        "Dynowiak",
-        "Yankosek",
-        "Sypie się papier",
-        "Broshey",
-        "Frax",
-        "Razta",
-        "Hastosław",
-        "Turutek",
-        "Kacpervip",
-        "Brachol",
-        "holiday pawulon",
-        "Andreus",
-        "Brr-Brr-Patapim",
-        "Frigo-Camelo",
-        "Kolczar",
-        "Scigussek",
-        "Spalacz tkanki",
-        "lupus terrorist",
-        "czołg-",
-        "Keef Papaj",
-        "Provokatiąun",
-        "Uber comfort",
-        "Rozrywkowy menix",
-        "Varrezinho",
-        "kinio z pawlem",
-        "Psotnik Łobuziak",
-        "fisherprice",
-        "Bartek Na Teze",
-        "Tabluga",
-        "Sokano na teze",
-        "San Andreas",
-        "hot ciżemka",
-        "Akwarelka"
-    ]
-};
-
-// Mapowanie gracz -> klan dla Redroom
-playerGuilds["kiniocs"] = "Redroom";
-playerGuilds["smalchini toffichini"] = "Redroom";
-playerGuilds["ketirezov komornikov"] = "Redroom";
-playerGuilds["skonaldo"] = "Redroom";
-playerGuilds["number one yapper"] = "Redroom";
-playerGuilds["kajmi"] = "Redroom";
-playerGuilds["bumson"] = "Redroom";
-playerGuilds["krul podziemia"] = "Redroom";
-playerGuilds["pawel z kiniem"] = "Redroom";
-playerGuilds["kaculek nekromanta"] = "Redroom";
-playerGuilds["kochac disa"] = "Redroom";
-playerGuilds["jandol"] = "Redroom";
-playerGuilds["flopp"] = "Redroom";
-playerGuilds["fizyczny gorth"] = "Redroom";
-playerGuilds["hisagi"] = "Redroom";
-playerGuilds["zabawka hako"] = "Redroom";
-playerGuilds["skopcona edytka"] = "Redroom";
-playerGuilds["el trebron"] = "Redroom";
-playerGuilds["encara messi i"] = "Redroom";
-playerGuilds["amistad"] = "Redroom";
-playerGuilds["tiqson"] = "Redroom";
-playerGuilds["czarodziej bartek"] = "Redroom";
-playerGuilds["rosaline"] = "Redroom";
-playerGuilds["twardomir"] = "Redroom";
-playerGuilds["kapusta topowa"] = "Redroom";
-playerGuilds["osobisty ochroniasz"] = "Redroom";
-playerGuilds["wolnir na topke"] = "Redroom";
-playerGuilds["marshallowy"] = "Redroom";
-playerGuilds["mroczny bandziorek"] = "Redroom";
-playerGuilds["efes"] = "Redroom";
-playerGuilds["varreziak"] = "Redroom";
-playerGuilds["blight"] = "Redroom";
-playerGuilds["stary syberyjczyk"] = "Redroom";
-playerGuilds["isir"] = "Redroom";
-playerGuilds["vxyr"] = "Redroom";
-playerGuilds["gawriił harkin"] = "Redroom";
-playerGuilds["rasmey"] = "Redroom";
-playerGuilds["browuś"] = "Redroom";
-playerGuilds["asetorek"] = "Redroom";
-playerGuilds["unia prosze"] = "Redroom";
-playerGuilds["mac"] = "Redroom";
-playerGuilds["zwei sieben"] = "Redroom";
-playerGuilds["al-fedee"] = "Redroom";
-playerGuilds["skibidi sigma rizzler"] = "Redroom";
-playerGuilds["marcin sigma"] = "Redroom";
-playerGuilds["sigma ukraine boy"] = "Redroom";
-playerGuilds["bwakale"] = "Redroom";
-playerGuilds["exclusi"] = "Redroom";
-playerGuilds["pokaż co masz"] = "Redroom";
-playerGuilds["uysol"] = "Redroom";
-playerGuilds["habibi i"] = "Redroom";
-playerGuilds["kolekcjoner ekipa"] = "Redroom";
-playerGuilds["nie pokazujcie mu"] = "Redroom";
-playerGuilds["marit bjoergen"] = "Redroom";
-playerGuilds["żaba w kotle"] = "Redroom";
-playerGuilds["jeden z karkuwek"] = "Redroom";
-playerGuilds["hellbomber"] = "Redroom";
-playerGuilds["treebron"] = "Redroom";
-playerGuilds["kaculek"] = "Redroom";
-playerGuilds["terrorista keti"] = "Redroom";
-playerGuilds["maguowy zadymiarz"] = "Redroom";
-playerGuilds["vajsensraysen"] = "Redroom";
-playerGuilds["billadenek kox"] = "Redroom";
-playerGuilds["po prostu wolnir"] = "Redroom";
-playerGuilds["młodyy al capone"] = "Redroom";
-playerGuilds["og farmer"] = "Redroom";
-playerGuilds["isirek"] = "Redroom";
-playerGuilds["żółw-"] = "Redroom";
-playerGuilds["scozzari"] = "Redroom";
-playerGuilds["knur opasy"] = "Redroom";
-playerGuilds["the shax"] = "Redroom";
-playerGuilds["slowpoke rodriguez"] = "Redroom";
-playerGuilds["gewehr"] = "Redroom";
-playerGuilds["odmów mi synu"] = "Redroom";
-playerGuilds["eovacius"] = "Redroom";
-playerGuilds["sokano"] = "Redroom";
-playerGuilds["dynowiak"] = "Redroom";
-playerGuilds["yankosek"] = "Redroom";
-playerGuilds["sypie się papier"] = "Redroom";
-playerGuilds["broshey"] = "Redroom";
-playerGuilds["frax"] = "Redroom";
-playerGuilds["razta"] = "Redroom";
-playerGuilds["hastosław"] = "Redroom";
-playerGuilds["turutek"] = "Redroom";
-playerGuilds["kacpervip"] = "Redroom";
-playerGuilds["brachol"] = "Redroom";
-playerGuilds["holiday pawulon"] = "Redroom";
-playerGuilds["andreus"] = "Redroom";
-playerGuilds["brr-brr-patapim"] = "Redroom";
-playerGuilds["frigo-camelo"] = "Redroom";
-playerGuilds["kolczar"] = "Redroom";
-playerGuilds["scigussek"] = "Redroom";
-playerGuilds["spalacz tkanki"] = "Redroom";
-playerGuilds["lupus terrorist"] = "Redroom";
-playerGuilds["czołg-"] = "Redroom";
-playerGuilds["keef papaj"] = "Redroom";
-playerGuilds["provokatiąun"] = "Redroom";
-playerGuilds["uber comfort"] = "Redroom";
-playerGuilds["rozrywkowy menix"] = "Redroom";
-playerGuilds["varrezinho"] = "Redroom";
-playerGuilds["kinio z pawlem"] = "Redroom";
-playerGuilds["psotnik łobuziak"] = "Redroom";
-playerGuilds["fisherprice"] = "Redroom";
-playerGuilds["bartek na teze"] = "Redroom";
-playerGuilds["tabluga"] = "Redroom";
-playerGuilds["sokano na teze"] = "Redroom";
-playerGuilds["san andreas"] = "Redroom";
-playerGuilds["hot ciżemka"] = "Redroom";
-playerGuilds["akwarelka"] = "Redroom";
-// Członkowie klanu Kukułki - 125 graczy
-const guild_lupus_68 = {
-    name: "Kukułki",
-    members: [
-        "Kurczaczki w panierce",
-        "garnuchy do puchy",
-        "tonietanc",
-        "Ketirezov wojownikov",
-        "Kasyno oddaje",
-        "Akwarele",
-        "Giermek Statek Czarny",
-        "Niverek",
-        "Bumicz",
-        "Wystarczające Dowody",
-        "De-Lux",
-        "Floppus",
-        "Magulion",
-        "Giermek Stutełkawski",
-        "Messi Numero Uno",
-        "Kule w Magule",
-        "Got It On Me",
-        "szybki żbik",
-        "Ketirezov Emeryturov",
-        "Xonid",
-        "Kapivip",
-        "Syberyjka",
-        "Duch Kaculka",
-        "Hot Aleksandra",
-        "Thaemine",
-        "Szefito Rasmey",
-        "Synu z Baraków",
-        "Trop Oficjalnie",
-        "wchudka",
-        "Tancerz Paweł",
-        "Hidaan",
-        "Asetor Dkk",
-        "Neisser",
-        "Sroczuś",
-        "rambob",
-        "ecpu Lupus",
-        "Ślad Egoizmu",
-        "Kacul Jr",
-        "Główka Bez Głowy",
-        "Ajdara",
-        "Noxide",
-        "Łowca Dżejko",
-        "Azekh",
-        "Kocioł w żabie",
-        "Basta",
-        "kentucky gold grander",
-        "twee zeven",
-        "bonio abuser",
-        "centosyna",
-        "Rusty",
-        "dj miażdżyca",
-        "gniew boguw",
-        "Rapomoru",
-        "chiken joki",
-        "Zerrav",
-        "Pies Bez Nug",
-        "Pinojo",
-        "Aquaree",
-        "Mocny Wolnire",
-        "Skoni pogromca orków",
-        "Misja Wiadro",
-        "Ostatni Przysiad",
-        "Radosny Romek",
-        "Łzy Traktorzysty",
-        "Dystansowy Gorth",
-        "Ivuan",
-        "Santa Andreo",
-        "Szybki Rasmey",
-        "Fraxov",
-        "Nalam",
-        "Browuś King",
-        "Sir Awoćek Mały",
-        "Floppiasty",
-        "Ekipa Garmazeryjna",
-        "Zaczarowany Mag",
-        "Isirak",
-        "Asetor",
-        "Aigoo",
-        "Adaszek",
-        "Sszewcu never forget",
-        "Novem",
-        "Eligor",
-        "Giorgio Montenegro",
-        "Adtusatti",
-        "Kacul",
-        "Nowy menix",
-        "I Cant Hear",
-        "Lisir",
-        "Gainereczek",
-        "Twenty One",
-        "oddasz",
-        "hejka tu krul",
-        "yhy nom",
-        "Stówcia",
-        "Sevillowy",
-        "Akwaretka",
-        "sprośniak",
-        "Kreskovelove",
-        "hog rider official",
-        "Giermek Dyłek Mały",
-        "Ruxa",
-        "Łowiec Flopp",
-        "Dynowiak po szkodzie",
-        "Shoot for the Stars",
-        "Fedee Junior",
-        "Kołczi",
-        "Mroczny Bandzior",
-        "Marshall Junior",
-        "Dzielny Tabluga",
-        "soso no frieren",
-        "Captain Amistad",
-        "Fantastiś Tempo",
-        "Varrezuś",
-        "Piąty Zmysł",
-        "Wielki Shroom",
-        "Trebron",
-        "Hidden In Buh",
-        "e Synu Pokaż Co",
-        "Hawker",
-        "Donald",
-        "wyzutnia rakiet",
-        "Waćpan Mitełek",
-        "Muhhamad Aliment",
-        "Kaculzz",
-        "Veyss"
-    ]
-};
-
-// Mapowanie gracz -> klan dla Kukułki
-playerGuilds["kurczaczki w panierce"] = "Kukułki";
-playerGuilds["garnuchy do puchy"] = "Kukułki";
-playerGuilds["tonietanc"] = "Kukułki";
-playerGuilds["ketirezov wojownikov"] = "Kukułki";
-playerGuilds["kasyno oddaje"] = "Kukułki";
-playerGuilds["akwarele"] = "Kukułki";
-playerGuilds["giermek statek czarny"] = "Kukułki";
-playerGuilds["niverek"] = "Kukułki";
-playerGuilds["bumicz"] = "Kukułki";
-playerGuilds["wystarczające dowody"] = "Kukułki";
-playerGuilds["de-lux"] = "Kukułki";
-playerGuilds["floppus"] = "Kukułki";
-playerGuilds["magulion"] = "Kukułki";
-playerGuilds["giermek stutełkawski"] = "Kukułki";
-playerGuilds["messi numero uno"] = "Kukułki";
-playerGuilds["kule w magule"] = "Kukułki";
-playerGuilds["got it on me"] = "Kukułki";
-playerGuilds["szybki żbik"] = "Kukułki";
-playerGuilds["ketirezov emeryturov"] = "Kukułki";
-playerGuilds["xonid"] = "Kukułki";
-playerGuilds["kapivip"] = "Kukułki";
-playerGuilds["syberyjka"] = "Kukułki";
-playerGuilds["duch kaculka"] = "Kukułki";
-playerGuilds["hot aleksandra"] = "Kukułki";
-playerGuilds["thaemine"] = "Kukułki";
-playerGuilds["szefito rasmey"] = "Kukułki";
-playerGuilds["synu z baraków"] = "Kukułki";
-playerGuilds["trop oficjalnie"] = "Kukułki";
-playerGuilds["wchudka"] = "Kukułki";
-playerGuilds["tancerz paweł"] = "Kukułki";
-playerGuilds["hidaan"] = "Kukułki";
-playerGuilds["asetor dkk"] = "Kukułki";
-playerGuilds["neisser"] = "Kukułki";
-playerGuilds["sroczuś"] = "Kukułki";
-playerGuilds["rambob"] = "Kukułki";
-playerGuilds["ecpu lupus"] = "Kukułki";
-playerGuilds["ślad egoizmu"] = "Kukułki";
-playerGuilds["kacul jr"] = "Kukułki";
-playerGuilds["główka bez głowy"] = "Kukułki";
-playerGuilds["ajdara"] = "Kukułki";
-playerGuilds["noxide"] = "Kukułki";
-playerGuilds["łowca dżejko"] = "Kukułki";
-playerGuilds["azekh"] = "Kukułki";
-playerGuilds["kocioł w żabie"] = "Kukułki";
-playerGuilds["basta"] = "Kukułki";
-playerGuilds["kentucky gold grander"] = "Kukułki";
-playerGuilds["twee zeven"] = "Kukułki";
-playerGuilds["bonio abuser"] = "Kukułki";
-playerGuilds["centosyna"] = "Kukułki";
-playerGuilds["rusty"] = "Kukułki";
-playerGuilds["dj miażdżyca"] = "Kukułki";
-playerGuilds["gniew boguw"] = "Kukułki";
-playerGuilds["rapomoru"] = "Kukułki";
-playerGuilds["chiken joki"] = "Kukułki";
-playerGuilds["zerrav"] = "Kukułki";
-playerGuilds["pies bez nug"] = "Kukułki";
-playerGuilds["pinojo"] = "Kukułki";
-playerGuilds["aquaree"] = "Kukułki";
-playerGuilds["mocny wolnire"] = "Kukułki";
-playerGuilds["skoni pogromca orków"] = "Kukułki";
-playerGuilds["misja wiadro"] = "Kukułki";
-playerGuilds["ostatni przysiad"] = "Kukułki";
-playerGuilds["radosny romek"] = "Kukułki";
-playerGuilds["łzy traktorzysty"] = "Kukułki";
-playerGuilds["dystansowy gorth"] = "Kukułki";
-playerGuilds["ivuan"] = "Kukułki";
-playerGuilds["santa andreo"] = "Kukułki";
-playerGuilds["szybki rasmey"] = "Kukułki";
-playerGuilds["fraxov"] = "Kukułki";
-playerGuilds["nalam"] = "Kukułki";
-playerGuilds["browuś king"] = "Kukułki";
-playerGuilds["sir awoćek mały"] = "Kukułki";
-playerGuilds["floppiasty"] = "Kukułki";
-playerGuilds["ekipa garmazeryjna"] = "Kukułki";
-playerGuilds["zaczarowany mag"] = "Kukułki";
-playerGuilds["isirak"] = "Kukułki";
-playerGuilds["asetor"] = "Kukułki";
-playerGuilds["aigoo"] = "Kukułki";
-playerGuilds["adaszek"] = "Kukułki";
-playerGuilds["sszewcu never forget"] = "Kukułki";
-playerGuilds["novem"] = "Kukułki";
-playerGuilds["eligor"] = "Kukułki";
-playerGuilds["giorgio montenegro"] = "Kukułki";
-playerGuilds["adtusatti"] = "Kukułki";
-playerGuilds["kacul"] = "Kukułki";
-playerGuilds["nowy menix"] = "Kukułki";
-playerGuilds["i cant hear"] = "Kukułki";
-playerGuilds["lisir"] = "Kukułki";
-playerGuilds["gainereczek"] = "Kukułki";
-playerGuilds["twenty one"] = "Kukułki";
-playerGuilds["oddasz"] = "Kukułki";
-playerGuilds["hejka tu krul"] = "Kukułki";
-playerGuilds["yhy nom"] = "Kukułki";
-playerGuilds["stówcia"] = "Kukułki";
-playerGuilds["sevillowy"] = "Kukułki";
-playerGuilds["akwaretka"] = "Kukułki";
-playerGuilds["sprośniak"] = "Kukułki";
-playerGuilds["kreskovelove"] = "Kukułki";
-playerGuilds["hog rider official"] = "Kukułki";
-playerGuilds["giermek dyłek mały"] = "Kukułki";
-playerGuilds["ruxa"] = "Kukułki";
-playerGuilds["łowiec flopp"] = "Kukułki";
-playerGuilds["dynowiak po szkodzie"] = "Kukułki";
-playerGuilds["shoot for the stars"] = "Kukułki";
-playerGuilds["fedee junior"] = "Kukułki";
-playerGuilds["kołczi"] = "Kukułki";
-playerGuilds["mroczny bandzior"] = "Kukułki";
-playerGuilds["marshall junior"] = "Kukułki";
-playerGuilds["dzielny tabluga"] = "Kukułki";
-playerGuilds["soso no frieren"] = "Kukułki";
-playerGuilds["captain amistad"] = "Kukułki";
-playerGuilds["fantastiś tempo"] = "Kukułki";
-playerGuilds["varrezuś"] = "Kukułki";
-playerGuilds["piąty zmysł"] = "Kukułki";
-playerGuilds["wielki shroom"] = "Kukułki";
-playerGuilds["trebron"] = "Kukułki";
-playerGuilds["hidden in buh"] = "Kukułki";
-playerGuilds["e synu pokaż co"] = "Kukułki";
-playerGuilds["hawker"] = "Kukułki";
-playerGuilds["donald"] = "Kukułki";
-playerGuilds["wyzutnia rakiet"] = "Kukułki";
-playerGuilds["waćpan mitełek"] = "Kukułki";
-playerGuilds["muhhamad aliment"] = "Kukułki";
-playerGuilds["kaculzz"] = "Kukułki";
-playerGuilds["veyss"] = "Kukułki";
+{
+  "kiniocs": "Redroom",
+  "smalchini toffichini": "Redroom",
+  "ketirezov komornikov": "Redroom",
+  "skonaldo": "Redroom",
+  "number one yapper": "Redroom",
+  "kajmi": "Redroom",
+  "bumson": "Redroom",
+  "krul podziemia": "Redroom",
+  "pawel z kiniem": "Redroom",
+  "kaculek nekromanta": "Redroom",
+  "kochac disa": "Redroom",
+  "jandol": "Redroom",
+  "flopp": "Redroom",
+  "fizyczny gorth": "Redroom",
+  "hisagi": "Redroom",
+  "zabawka hako": "Redroom",
+  "skopcona edytka": "Redroom",
+  "el trebron": "Redroom",
+  "encara messi i": "Redroom",
+  "amistad": "Redroom",
+  "tiqson": "Redroom",
+  "czarodziej bartek": "Redroom",
+  "rosaline": "Redroom",
+  "twardomir": "Redroom",
+  "kapusta topowa": "Redroom",
+  "osobisty ochroniasz": "Redroom",
+  "wolnir na topke": "Redroom",
+  "marshallowy": "Redroom",
+  "mroczny bandziorek": "Redroom",
+  "efes": "Redroom",
+  "varreziak": "Redroom",
+  "blight": "Redroom",
+  "stary syberyjczyk": "Redroom",
+  "isir": "Redroom",
+  "vxyr": "Redroom",
+  "gawriił harkin": "Redroom",
+  "rasmey": "Redroom",
+  "browuś": "Redroom",
+  "asetorek": "Redroom",
+  "unia prosze": "Redroom",
+  "mac": "Redroom",
+  "zwei sieben": "Redroom",
+  "al-fedee": "Redroom",
+  "skibidi sigma rizzler": "Redroom",
+  "marcin sigma": "Redroom",
+  "sigma ukraine boy": "Redroom",
+  "bwakale": "Redroom",
+  "exclusi": "Redroom",
+  "pokaż co masz": "Redroom",
+  "uysol": "Redroom",
+  "habibi i": "Redroom",
+  "kolekcjoner ekipa": "Redroom",
+  "nie pokazujcie mu": "Redroom",
+  "marit bjoergen": "Redroom",
+  "żaba w kotle": "Redroom",
+  "jeden z karkuwek": "Redroom",
+  "hellbomber": "Redroom",
+  "treebron": "Redroom",
+  "kaculek": "Redroom",
+  "terrorista keti": "Redroom",
+  "maguowy zadymiarz": "Redroom",
+  "vajsensraysen": "Redroom",
+  "billadenek kox": "Redroom",
+  "po prostu wolnir": "Redroom",
+  "młodyy al capone": "Redroom",
+  "og farmer": "Redroom",
+  "isirek": "Redroom",
+  "żółw-": "Redroom",
+  "scozzari": "Redroom",
+  "knur opasy": "Redroom",
+  "the shax": "Redroom",
+  "slowpoke rodriguez": "Redroom",
+  "gewehr": "Redroom",
+  "odmów mi synu": "Redroom",
+  "eovacius": "Redroom",
+  "sokano": "Redroom",
+  "dynowiak": "Redroom",
+  "yankosek": "Redroom",
+  "sypie się papier": "Redroom",
+  "broshey": "Redroom",
+  "frax": "Redroom",
+  "razta": "Redroom",
+  "hastosław": "Redroom",
+  "turutek": "Redroom",
+  "kacpervip": "Redroom",
+  "brachol": "Redroom",
+  "holiday pawulon": "Redroom",
+  "andreus": "Redroom",
+  "brr-brr-patapim": "Redroom",
+  "frigo-camelo": "Redroom",
+  "kolczar": "Redroom",
+  "scigussek": "Redroom",
+  "spalacz tkanki": "Redroom",
+  "lupus terrorist": "Redroom",
+  "czołg-": "Redroom",
+  "keef papaj": "Redroom",
+  "provokatiąun": "Redroom",
+  "uber comfort": "Redroom",
+  "rozrywkowy menix": "Redroom",
+  "varrezinho": "Redroom",
+  "kinio z pawlem": "Redroom",
+  "psotnik łobuziak": "Redroom",
+  "fisherprice": "Redroom",
+  "bartek na teze": "Redroom",
+  "tabluga": "Redroom",
+  "sokano na teze": "Redroom",
+  "san andreas": "Redroom",
+  "hot ciżemka": "Redroom",
+  "akwarelka": "Redroom",
+  "kurczaczki w panierce": "Kukułki",
+  "garnuchy do puchy": "Kukułki",
+  "tonietanc": "Kukułki",
+  "ketirezov wojownikov": "Kukułki",
+  "kasyno oddaje": "Kukułki",
+  "akwarele": "Kukułki",
+  "giermek statek czarny": "Kukułki",
+  "niverek": "Kukułki",
+  "bumicz": "Kukułki",
+  "wystarczające dowody": "Kukułki",
+  "de-lux": "Kukułki",
+  "floppus": "Kukułki",
+  "magulion": "Kukułki",
+  "giermek stutełkawski": "Kukułki",
+  "messi numero uno": "Kukułki",
+  "kule w magule": "Kukułki",
+  "got it on me": "Kukułki",
+  "szybki żbik": "Kukułki",
+  "ketirezov emeryturov": "Kukułki",
+  "xonid": "Kukułki",
+  "kapivip": "Kukułki",
+  "syberyjka": "Kukułki",
+  "duch kaculka": "Kukułki",
+  "hot aleksandra": "Kukułki",
+  "thaemine": "Kukułki",
+  "szefito rasmey": "Kukułki",
+  "synu z baraków": "Kukułki",
+  "trop oficjalnie": "Kukułki",
+  "wchudka": "Kukułki",
+  "tancerz paweł": "Kukułki",
+  "hidaan": "Kukułki",
+  "asetor dkk": "Kukułki",
+  "neisser": "Kukułki",
+  "sroczuś": "Kukułki",
+  "rambob": "Kukułki",
+  "ecpu lupus": "Kukułki",
+  "ślad egoizmu": "Kukułki",
+  "kacul jr": "Kukułki",
+  "główka bez głowy": "Kukułki",
+  "ajdara": "Kukułki",
+  "noxide": "Kukułki",
+  "łowca dżejko": "Kukułki",
+  "azekh": "Kukułki",
+  "kocioł w żabie": "Kukułki",
+  "basta": "Kukułki",
+  "kentucky gold grander": "Kukułki",
+  "twee zeven": "Kukułki",
+  "bonio abuser": "Kukułki",
+  "centosyna": "Kukułki",
+  "rusty": "Kukułki",
+  "dj miażdżyca": "Kukułki",
+  "gniew boguw": "Kukułki",
+  "rapomoru": "Kukułki",
+  "chiken joki": "Kukułki",
+  "zerrav": "Kukułki",
+  "pies bez nug": "Kukułki",
+  "pinojo": "Kukułki",
+  "aquaree": "Kukułki",
+  "mocny wolnire": "Kukułki",
+  "skoni pogromca orków": "Kukułki",
+  "misja wiadro": "Kukułki",
+  "ostatni przysiad": "Kukułki",
+  "radosny romek": "Kukułki",
+  "łzy traktorzysty": "Kukułki",
+  "dystansowy gorth": "Kukułki",
+  "ivuan": "Kukułki",
+  "santa andreo": "Kukułki",
+  "szybki rasmey": "Kukułki",
+  "fraxov": "Kukułki",
+  "nalam": "Kukułki",
+  "browuś king": "Kukułki",
+  "sir awoćek mały": "Kukułki",
+  "floppiasty": "Kukułki",
+  "ekipa garmazeryjna": "Kukułki",
+  "zaczarowany mag": "Kukułki",
+  "isirak": "Kukułki",
+  "asetor": "Kukułki",
+  "aigoo": "Kukułki",
+  "adaszek": "Kukułki",
+  "sszewcu never forget": "Kukułki",
+  "novem": "Kukułki",
+  "eligor": "Kukułki",
+  "giorgio montenegro": "Kukułki",
+  "adtusatti": "Kukułki",
+  "kacul": "Kukułki",
+  "nowy menix": "Kukułki",
+  "i cant hear": "Kukułki",
+  "lisir": "Kukułki",
+  "gainereczek": "Kukułki",
+  "twenty one": "Kukułki",
+  "oddasz": "Kukułki",
+  "hejka tu krul": "Kukułki",
+  "yhy nom": "Kukułki",
+  "stówcia": "Kukułki",
+  "sevillowy": "Kukułki",
+  "akwaretka": "Kukułki",
+  "sprośniak": "Kukułki",
+  "kreskovelove": "Kukułki",
+  "hog rider official": "Kukułki",
+  "giermek dyłek mały": "Kukułki",
+  "ruxa": "Kukułki",
+  "łowiec flopp": "Kukułki",
+  "dynowiak po szkodzie": "Kukułki",
+  "shoot for the stars": "Kukułki",
+  "fedee junior": "Kukułki",
+  "kołczi": "Kukułki",
+  "mroczny bandzior": "Kukułki",
+  "marshall junior": "Kukułki",
+  "dzielny tabluga": "Kukułki",
+  "soso no frieren": "Kukułki",
+  "captain amistad": "Kukułki",
+  "fantastiś tempo": "Kukułki",
+  "varrezuś": "Kukułki",
+  "piąty zmysł": "Kukułki",
+  "wielki shroom": "Kukułki",
+  "trebron": "Kukułki",
+  "hidden in buh": "Kukułki",
+  "e synu pokaż co": "Kukułki",
+  "hawker": "Kukułki",
+  "donald": "Kukułki",
+  "wyzutnia rakiet": "Kukułki",
+  "waćpan mitełek": "Kukułki",
+  "muhhamad aliment": "Kukułki",
+  "kaculzz": "Kukułki",
+  "veyss": "Kukułki"
+}

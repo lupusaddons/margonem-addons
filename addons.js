@@ -529,6 +529,37 @@ let currentTheme = localStorage.getItem('onlineTheme') || 'blue';
         'Łowka': ['Zoons/Łowka', 'Łowka'], 'Barba/Tan': ['Barba/Tan'], 'Rene': ['Rene'], 'Arcy': ['Arcy'],
         'Przyzy': ['Przyzy'], 'Magua': ['Magua'], 'Teza': ['Teza']
     };
+    // Funkcja do pobierania danych klanów z GitHub
+async function loadGuildsFromGitHub(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        // Wyczyść stare dane
+        Object.keys(playerGuilds).forEach(key => delete playerGuilds[key]);
+        
+        // Załaduj nowe dane
+        Object.assign(playerGuilds, data);
+        
+        updateObservedGuilds();
+        localStorage.setItem('playerGuilds', JSON.stringify(playerGuilds));
+        
+        return {
+            success: true,
+            guildsCount: observedGuilds.length,
+            playersCount: Object.keys(playerGuilds).length
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
 // Funkcja do zmiany motywu
 function switchTheme() {
     currentTheme = currentTheme === 'blue' ? 'black' : 'blue';
@@ -910,6 +941,18 @@ function showGuildManagement() {
     modal.className = 'vip-modal';
     modal.innerHTML = `<div class="vip-dialog guild-management-dialog" style="width: 600px; max-height: 700px;">
         <h3>🏰 Zarządzanie Klanami</h3>
+                <div style="margin-bottom: 15px;">
+            <h4 style="color: #3282b8; margin: 0 0 10px 0;">🔗 Załaduj z GitHub:</h4>
+            <input type="text" id="github-url-input" 
+                placeholder="https://raw.githubusercontent.com/.../guilds.json"
+                value="https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json"
+                style="width: 80%; background: rgba(50,130,184,0.2); border: 1px solid #0f4c75;
+                border-radius: 4px; color: #e8f4fd; padding: 8px; margin-right: 5px;">
+            <button id="load-github-btn" style="background: #28a745; border: none; color: white; padding: 8px 16px;
+                border-radius: 4px; cursor: pointer; font-weight: bold;">
+                🔗 Załaduj z GitHub
+            </button>
+        </div>
 
         <div style="margin-bottom: 15px;">
             <h4 style="color: #3282b8; margin: 0 0 10px 0;">📝 Dodaj kod ze scrapera:</h4>
@@ -1071,7 +1114,36 @@ function updateGuildCheckboxes() {
 
         document.getElementById('guild-stats').innerHTML = summary + (statsHtml || '<div style="color: #a8dadc;">Brak graczy z klanów online</div>');
     }
+dialog.querySelector('#load-github-btn').onclick = async () => {
+        const url = dialog.querySelector('#github-url-input').value.trim();
+        if (!url) {
+            alert('❌ Podaj URL do pliku JSON z GitHub!');
+            return;
+        }
 
+        const loadBtn = dialog.querySelector('#load-github-btn');
+        loadBtn.disabled = true;
+        loadBtn.innerHTML = '⏳ Ładowanie...';
+
+        const result = await loadGuildsFromGitHub(url);
+
+        loadBtn.disabled = false;
+        loadBtn.innerHTML = '🔗 Załaduj z GitHub';
+
+        if (result.success) {
+            updateGuildCheckboxes();
+            updateGuildStats();
+            updateFilterOptions();
+            
+            alert(`✅ Załadowano dane z GitHub!\nKlanów: ${result.guildsCount}\nGraczy: ${result.playersCount}`);
+            
+            if (typeof fetchPlayers === 'function') {
+                fetchPlayers();
+            }
+        } else {
+            alert(`❌ Błąd ładowania z GitHub:\n${result.error}`);
+        }
+    };
     dialog.querySelector('#import-guild-code').onclick = () => {
         const code = dialog.querySelector('#guild-code-input').value.trim();
         if (!code) {

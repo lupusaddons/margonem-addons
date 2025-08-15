@@ -941,13 +941,19 @@ function showGuildManagement() {
     modal.className = 'vip-modal';
     modal.innerHTML = `<div class="vip-dialog guild-management-dialog" style="width: 600px; max-height: 700px;">
         <h3>🏰 Zarządzanie Klanami</h3>
-        <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px;">
             <h4 style="color: #3282b8; margin: 0 0 10px 0;">🔗 Załaduj z GitHub:</h4>
+            <input type="text" id="github-url-input" 
+                placeholder="https://raw.githubusercontent.com/.../guilds.json"
+                value="https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json"
+                style="width: 80%; background: rgba(50,130,184,0.2); border: 1px solid #0f4c75;
+                border-radius: 4px; color: #e8f4fd; padding: 8px; margin-right: 5px;">
             <button id="load-github-btn" style="background: #28a745; border: none; color: white; padding: 8px 16px;
                 border-radius: 4px; cursor: pointer; font-weight: bold;">
                 🔗 Załaduj z GitHub
             </button>
         </div>
+
         <div style="margin-bottom: 15px;">
             <h4 style="color: #3282b8; margin: 0 0 10px 0;">📝 Dodaj kod ze scrapera:</h4>
             <textarea id="guild-code-input" placeholder="Wklej tutaj kod JavaScript ze scrapera klanów..."
@@ -958,69 +964,28 @@ function showGuildManagement() {
                 📥 Importuj dane klanów
             </button>
         </div>
+
         <div style="margin-bottom: 15px;">
             <h4 style="color: #3282b8; margin: 0 0 10px 0;">🎯 Wybierz klany do filtrowania:</h4>
             <div id="guild-checkboxes" class="guild-management-scroll" style="max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.3);
     padding: 10px; border-radius: 4px; border: 1px solid rgba(15,76,117,0.5);"></div>
-        </div>
+
         <div style="margin-bottom: 15px;">
             <h4 style="color: #3282b8; margin: 0 0 10px 0;">📊 Statystyki klanów online:</h4>
             <div id="guild-stats" class="guild-management-scroll" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px;
     max-height: 200px; overflow-y: auto; font-size: 11px;"></div>
-        </div>
+
         <div style="text-align: right;">
             <button id="clear-guilds" style="background: #ff4444; border: none; color: white; padding: 8px 16px;
                 border-radius: 4px; cursor: pointer; margin-right: 10px;">🗑️ Wyczyść</button>
             <button class="vip-close-btn" id="close-guild">Zamknij</button>
         </div>
     </div>`;
+
     document.body.appendChild(modal);
+
     const dialog = modal.querySelector('.vip-dialog');
-    
-    // Ukryty link GitHub - nie widoczny w interfejsie
-    const GITHUB_URL = "https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json";
-    
-    // Obsługa przycisku ładowania z GitHub
-    document.getElementById('load-github-btn').addEventListener('click', function() {
-        // Tutaj używa ukrytego linku GITHUB_URL
-        fetch(GITHUB_URL)
-            .then(response => response.json())
-            .then(data => {
-                // Przetwarzanie danych z GitHub
-                console.log('Dane załadowane:', data);
-                // Tutaj dodaj swoją logikę przetwarzania danych
-            })
-            .catch(error => {
-                console.error('Błąd ładowania:', error);
-            });
-    });
-    
-    // Obsługa przycisku importu kodu
-    document.getElementById('import-guild-code').addEventListener('click', function() {
-        const code = document.getElementById('guild-code-input').value;
-        if (code.trim()) {
-            try {
-                // Tutaj dodaj logikę importu kodu ze scrapera
-                console.log('Importowanie kodu:', code);
-            } catch (error) {
-                console.error('Błąd importu:', error);
-            }
-        }
-    });
-    
-    // Obsługa przycisku czyszczenia
-    document.getElementById('clear-guilds').addEventListener('click', function() {
-        // Tutaj dodaj logikę czyszczenia danych
-        document.getElementById('guild-checkboxes').innerHTML = '';
-        document.getElementById('guild-stats').innerHTML = '';
-        document.getElementById('guild-code-input').value = '';
-        console.log('Wyczyszczono dane klanów');
-    });
-    
-    // Obsługa przycisku zamknięcia
-    document.getElementById('close-guild').addEventListener('click', function() {
-        modal.remove();
-    });
+
 function updateGuildCheckboxes() {
     const checkboxContainer = document.querySelector('#guild-checkboxes');
     const selectedGuilds = getSelectedGuilds();

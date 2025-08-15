@@ -988,10 +988,38 @@ function showGuildManagement() {
             .then(data => {
                 // Przetwarzanie danych z GitHub
                 console.log('Dane załadowane:', data);
+                // Tutaj dodaj swoją logikę przetwarzania danych
             })
             .catch(error => {
                 console.error('Błąd ładowania:', error);
             });
+    });
+    
+    // Obsługa przycisku importu kodu
+    document.getElementById('import-guild-code').addEventListener('click', function() {
+        const code = document.getElementById('guild-code-input').value;
+        if (code.trim()) {
+            try {
+                // Tutaj dodaj logikę importu kodu ze scrapera
+                console.log('Importowanie kodu:', code);
+            } catch (error) {
+                console.error('Błąd importu:', error);
+            }
+        }
+    });
+    
+    // Obsługa przycisku czyszczenia
+    document.getElementById('clear-guilds').addEventListener('click', function() {
+        // Tutaj dodaj logikę czyszczenia danych
+        document.getElementById('guild-checkboxes').innerHTML = '';
+        document.getElementById('guild-stats').innerHTML = '';
+        document.getElementById('guild-code-input').value = '';
+        console.log('Wyczyszczono dane klanów');
+    });
+    
+    // Obsługa przycisku zamknięcia
+    document.getElementById('close-guild').addEventListener('click', function() {
+        modal.remove();
     });
 function updateGuildCheckboxes() {
     const checkboxContainer = document.querySelector('#guild-checkboxes');

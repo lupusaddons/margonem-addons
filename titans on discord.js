@@ -413,19 +413,6 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
         localStorage.setItem('titanNotifierLog', JSON.stringify(log));
     }
 
-    function updateButtonAppearance() {
-        const button = document.getElementById('titan-notifier-button');
-        if (button) {
-            if (isNotifierEnabled()) {
-                button.classList.remove('disabled');
-                button.title = 'Dodatek włączony - kliknij aby otworzyć ustawienia';
-            } else {
-                button.classList.add('disabled');
-                button.title = 'Dodatek wyłączony - kliknij aby otworzyć ustawienia';
-            }
-        }
-    }
-
 async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {}) {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl || !isNotifierEnabled()) return false;
@@ -955,11 +942,6 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
 
     // Inicjalizacja
     function init() {
-    const existingButton = document.getElementById('titan-notifier-button');
-    if (existingButton) {
-        existingButton.remove();
-        console.log('Usunięto duplikat przycisku Titans on Discord');
-    }
         // Dodaj style
         const styleSheet = document.createElement('style');
         styleSheet.textContent = styles;

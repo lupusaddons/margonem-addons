@@ -5,369 +5,368 @@
     let lastDetectedHeroes = new Set();
 const COOLDOWN_TIME = 5 * 60 * 1000;
 
-    const styles = `
-        #hero-notifier-button {
-            position: fixed;
-            top: 20px;
-            right: 110px;
-            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
-            border: 2px solid #7b2cbf;
-            color: white;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: move;
-            font-size: 12px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-            z-index: 9999;
-            transition: all 0.2s;
-            user-select: none;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+const styles = `
+    #hero-notifier-button {
+        position: fixed;
+        top: 20px;
+        right: 110px;
+        background: linear-gradient(135deg, #dc3545, #fd7e14);
+        border: 2px solid #dc3545;
+        color: white;
+        padding: 8px;
+        border-radius: 50%;
+        cursor: move;
+        font-size: 12px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        z-index: 9999;
+        transition: all 0.2s;
+        user-select: none;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        #hero-notifier-button:hover {
-            transform: scale(1.05) rotate(15deg);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-        }
+    #hero-notifier-button:hover {
+        transform: scale(1.05) rotate(15deg);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
 
-        #hero-notifier-button.disabled {
-            background: linear-gradient(135deg, #666, #888);
-            border-color: #666;
-            opacity: 0.7;
-        }
+    #hero-notifier-button.disabled {
+        background: linear-gradient(135deg, #666, #888);
+        border-color: #666;
+        opacity: 0.7;
+    }
 
-        .hero-notifier-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    .hero-notifier-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        .hero-notifier-dialog {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border: 2px solid #7b2cbf;
-            border-radius: 12px;
-            padding: 25px;
-            width: 600px;
-            max-width: 90vw;
-            max-height: 85vh;
-            color: #e8f4fd;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+    .hero-notifier-dialog {
+        background: linear-gradient(135deg, #2e1a1a, #3e1616);
+        border: 2px solid #dc3545;
+        border-radius: 12px;
+        padding: 25px;
+        width: 600px;
+        max-width: 90vw;
+        max-height: 85vh;
+        color: #e8f4fd;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
 
-        .hero-notifier-dialog h3 {
-            margin-top: 0;
-            color: #9d4edd;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
+    .hero-notifier-dialog h3 {
+        margin-top: 0;
+        color: #fd7e14;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
 
-        .hero-dialog-content {
-            overflow-y: auto;
-            flex: 1;
-            padding-right: 15px;
-            margin-right: -15px;
-        }
+    .hero-dialog-content {
+        overflow-y: auto;
+        flex: 1;
+        padding-right: 15px;
+        margin-right: -15px;
+    }
 
-        /* Niestandardowe stylowanie scrollbara */
-        .hero-dialog-content {
-            scrollbar-width: thin;
-            scrollbar-color: #7b2cbf rgba(0,0,0,0.2);
-        }
+    .hero-dialog-content {
+        scrollbar-width: thin;
+        scrollbar-color: #dc3545 rgba(0,0,0,0.2);
+    }
 
-        .hero-dialog-content::-webkit-scrollbar {
-            width: 12px;
-        }
+    .hero-dialog-content::-webkit-scrollbar {
+        width: 12px;
+    }
 
-        .hero-dialog-content::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-            border-radius: 6px;
-        }
+    .hero-dialog-content::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.2);
+        border-radius: 6px;
+    }
 
-        .hero-dialog-content::-webkit-scrollbar-thumb {
-            background: #7b2cbf;
-            border-radius: 6px;
-            border: 2px solid rgba(0,0,0,0.2);
-        }
+    .hero-dialog-content::-webkit-scrollbar-thumb {
+        background: #dc3545;
+        border-radius: 6px;
+        border: 2px solid rgba(0,0,0,0.2);
+    }
 
-        .hero-dialog-content::-webkit-scrollbar-thumb:hover {
-            background: #9d4edd;
-        }
+    .hero-dialog-content::-webkit-scrollbar-thumb:hover {
+        background: #fd7e14;
+    }
 
-        .hero-setting-group {
-            margin-bottom: 20px;
-        }
+    .hero-setting-group {
+        margin-bottom: 20px;
+    }
 
-        .hero-setting-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #a8dadc;
-            font-size: 14px;
-        }
+    .hero-setting-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #fd7e14;
+        font-size: 14px;
+    }
 
-        .hero-setting-input {
-            width: 100%;
-            padding: 10px;
-            background: rgba(157,78,221,0.2);
-            border: 1px solid #7b2cbf;
-            border-radius: 6px;
-            color: #e8f4fd;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
+    .hero-setting-input {
+        width: 100%;
+        padding: 10px;
+        background: rgba(220,53,69,0.2);
+        border: 1px solid #dc3545;
+        border-radius: 6px;
+        color: #e8f4fd;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
 
-        .hero-setting-input:focus {
-            outline: none;
-            border-color: #9d4edd;
-            box-shadow: 0 0 10px rgba(157,78,221,0.3);
-        }
+    .hero-setting-input:focus {
+        outline: none;
+        border-color: #fd7e14;
+        box-shadow: 0 0 10px rgba(253,126,20,0.3);
+    }
 
-        .hero-setting-input:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    .hero-setting-input:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 
-        .hero-setting-description {
-            font-size: 12px;
-            color: #a8dadc;
-            margin-top: 5px;
-            line-height: 1.4;
-        }
+    .hero-setting-description {
+        font-size: 12px;
+        color: #fd7e14;
+        margin-top: 5px;
+        line-height: 1.4;
+    }
 
-        .hero-toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+    .hero-toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
 
-        .hero-toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+    .hero-toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
-        .hero-toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #666;
-            transition: .4s;
-            border-radius: 34px;
-        }
+    .hero-toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #666;
+        transition: .4s;
+        border-radius: 34px;
+    }
 
-        .hero-toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
+    .hero-toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
 
-        input:checked + .hero-toggle-slider {
-            background-color: #9d4edd;
-        }
+    input:checked + .hero-toggle-slider {
+        background-color: #fd7e14;
+    }
 
-        input:checked + .hero-toggle-slider:before {
-            transform: translateX(26px);
-        }
+    input:checked + .hero-toggle-slider:before {
+        transform: translateX(26px);
+    }
 
-        .hero-toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .hero-toggle-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
 
-        .hero-status-info {
-            background: rgba(40, 167, 69, 0.1);
-            border: 1px solid #28a745;
-            border-radius: 6px;
-            padding: 12px;
-            margin: 15px 0;
-            flex-shrink: 0;
-        }
+    .hero-status-info {
+        background: rgba(40, 167, 69, 0.1);
+        border: 1px solid #28a745;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 15px 0;
+        flex-shrink: 0;
+    }
 
-        .hero-status-info.error {
-            background: rgba(220, 53, 69, 0.1);
-            border-color: #dc3545;
-        }
+    .hero-status-info.error {
+        background: rgba(220, 53, 69, 0.1);
+        border-color: #dc3545;
+    }
 
-        .hero-status-info.warning {
-            background: rgba(255, 193, 7, 0.1);
-            border-color: #ffc107;
-            color: #ffc107;
-        }
+    .hero-status-info.warning {
+        background: rgba(253, 126, 20, 0.1);
+        border-color: #fd7e14;
+        color: #fd7e14;
+    }
 
-        .hero-settings-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 25px;
-            flex-shrink: 0;
-        }
+    .hero-settings-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 25px;
+        flex-shrink: 0;
+    }
 
-        .hero-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
+    .hero-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
 
-        .hero-btn-primary {
-            background: #9d4edd;
-            color: white;
-        }
+    .hero-btn-primary {
+        background: #dc3545;
+        color: white;
+    }
 
-        .hero-btn-primary:hover {
-            background: #7b2cbf;
-        }
+    .hero-btn-primary:hover {
+        background: #fd7e14;
+    }
 
-        .hero-btn-secondary {
-            background: #666;
-            color: white;
-        }
+    .hero-btn-secondary {
+        background: #666;
+        color: white;
+    }
 
-        .hero-btn-secondary:hover {
-            background: #555;
-        }
+    .hero-btn-secondary:hover {
+        background: #555;
+    }
 
-        .hero-role-settings {
-            background: rgba(157,78,221,0.1);
-            border: 1px solid #7b2cbf;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-        }
+    .hero-role-settings {
+        background: rgba(220,53,69,0.1);
+        border: 1px solid #dc3545;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px 0;
+    }
 
-        .hero-role-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 6px;
-        }
+    .hero-role-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 10px;
+        padding: 8px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 6px;
+    }
 
-        .hero-role-item:last-child {
-            margin-bottom: 0;
-        }
+    .hero-role-item:last-child {
+        margin-bottom: 0;
+    }
 
-        .hero-name {
-            min-width: 180px;
-            font-weight: bold;
-            color: #9d4edd;
-            font-size: 13px;
-        }
+    .hero-name {
+        min-width: 180px;
+        font-weight: bold;
+        color: #fd7e14;
+        font-size: 13px;
+    }
 
-        .hero-role-input {
-            flex: 1;
-            max-width: 200px;
-        }
+    .hero-role-input {
+        flex: 1;
+        max-width: 200px;
+    }
 
-        .hero-notification-log {
-            max-height: 150px;
-            overflow-y: auto;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #7b2cbf;
-            border-radius: 6px;
-            padding: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: #7b2cbf rgba(0,0,0,0.2);
-        }
+    .hero-notification-log {
+        max-height: 150px;
+        overflow-y: auto;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid #dc3545;
+        border-radius: 6px;
+        padding: 10px;
+        scrollbar-width: thin;
+        scrollbar-color: #dc3545 rgba(0,0,0,0.2);
+    }
 
-        .hero-notification-log::-webkit-scrollbar {
-            width: 8px;
-        }
+    .hero-notification-log::-webkit-scrollbar {
+        width: 8px;
+    }
 
-        .hero-notification-log::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.2);
-            border-radius: 4px;
-        }
+    .hero-notification-log::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.2);
+        border-radius: 4px;
+    }
 
-        .hero-notification-log::-webkit-scrollbar-thumb {
-            background: #7b2cbf;
-            border-radius: 4px;
-        }
+    .hero-notification-log::-webkit-scrollbar-thumb {
+        background: #dc3545;
+        border-radius: 4px;
+    }
 
-        .hero-notification-log::-webkit-scrollbar-thumb:hover {
-            background: #9d4edd;
-        }
+    .hero-notification-log::-webkit-scrollbar-thumb:hover {
+        background: #fd7e14;
+    }
 
-        .hero-log-item {
-            font-size: 11px;
-            margin-bottom: 5px;
-            padding: 5px;
-            background: rgba(157,78,221,0.1);
-            border-radius: 4px;
-        }
+    .hero-log-item {
+        font-size: 11px;
+        margin-bottom: 5px;
+        padding: 5px;
+        background: rgba(220,53,69,0.1);
+        border-radius: 4px;
+    }
 
-        .hero-log-time {
-            color: #a8dadc;
-            font-style: italic;
-        }
+    .hero-log-time {
+        color: #fd7e14;
+        font-style: italic;
+    }
 
-        .hero-log-hero {
-            font-weight: bold;
-            color: #9d4edd;
-        }
-		.hero-setting-select {
-    width: 100%;
-    padding: 10px;
-    background: rgba(157,78,221,0.2);
-    border: 1px solid #7b2cbf;
-    border-radius: 6px;
-    color: #e8f4fd;
-    font-size: 14px;
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23e8f4fd" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548a.75.75 0 0 1 1.06 0L10 10.97l3.424-3.422a.75.75 0 0 1 1.06 1.06l-4 4a.75.75 0 0 1-1.06 0l-4-4a.75.75 0 0 1 0-1.06z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px 16px;
-}
+    .hero-log-hero {
+        font-weight: bold;
+        color: #fd7e14;
+    }
 
-.hero-setting-select:focus {
-    outline: none;
-    border-color: #9d4edd;
-    box-shadow: 0 0 10px rgba(157,78,221,0.3);
-}
+    .hero-setting-select {
+        width: 100%;
+        padding: 10px;
+        background: rgba(220,53,69,0.2);
+        border: 1px solid #dc3545;
+        border-radius: 6px;
+        color: #e8f4fd;
+        font-size: 14px;
+        box-sizing: border-box;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="%23e8f4fd" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.516 7.548a.75.75 0 0 1 1.06 0L10 10.97l3.424-3.422a.75.75 0 0 1 1.06 1.06l-4 4a.75.75 0 0 1-1.06 0l-4-4a.75.75 0 0 1 0-1.06z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 16px 16px;
+    }
 
-.hero-setting-select option {
-    background: #1a1a2e;
-    color: #e8f4fd;
-}
+    .hero-setting-select:focus {
+        outline: none;
+        border-color: #fd7e14;
+        box-shadow: 0 0 10px rgba(253,126,20,0.3);
+    }
 
-    `;
+    .hero-setting-select option {
+        background: #2e1a1a;
+        color: #e8f4fd;
+    }
+`;
 
 function getWebhookUrl() {
     return localStorage.getItem('heroNotifierWebhook') || '';

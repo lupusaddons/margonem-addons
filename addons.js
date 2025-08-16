@@ -209,6 +209,483 @@
         console.log(`👤 Zalogowany jako użytkownik: ${userId}`);
     });
 
+    // CSS Styles dla GUI
+    const styles = `
+        .addon-manager {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10000;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .addon-toggle-btn {
+            background: #2f3136;
+            border: 1px solid #40444b;
+            color: #dcddde;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: move;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
+            user-select: none;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 120px;
+        }
+
+        .addon-toggle-btn::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background-image: url('https://raw.githubusercontent.com/lupusaddons/margonem-addons/main/images/ikonka.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .addon-toggle-btn:hover {
+            background: #36393f;
+            border-color: #4f545c;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        }
+
+        .addon-toggle-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .addon-toggle-btn.dragging {
+            transform: none !important;
+            transition: none !important;
+        }
+
+        .addon-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: #2f3136;
+            border: 1px solid #40444b;
+            border-radius: 6px;
+            padding: 16px;
+            min-width: 280px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            display: none;
+        }
+
+        .addon-menu.active {
+            display: block;
+            animation: slideIn 0.2s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .addon-menu-header {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: left;
+            border-bottom: 1px solid #40444b;
+            padding-bottom: 8px;
+            cursor: move;
+            user-select: none;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .addon-menu-header::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            background-image: url('https://raw.githubusercontent.com/lupusaddons/margonem-addons/main/images/ikonka.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .addon-menu.dragging {
+            transition: none !important;
+        }
+
+        .addon-close-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #36393f;
+            border: 1px solid #40444b;
+            color: #dcddde;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .addon-close-btn:hover {
+            background: #ed4245;
+            border-color: #ed4245;
+            color: white;
+        }
+
+        .addon-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #40444b;
+            transition: all 0.2s ease;
+        }
+
+        .addon-item:last-child {
+            border-bottom: none;
+        }
+
+        .addon-item:hover {
+            background: rgba(255,255,255,0.04);
+            margin: 0 -8px;
+            padding: 10px 8px;
+            border-radius: 4px;
+        }
+
+        .addon-name {
+            color: #dcddde;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .addon-switch {
+            position: relative;
+            width: 44px;
+            height: 22px;
+            background: #4f545c;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .addon-switch.active {
+            background: #3ba55d;
+        }
+
+        .addon-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .addon-switch.active::after {
+            left: 24px;
+        }
+
+        .addon-status {
+            font-size: 11px;
+            color: #72767d;
+            margin-top: 2px;
+        }
+
+        .addon-controls {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #40444b;
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 6px 10px;
+            border: 1px solid #40444b;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            color: #dcddde;
+        }
+
+        .enable-all-btn {
+            background: #3ba55d;
+            border-color: #3ba55d;
+            color: white;
+        }
+
+        .disable-all-btn {
+            background: #ed4245;
+            border-color: #ed4245;
+            color: white;
+        }
+
+        .enable-all-btn:hover {
+            background: #2d7d32;
+            border-color: #2d7d32;
+        }
+
+        .disable-all-btn:hover {
+            background: #c62828;
+            border-color: #c62828;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+    `;
+
+    // Dodaj style do strony
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = styles;
+    document.head.appendChild(styleSheet);
+
+    // Prosta alternatywa dla localStorage (w pamięci)
+    const addonSettings = {};
+
+    // Make element draggable
+    function makeDraggable(element, handle) {
+        let isDragging = false;
+        let hasDragged = false;
+        let startX, startY, initialX, initialY;
+
+        handle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            hasDragged = false;
+
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const rect = element.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+
+            element.style.position = 'fixed';
+            element.style.left = initialX + 'px';
+            element.style.top = initialY + 'px';
+            element.style.right = 'auto';
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+
+            e.preventDefault();
+        });
+
+        function handleMouseMove(e) {
+            if (!isDragging) return;
+
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+
+            if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                hasDragged = true;
+                element.classList.add('dragging');
+                handle.classList.add('dragging');
+            }
+
+            let newX = initialX + deltaX;
+            let newY = initialY + deltaY;
+
+            const rect = element.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            newX = Math.max(0, Math.min(newX, viewportWidth - rect.width));
+            newY = Math.max(0, Math.min(newY, viewportHeight - rect.height));
+
+            element.style.left = newX + 'px';
+            element.style.top = newY + 'px';
+        }
+
+        function handleMouseUp() {
+            if (!isDragging) return;
+
+            isDragging = false;
+
+            setTimeout(() => {
+                element.classList.remove('dragging');
+                handle.classList.remove('dragging');
+                hasDragged = false;
+            }, 100);
+
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => hasDragged;
+    }
+
+    // Create GUI
+    function createGUI() {
+        const container = document.createElement('div');
+        container.className = 'addon-manager';
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'addon-toggle-btn';
+        toggleBtn.textContent = ' Kaczor Manager';
+
+        const wasDragged = makeDraggable(container, toggleBtn);
+
+        const menu = document.createElement('div');
+        menu.className = 'addon-menu';
+
+        const header = document.createElement('div');
+        header.className = 'addon-menu-header';
+        header.textContent = 'Manager Dodatków';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'addon-close-btn';
+        closeBtn.innerHTML = '×';
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.remove('active');
+        });
+
+        header.appendChild(closeBtn);
+        makeDraggable(menu, header);
+        menu.appendChild(header);
+
+        // Create addon items
+        Object.entries(loadedAddons).forEach(([addonId, addon]) => {
+            const item = document.createElement('div');
+            item.className = 'addon-item';
+
+            const info = document.createElement('div');
+            const name = document.createElement('div');
+            name.className = 'addon-name';
+            name.textContent = addon.name;
+
+            const status = document.createElement('div');
+            status.className = 'addon-status';
+            status.textContent = addon.enabled ? 'Włączony' : 'Wyłączony';
+
+            info.appendChild(name);
+            info.appendChild(status);
+
+            const switchElement = document.createElement('div');
+            switchElement.className = `addon-switch ${addon.enabled ? 'active' : ''}`;
+
+            switchElement.addEventListener('click', async () => {
+                const success = await toggleAddon(addonId);
+                if (success) {
+                    switchElement.classList.toggle('active', addon.enabled);
+                    status.textContent = addon.enabled ? 'Włączony' : 'Wyłączony';
+                }
+            });
+
+            item.appendChild(info);
+            item.appendChild(switchElement);
+            menu.appendChild(item);
+        });
+
+        // Control buttons
+        const controls = document.createElement('div');
+        controls.className = 'addon-controls';
+
+        const enableAllBtn = document.createElement('button');
+        enableAllBtn.className = 'control-btn enable-all-btn';
+        enableAllBtn.textContent = 'Włącz wszystkie';
+        enableAllBtn.addEventListener('click', async () => {
+            for (const addonId of Object.keys(loadedAddons)) {
+                if (!loadedAddons[addonId].enabled) {
+                    await enableAddon(addonId);
+                }
+            }
+            updateGUI();
+        });
+
+        const disableAllBtn = document.createElement('button');
+        disableAllBtn.className = 'control-btn disable-all-btn';
+        disableAllBtn.textContent = 'Wyłącz wszystkie';
+        disableAllBtn.addEventListener('click', () => {
+            Object.keys(loadedAddons).forEach(addonId => {
+                if (loadedAddons[addonId].enabled) {
+                    disableAddon(addonId);
+                }
+            });
+            updateGUI();
+        });
+
+        controls.appendChild(enableAllBtn);
+        controls.appendChild(disableAllBtn);
+        menu.appendChild(controls);
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setTimeout(() => {
+                if (!toggleBtn.classList.contains('dragging') && !wasDragged()) {
+                    menu.classList.toggle('active');
+                }
+            }, 10);
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!container.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        container.appendChild(toggleBtn);
+        container.appendChild(menu);
+        document.body.appendChild(container);
+    }
+
+    // Update GUI
+    function updateGUI() {
+        const switches = document.querySelectorAll('.addon-switch');
+        const statuses = document.querySelectorAll('.addon-status');
+
+        Object.entries(loadedAddons).forEach(([addonId, addon], index) => {
+            if (switches[index]) {
+                switches[index].classList.toggle('active', addon.enabled);
+            }
+            if (statuses[index]) {
+                statuses[index].textContent = addon.enabled ? 'Włączony' : 'Wyłączony';
+            }
+        });
+    }
+
+    // Inicjalizacja - załaduj wszystkie dodatki przy starcie
+    loadAllAddons().then(() => {
+        console.log('🚀 Manager dodatków gotowy!');
+        console.log('Dostępne dodatki:', getAddonsList());
+        console.log(`👤 Zalogowany jako użytkownik: ${userId}`);
+        
+        // Utwórz GUI po załadowaniu dodatków
+        setTimeout(() => {
+            createGUI();
+        }, 500);
+    });
+
     // Eksportuj funkcje do użycia
     window.AddonManager = {
         enable: enableAddon,
@@ -216,7 +693,8 @@
         toggle: toggleAddon,
         getList: getAddonsList,
         reload: loadAllAddons,
-        getCurrentUser: () => userId
+        getCurrentUser: () => userId,
+        updateGUI: updateGUI
     };
 
 })();

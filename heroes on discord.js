@@ -1115,31 +1115,31 @@ const popularHeroes = [
 
 const predefinedWorldRoles = {
     "Dream": {
-        "Domina Ecclesiae": "",  // Wypełnij właściwymi ID ról jeśli masz
+        "Domina Ecclesiae": "",  
         "Mietek Żul": "",
-        "Mroczny Patryk": "",
-        "Karmazynowy Mściciel": "",
-        "Złodziej": "",
-        "Zły Przewodnik": "",
-        "Opętany Paladyn": "",
-        "Piekielny Kościej": "",
-        "Koziec Mąciciel Ścieżek": "",
-        "Kochanka Nocy": "",
-        "Książę Kasim": "",
-        "Święty Braciszek": "",
-        "Złoty Roger": "",
-        "Baca bez Łowiec": "",
-        "Czarująca Atalia": "",
-        "Obłąkany Łowca Orków": "",
-        "Lichwiarz Grauhaz": "",
-        "Viviana Nandin": "",
-        "Mulher Ma": "",
-        "Demonis Pan Nicości": "",
-        "Vapor Veneno": "",
-        "Dęborożec": "",
-        "Tepeyollotl": "",
-        "Negthotep Czarny Kapłan": "",
-        "Młody Smok": ""
+        "Mroczny Patryk": "1302725605611147315,1302725718165159978",
+        "Karmazynowy Mściciel": "1302725605611147315,1302725718165159978",
+        "Złodziej": "1302725605611147315,1302725718165159978",
+        "Zły Przewodnik": "1302725718165159978,1302725761152843826",
+        "Opętany Paladyn": "1302725761152843826",
+        "Piekielny Kościej": "1302725761152843826,1302726330613502055",
+        "Koziec Mąciciel Ścieżek": "1302725761152843826,1302726330613502055",
+        "Kochanka Nocy": "1302725761152843826,1302726330613502055",
+        "Książę Kasim": "1302726330613502055,1302726521219448973",
+        "Święty Braciszek": "1302726330613502055,1302726521219448973",
+        "Złoty Roger": "1302726521219448973",
+        "Baca bez Łowiec": "1302726521219448973,1302726541385404426",
+        "Czarująca Atalia": "1302726541385404426",
+        "Obłąkany Łowca Orków": "1302726541385404426,1302726620716601425",
+        "Lichwiarz Grauhaz": "1302726541385404426,1302726620716601425",
+        "Viviana Nandin": "1302726620716601425,1302726646645653575",
+        "Mulher Ma": "1302726620716601425,1302726646645653575",
+        "Demonis Pan Nicości": "1302726646645653575,1302726731941023784",
+        "Vapor Veneno": "1302726646645653575,1302726731941023784,1302726761381101675",
+        "Dęborożec": "1302726761381101675,1302726786559246407",
+        "Tepeyollotl": "1302726786559246407,1302726826384425171",
+        "Negthotep Czarny Kapłan": "1302726786559246407,1302726826384425171",
+        "Młody Smok": "1302726826384425171"
     }
 };
 
@@ -1286,10 +1286,10 @@ const predefinedWorldRoles = {
         });
 
         // Ustaw także webhook dla Dream
-        if (selectedWorld === 'Dream') {
+        if (selectedWorld === 'Lupus') {
             const webhookField = modal.querySelector('#hero-webhook-url'); // ZMIANA: było titan
             if (webhookField) {
-                webhookField.value = 'https://discord.com/api/webhooks/1399066320716431471/sqljwt0IrBr0KsWl8-PvR3QDuK9Xhq8JYqE0AfrAgpPlRi2COrrOgYNwCqo9FpUQYfqq';
+                webhookField.value = 'https://discord.com/api/webhooks/1406241018117881927/FU_SFc7Jauu2R5gSbSw48TgtbaLwt6g2qL8wVBmhyp94zVjwTEJRbVuShCA2u6i0nshy';
             }
         }
 

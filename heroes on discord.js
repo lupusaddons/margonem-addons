@@ -681,7 +681,7 @@ async function checkHeroRespawns() {
             element.style.top = `${y}px`;
             element.style.right = 'auto';
 
-            localStorage.setItem('titanNotifierButtonPosition', JSON.stringify({x, y}));
+            localStorage.setItem('heroNotifierButtonPosition', JSON.stringify({x, y}));
         });
 
         document.addEventListener('mouseup', () => {

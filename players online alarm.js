@@ -673,10 +673,10 @@
 
     // Inicjalizacja
     function init() {
-    const existingButton = document.getElementById('titan-notifier-button');
+    const existingButton = document.getElementById('pod-settings-button');
     if (existingButton) {
         existingButton.remove();
-        console.log('Usunięto duplikat przycisku Titans on Discord');
+        console.log('Usunięto duplikat przycisku POD Settings');
     }
         // Dodaj style
         const styleSheet = document.createElement('style');

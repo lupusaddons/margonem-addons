@@ -13,7 +13,7 @@
         {level: 271, name: "Teza"}, {level: 272, name: "Barba/Tan"}, {level: 300, name: "Barba/Tan"}
     ];
 
-    const creatorList = ["dreaming kwaczuszka " , "pogromca karpia"];
+    const creatorList = ["dreaming kwaczuszka" , "pogromca karpia"];
     const guildColors = JSON.parse(localStorage.getItem('guildColors') || '{}');
 	const playerGuilds = {};
 	let observedGuilds = [];

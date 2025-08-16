@@ -1314,6 +1314,11 @@ const predefinedWorldRoles = {
 }
 
 function init() {
+    const existingButton = document.getElementById('titan-notifier-button');
+    if (existingButton) {
+        existingButton.remove();
+        console.log('Usunięto duplikat przycisku Titans on Discord');
+    }
     // Dodaj style
     const styleSheet = document.createElement('style');
     styleSheet.textContent = styles;

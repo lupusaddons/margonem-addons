@@ -39,7 +39,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             opacity: 0.7;
         }
 
-        .titan-notifier-modal {
+        .hero-notifier-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -53,7 +53,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .titan-notifier-dialog {
+        .hero-notifier-dialog {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border: 2px solid #7b2cbf;
             border-radius: 12px;
@@ -68,7 +68,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             flex-direction: column;
         }
 
-        .titan-notifier-dialog h3 {
+        .hero-notifier-dialog h3 {
             margin-top: 0;
             color: #9d4edd;
             display: flex;
@@ -78,7 +78,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             flex-shrink: 0;
         }
 
-        .titan-dialog-content {
+        .hero-dialog-content {
             overflow-y: auto;
             flex: 1;
             padding-right: 15px;
@@ -86,35 +86,35 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
         }
 
         /* Niestandardowe stylowanie scrollbara */
-        .titan-dialog-content {
+        .hero-dialog-content {
             scrollbar-width: thin;
             scrollbar-color: #7b2cbf rgba(0,0,0,0.2);
         }
 
-        .titan-dialog-content::-webkit-scrollbar {
+        .hero-dialog-content::-webkit-scrollbar {
             width: 12px;
         }
 
-        .titan-dialog-content::-webkit-scrollbar-track {
+        .hero-dialog-content::-webkit-scrollbar-track {
             background: rgba(0,0,0,0.2);
             border-radius: 6px;
         }
 
-        .titan-dialog-content::-webkit-scrollbar-thumb {
+        .hero-dialog-content::-webkit-scrollbar-thumb {
             background: #7b2cbf;
             border-radius: 6px;
             border: 2px solid rgba(0,0,0,0.2);
         }
 
-        .titan-dialog-content::-webkit-scrollbar-thumb:hover {
+        .hero-dialog-content::-webkit-scrollbar-thumb:hover {
             background: #9d4edd;
         }
 
-        .titan-setting-group {
+        .hero-setting-group {
             margin-bottom: 20px;
         }
 
-        .titan-setting-label {
+        .hero-setting-label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
@@ -122,7 +122,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             font-size: 14px;
         }
 
-        .titan-setting-input {
+        .hero-setting-input {
             width: 100%;
             padding: 10px;
             background: rgba(157,78,221,0.2);
@@ -133,38 +133,38 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             box-sizing: border-box;
         }
 
-        .titan-setting-input:focus {
+        .hero-setting-input:focus {
             outline: none;
             border-color: #9d4edd;
             box-shadow: 0 0 10px rgba(157,78,221,0.3);
         }
 
-        .titan-setting-input:disabled {
+        .hero-setting-input:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .titan-setting-description {
+        .hero-setting-description {
             font-size: 12px;
             color: #a8dadc;
             margin-top: 5px;
             line-height: 1.4;
         }
 
-        .titan-toggle-switch {
+        .hero-toggle-switch {
             position: relative;
             display: inline-block;
             width: 60px;
             height: 34px;
         }
 
-        .titan-toggle-switch input {
+        .hero-toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
 
-        .titan-toggle-slider {
+        .hero-toggle-slider {
             position: absolute;
             cursor: pointer;
             top: 0;
@@ -176,7 +176,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             border-radius: 34px;
         }
 
-        .titan-toggle-slider:before {
+        .hero-toggle-slider:before {
             position: absolute;
             content: "";
             height: 26px;
@@ -188,21 +188,21 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             border-radius: 50%;
         }
 
-        input:checked + .titan-toggle-slider {
+        input:checked + .hero-toggle-slider {
             background-color: #9d4edd;
         }
 
-        input:checked + .titan-toggle-slider:before {
+        input:checked + .hero-toggle-slider:before {
             transform: translateX(26px);
         }
 
-        .titan-toggle-container {
+        .hero-toggle-container {
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .titan-status-info {
+        .hero-status-info {
             background: rgba(40, 167, 69, 0.1);
             border: 1px solid #28a745;
             border-radius: 6px;
@@ -211,18 +211,18 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             flex-shrink: 0;
         }
 
-        .titan-status-info.error {
+        .hero-status-info.error {
             background: rgba(220, 53, 69, 0.1);
             border-color: #dc3545;
         }
 
-        .titan-status-info.warning {
+        .hero-status-info.warning {
             background: rgba(255, 193, 7, 0.1);
             border-color: #ffc107;
             color: #ffc107;
         }
 
-        .titan-settings-buttons {
+        .hero-settings-buttons {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
@@ -230,7 +230,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             flex-shrink: 0;
         }
 
-        .titan-btn {
+        .hero-btn {
             padding: 10px 20px;
             border: none;
             border-radius: 6px;
@@ -240,25 +240,25 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             transition: all 0.2s;
         }
 
-        .titan-btn-primary {
+        .hero-btn-primary {
             background: #9d4edd;
             color: white;
         }
 
-        .titan-btn-primary:hover {
+        .hero-btn-primary:hover {
             background: #7b2cbf;
         }
 
-        .titan-btn-secondary {
+        .hero-btn-secondary {
             background: #666;
             color: white;
         }
 
-        .titan-btn-secondary:hover {
+        .hero-btn-secondary:hover {
             background: #555;
         }
 
-        .titan-role-settings {
+        .hero-role-settings {
             background: rgba(157,78,221,0.1);
             border: 1px solid #7b2cbf;
             border-radius: 8px;
@@ -266,7 +266,7 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             margin: 10px 0;
         }
 
-        .titan-role-item {
+        .hero-role-item {
             display: flex;
             align-items: center;
             gap: 15px;
@@ -276,23 +276,23 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             border-radius: 6px;
         }
 
-        .titan-role-item:last-child {
+        .hero-role-item:last-child {
             margin-bottom: 0;
         }
 
-        .titan-name {
+        .hero-name {
             min-width: 180px;
             font-weight: bold;
             color: #9d4edd;
             font-size: 13px;
         }
 
-        .titan-role-input {
+        .hero-role-input {
             flex: 1;
             max-width: 200px;
         }
 
-        .titan-notification-log {
+        .hero-notification-log {
             max-height: 150px;
             overflow-y: auto;
             background: rgba(0,0,0,0.3);
@@ -303,25 +303,25 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             scrollbar-color: #7b2cbf rgba(0,0,0,0.2);
         }
 
-        .titan-notification-log::-webkit-scrollbar {
+        .hero-notification-log::-webkit-scrollbar {
             width: 8px;
         }
 
-        .titan-notification-log::-webkit-scrollbar-track {
+        .hero-notification-log::-webkit-scrollbar-track {
             background: rgba(0,0,0,0.2);
             border-radius: 4px;
         }
 
-        .titan-notification-log::-webkit-scrollbar-thumb {
+        .hero-notification-log::-webkit-scrollbar-thumb {
             background: #7b2cbf;
             border-radius: 4px;
         }
 
-        .titan-notification-log::-webkit-scrollbar-thumb:hover {
+        .hero-notification-log::-webkit-scrollbar-thumb:hover {
             background: #9d4edd;
         }
 
-        .titan-log-item {
+        .hero-log-item {
             font-size: 11px;
             margin-bottom: 5px;
             padding: 5px;
@@ -329,16 +329,16 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
             border-radius: 4px;
         }
 
-        .titan-log-time {
+        .hero-log-time {
             color: #a8dadc;
             font-style: italic;
         }
 
-        .titan-log-titan {
+        .hero-log-hero {
             font-weight: bold;
             color: #9d4edd;
         }
-		.titan-setting-select {
+		.hero-setting-select {
     width: 100%;
     padding: 10px;
     background: rgba(157,78,221,0.2);
@@ -356,13 +356,13 @@ const COOLDOWN_TIME = 5 * 60 * 1000;
     background-size: 16px 16px;
 }
 
-.titan-setting-select:focus {
+.hero-setting-select:focus {
     outline: none;
     border-color: #9d4edd;
     box-shadow: 0 0 10px rgba(157,78,221,0.3);
 }
 
-.titan-setting-select option {
+.hero-setting-select option {
     background: #1a1a2e;
     color: #e8f4fd;
 }
@@ -413,7 +413,7 @@ function addToNotificationLog(heroName, heroLevel) {
 }
 
 function updateButtonAppearance() {
-    const button = document.getElementById('hero-notifier-button'); // ZMIANA: było titan
+    const button = document.getElementById('hero-notifier-button'); // ZMIANA: było hero
     if (button) {
         if (isNotifierEnabled()) {
             button.classList.remove('disabled');
@@ -430,8 +430,8 @@ async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
     if (!webhookUrl || !isNotifierEnabled()) return false;
 
     const timestamp = new Date().toLocaleString('pl-PL');
-    const roleIds = getHeroRoleIds(); // ZMIANA: było getTitanRoleIds()
-    const roleId = roleIds[heroName];   // ZMIANA: było titanName
+    const roleIds = getHeroRoleIds(); // ZMIANA: było getheroRoleIds()
+    const roleId = roleIds[heroName];   // ZMIANA: było heroName
 
     // NOWA LOGIKA: Obsługa wielu ról i @everyone
     let rolePing = '';
@@ -447,8 +447,8 @@ async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
 
     // Pobierz dodatkowe informacje
     const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
-    const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';  // ZMIANA: było titanData
-    const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';  // ZMIANA: było titanData
+    const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';  // ZMIANA: było heroData
+    const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';  // ZMIANA: było heroData
 
     const embed = {
         title: `!#HEROS#!`,
@@ -1044,22 +1044,22 @@ async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroD
 
 function showSettings() {
     const modal = document.createElement('div');
-    modal.className = 'titan-notifier-modal'; // można zostawić nazwy klas CSS
+    modal.className = 'hero-notifier-modal'; // można zostawić nazwy klas CSS
 
     const log = getNotificationLog();
 
     const logHtml = log.length > 0 ?
         log.map(entry => `
-            <div class="titan-log-item">
-                <span class="titan-log-time">${entry.time}</span> -
-                <span class="titan-log-titan">${entry.hero}</span> (poziom ${entry.level})
+            <div class="hero-log-item">
+                <span class="hero-log-time">${entry.time}</span> -
+                <span class="hero-log-hero">${entry.hero}</span> (poziom ${entry.level})
             </div>
         `).join('') :
         '<div style="text-align: center; color: #a8dadc; font-style: italic; padding: 20px;">Brak powiadomień</div>';
 
     const enabled = isNotifierEnabled();
     const webhookUrl = getWebhookUrl();
-    const roleIds = getHeroRoleIds(); // ZMIANA: było getTitanRoleIds()
+    const roleIds = getHeroRoleIds(); // ZMIANA: było getheroRoleIds()
 
     let statusClass = 'error';
     let statusText = 'Dodatek wyłączony';
@@ -1101,14 +1101,14 @@ const popularHeroes = [
     {name: "Młody Smok", level: 282}
 ];
 
-    // ZMIANA: było popularTitans
+    // ZMIANA: było popularheros
     const roleSettingsHtml = popularHeroes.map(hero => `
-        <div class="titan-role-item">
-            <span class="titan-name">${hero.name} (${hero.level} lvl)</span>
-            <input type="text" class="titan-setting-input titan-role-input"
+        <div class="hero-role-item">
+            <span class="hero-name">${hero.name} (${hero.level} lvl)</span>
+            <input type="text" class="hero-setting-input hero-role-input"
                    placeholder="ID roli, wiele ról przez przecinek, lub 'everyone'"
                    value="${roleIds[hero.name] || ''}"
-                   data-titan="${hero.name}"
+                   data-hero="${hero.name}"
                    ${!enabled ? 'disabled' : ''}>
         </div>
     `).join('');
@@ -1144,52 +1144,52 @@ const predefinedWorldRoles = {
 };
 
     modal.innerHTML = `
-        <div class="titan-notifier-dialog">
+        <div class="hero-notifier-dialog">
             <h3>Ustawienia</h3>
 
-            <div class="titan-dialog-content">
-                <div class="titan-setting-group">
-                    <label class="titan-setting-label">Status Dodatku:</label>
-                    <div class="titan-toggle-container">
-                        <label class="titan-toggle-switch">
+            <div class="hero-dialog-content">
+                <div class="hero-setting-group">
+                    <label class="hero-setting-label">Status Dodatku:</label>
+                    <div class="hero-toggle-container">
+                        <label class="hero-toggle-switch">
                             <input type="checkbox" id="hero-notifier-enabled" ${enabled ? 'checked' : ''}>
-                            <span class="titan-toggle-slider"></span>
+                            <span class="hero-toggle-slider"></span>
                         </label>
                         <span>${enabled ? 'Włączony' : 'Wyłączony'}</span>
                     </div>
-                    <div class="titan-setting-description">
+                    <div class="hero-setting-description">
                         Włącz lub wyłącz wysyłanie powiadomień o respawnach herosów
                     </div>
                 </div>
 
-                <div class="titan-setting-group">
-                    <label class="titan-setting-label">Discord Webhook URL:</label>
-                    <input type="text" class="titan-setting-input" id="hero-webhook-url"
+                <div class="hero-setting-group">
+                    <label class="hero-setting-label">Discord Webhook URL:</label>
+                    <input type="text" class="hero-setting-input" id="hero-webhook-url"
                            placeholder="https://discord.com/api/webhooks/..."
                            value="${webhookUrl}" ${!enabled ? 'disabled' : ''}>
-                    <div class="titan-setting-description">
+                    <div class="hero-setting-description">
                         Aby utworzyć webhook: Serwer Discord → Edytuj kanał → Integracje → Webhooks → Nowy Webhook<br>
                         Dodatek może wykrywać herosów z 5 sekundowym opóźnieniem
                     </div>
                 </div>
 
-                <div class="titan-setting-group">
-                    <label class="titan-setting-label">Załaduj predefiniowane role dla świata:</label>
+                <div class="hero-setting-group">
+                    <label class="hero-setting-label">Załaduj predefiniowane role dla świata:</label>
                     <div style="display: flex; gap: 10px;">
-                        <select id="hero-world-select" class="titan-setting-select" ${!enabled ? 'disabled' : ''}>
+                        <select id="hero-world-select" class="hero-setting-select" ${!enabled ? 'disabled' : ''}>
                             <option value="">-- Wybierz świat --</option>
                             <option value="Lupus">Lupus</option>
                         </select>
-                        <button class="titan-btn titan-btn-secondary" id="hero-load-world-roles" ${!enabled ? 'disabled' : ''}>Załaduj</button>
+                        <button class="hero-btn hero-btn-secondary" id="hero-load-world-roles" ${!enabled ? 'disabled' : ''}>Załaduj</button>
                     </div>
-                    <div class="titan-setting-description">
+                    <div class="hero-setting-description">
                         Automatycznie uzupełnij ID ról dla wybranego świata.
                     </div>
                 </div>
 
-                <div class="titan-setting-group">
-                    <label class="titan-setting-label">ID ról Discord dla pingów:</label>
-                    <div class="titan-setting-description">
+                <div class="hero-setting-group">
+                    <label class="hero-setting-label">ID ról Discord dla pingów:</label>
+                    <div class="hero-setting-description">
                         Ustaw ID roli Discord dla popularnych herosów. Zostanie ona wypingowana gdy heros zrespi.<br>
                         Aby otrzymać ID roli: Ustawienia serwera → Role → Kliknij prawym na rolę → Kopiuj ID<br>
                         <strong>Wskazówki:</strong><br>
@@ -1197,26 +1197,26 @@ const predefinedWorldRoles = {
                         • Aby pingować wiele ról, wpisz ID oddzielone przecinkami: 123456789,987654321<br>
                         <strong>Uwaga:</strong> Dodatek wykrywa herosów automatycznie, ale pingi działają tylko dla ustawionych ról.
                     </div>
-                    <div class="titan-role-settings">
+                    <div class="hero-role-settings">
                         ${roleSettingsHtml}
                     </div>
                 </div>
 
-                <div class="titan-setting-group">
-                    <label class="titan-setting-label">Ostatnie powiadomienia:</label>
-                    <div class="titan-notification-log">
+                <div class="hero-setting-group">
+                    <label class="hero-setting-label">Ostatnie powiadomienia:</label>
+                    <div class="hero-notification-log">
                         ${logHtml}
                     </div>
                 </div>
             </div>
 
-            <div class="titan-status-info ${statusClass}">
+            <div class="hero-status-info ${statusClass}">
                 <strong>Status:</strong> ${statusText}
             </div>
 
-            <div class="titan-settings-buttons">
-                <button class="titan-btn titan-btn-secondary" id="hero-close-settings">Anuluj</button>
-                <button class="titan-btn titan-btn-primary" id="hero-save-settings">Zapisz ustawienia</button>
+            <div class="hero-settings-buttons">
+                <button class="hero-btn hero-btn-secondary" id="hero-close-settings">Anuluj</button>
+                <button class="hero-btn hero-btn-primary" id="hero-save-settings">Zapisz ustawienia</button>
             </div>
         </div>
     `;
@@ -1224,9 +1224,9 @@ const predefinedWorldRoles = {
     document.body.appendChild(modal);
 
     // Event listeners - TUTAJ BYŁY BŁĘDY W ID
-    const enabledCheckbox = modal.querySelector('#hero-notifier-enabled'); // ZMIANA: było titan
-    const webhookInput = modal.querySelector('#hero-webhook-url'); // ZMIANA: było titan
-    const roleInputs = modal.querySelectorAll('.titan-role-input');
+    const enabledCheckbox = modal.querySelector('#hero-notifier-enabled'); // ZMIANA: było hero
+    const webhookInput = modal.querySelector('#hero-webhook-url'); // ZMIANA: było hero
+    const roleInputs = modal.querySelectorAll('.hero-role-input');
 
     enabledCheckbox.onchange = () => {
         const isEnabled = enabledCheckbox.checked;
@@ -1234,14 +1234,14 @@ const predefinedWorldRoles = {
         roleInputs.forEach(input => input.disabled = !isEnabled);
     };
 
-    modal.querySelector('#hero-save-settings').onclick = () => { // ZMIANA: było titan
+    modal.querySelector('#hero-save-settings').onclick = () => { // ZMIANA: było hero
         const enabled = enabledCheckbox.checked;
         const webhookUrl = webhookInput.value.trim();
 
         // Zbierz ID ról
         const newRoleIds = {};
         roleInputs.forEach(input => {
-            const heroName = input.getAttribute('data-titan'); // można zostawić data-titan
+            const heroName = input.getAttribute('data-hero'); // można zostawić data-hero
             const roleId = input.value.trim();
             if (roleId) {
                 newRoleIds[heroName] = roleId;
@@ -1250,7 +1250,7 @@ const predefinedWorldRoles = {
 
         setNotifierEnabled(enabled);
         setWebhookUrl(webhookUrl);
-        setHeroRoleIds(newRoleIds); // ZMIANA: było setTitanRoleIds
+        setHeroRoleIds(newRoleIds); // ZMIANA: było setheroRoleIds
 
         document.body.removeChild(modal);
 
@@ -1269,17 +1269,17 @@ const predefinedWorldRoles = {
         setTimeout(() => successMsg.remove(), 3000);
     };
 
-    modal.querySelector('#hero-close-settings').onclick = () => { // ZMIANA: było titan
+    modal.querySelector('#hero-close-settings').onclick = () => { // ZMIANA: było hero
         document.body.removeChild(modal);
     };
 
-    modal.querySelector('#hero-load-world-roles').onclick = () => { // ZMIANA: było titan
-        const selectedWorld = modal.querySelector('#hero-world-select').value; // ZMIANA: było titan
+    modal.querySelector('#hero-load-world-roles').onclick = () => { // ZMIANA: było hero
+        const selectedWorld = modal.querySelector('#hero-world-select').value; // ZMIANA: było hero
         if (!selectedWorld || !predefinedWorldRoles[selectedWorld]) return;
 
         const rolesForWorld = predefinedWorldRoles[selectedWorld];
         roleInputs.forEach(input => {
-            const hero = input.getAttribute('data-titan');
+            const hero = input.getAttribute('data-hero');
             if (rolesForWorld[hero]) {
                 input.value = rolesForWorld[hero];
             }
@@ -1287,7 +1287,7 @@ const predefinedWorldRoles = {
 
         // Ustaw także webhook dla Lupus
         if (selectedWorld === 'Lupus') {
-            const webhookField = modal.querySelector('#hero-webhook-url'); // ZMIANA: było titan
+            const webhookField = modal.querySelector('#hero-webhook-url'); // ZMIANA: było hero
             if (webhookField) {
                 webhookField.value = 'https://discord.com/api/webhooks/1406241018117881927/FU_SFc7Jauu2R5gSbSw48TgtbaLwt6g2qL8wVBmhyp94zVjwTEJRbVuShCA2u6i0nshy';
             }
@@ -1321,7 +1321,7 @@ function init() {
 
     // Utwórz przycisk ustawień
     const settingsButton = document.createElement('div');
-    settingsButton.id = 'hero-notifier-button'; // ZMIANA: było titan-notifier-button
+    settingsButton.id = 'hero-notifier-button'; // ZMIANA: było hero-notifier-button
     settingsButton.innerHTML = '🛡️';
 
     // Przywróć zapisaną pozycję

@@ -1314,10 +1314,10 @@ const predefinedWorldRoles = {
 }
 
 function init() {
-    const existingButton = document.getElementById('titan-notifier-button');
-    if (existingButton) {
-        existingButton.remove();
-        console.log('Usunięto duplikat przycisku Titans on Discord');
+    const existingHeroButton = document.getElementById('hero-notifier-button');
+    if (existingHeroButton) {
+        existingHeroButton.remove();
+        console.log('Usunięto duplikat przycisku Hero Notifier');
     }
     // Dodaj style
     const styleSheet = document.createElement('style');

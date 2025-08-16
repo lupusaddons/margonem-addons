@@ -1,9 +1,15 @@
 (function() {
     'use strict';
+if (window.titanNotifierRunning) {
+    console.log('Titans on Discord już działa - pomijam duplikat');
+    return;
+}
+window.titanNotifierRunning = true;
 
     // Śledzenie wykrytych tytanów
     let lastDetectedTitans = new Set();
 const COOLDOWN_TIME = 5 * 60 * 1000;
+let titanCheckInterval = null;
 
     const styles = `
         #titan-notifier-button {
@@ -959,6 +965,9 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
         existingButton.remove();
         console.log('Usunięto duplikat przycisku Titans on Discord');
     }
+if (titanCheckInterval) {
+    clearInterval(titanCheckInterval);
+}
         // Dodaj style
         const styleSheet = document.createElement('style');
         styleSheet.textContent = styles;
@@ -986,7 +995,7 @@ modal.querySelector('#titan-load-world-roles').onclick = () => {
         updateButtonAppearance();
 
         // Rozpocznij sprawdzanie respawnów co 10 sekund
-        setInterval(checkTitanRespawns, 10000);
+       titanCheckInterval = setInterval(checkTitanRespawns, 10000);
 
         console.log('Dodatek uruchomiony!');
     }

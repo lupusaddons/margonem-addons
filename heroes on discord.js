@@ -1114,7 +1114,7 @@ const popularHeroes = [
     `).join('');
 
 const predefinedWorldRoles = {
-    "Dream": {
+    "Lupus": {
         "Domina Ecclesiae": "",  
         "Mietek Żul": "",
         "Mroczny Patryk": "1302725605611147315,1302725718165159978",
@@ -1178,7 +1178,7 @@ const predefinedWorldRoles = {
                     <div style="display: flex; gap: 10px;">
                         <select id="hero-world-select" class="titan-setting-select" ${!enabled ? 'disabled' : ''}>
                             <option value="">-- Wybierz świat --</option>
-                            <option value="Dream">Dream</option>
+                            <option value="Lupus">Lupus</option>
                         </select>
                         <button class="titan-btn titan-btn-secondary" id="hero-load-world-roles" ${!enabled ? 'disabled' : ''}>Załaduj</button>
                     </div>
@@ -1285,7 +1285,7 @@ const predefinedWorldRoles = {
             }
         });
 
-        // Ustaw także webhook dla Dream
+        // Ustaw także webhook dla Lupus
         if (selectedWorld === 'Lupus') {
             const webhookField = modal.querySelector('#hero-webhook-url'); // ZMIANA: było titan
             if (webhookField) {

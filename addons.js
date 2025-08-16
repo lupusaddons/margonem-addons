@@ -117,6 +117,20 @@
             if (addon) {
                 loadedAddons[addonId] = addon;
                 console.log(`✅ Załadowano: ${config.name}`);
+                
+                // Sprawdź zapisany stan i włącz dodatek jeśli był włączony
+                const wasEnabled = loadAddonState(addonId);
+                if (wasEnabled) {
+                    try {
+                        await addon.init();
+                        addon.enabled = true;
+                        console.log(`🔄 Przywrócono stan: ${config.name} - włączony`);
+                    } catch (error) {
+                        console.error(`Błąd podczas przywracania ${config.name}:`, error);
+                        addon.enabled = false;
+                        saveAddonState(addonId, false);
+                    }
+                }
             } else {
                 console.log(`❌ Nie udało się załadować: ${config.name}`);
             }
@@ -139,6 +153,7 @@
         try {
             await addon.init();
             addon.enabled = true;
+            saveAddonState(addonId, true); // Zapisz stan
             console.log(`✅ Włączono: ${addon.name}`);
             return true;
         } catch (error) {
@@ -163,6 +178,7 @@
         try {
             addon.destroy();
             addon.enabled = false;
+            saveAddonState(addonId, false); // Zapisz stan
             console.log(`✅ Wyłączono: ${addon.name}`);
             return true;
         } catch (error) {
@@ -469,8 +485,32 @@
     styleSheet.textContent = styles;
     document.head.appendChild(styleSheet);
 
-    // Prosta alternatywa dla localStorage (w pamięci)
-    const addonSettings = {};
+    // System zapisywania stanu w cookies (alternatywa dla localStorage)
+    function setCookie(name, value, days = 30) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+    }
+
+    function getAddonCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift();
+        }
+        return null;
+    }
+
+    // Funkcja do zapisywania stanu dodatku
+    function saveAddonState(addonId, enabled) {
+        setCookie(`addon_${addonId}_enabled`, enabled.toString());
+    }
+
+    // Funkcja do wczytywania stanu dodatku
+    function loadAddonState(addonId) {
+        const saved = getAddonCookie(`addon_${addonId}_enabled`);
+        return saved === 'true';
+    }
 
     // Make element draggable
     function makeDraggable(element, handle) {

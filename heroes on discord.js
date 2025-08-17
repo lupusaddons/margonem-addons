@@ -629,6 +629,7 @@ async function checkHeroRespawns() {
                                 mapName: getCurrentMapName(),
                                 finderName: getCurrentPlayerName(),
                                 npcData: npcData
+                                coordinates: getHeroCoordinates(npcData)
                             };
 
                             // TYLKO POKAŻ OKNO - bez automatycznego wysyłania
@@ -701,6 +702,7 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
     if (document.getElementById('hero-detection-window')) return;
 
     const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
+    const coordinates = heroData.coordinates || getHeroCoordinates(heroData.npcData) || '[?, ?]';
     const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
     const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
 
@@ -741,7 +743,7 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
             </div>
 
             <div style="background: rgba(220,53,69,0.1); border: 1px solid #dc3545; border-radius: 6px; padding: 8px; margin: 10px 0; font-size: 11px;">
-                <div><strong>Mapa:</strong> ${mapName}</div>
+                <div><strong>Mapa:</strong> ${mapName} ${coordinates}</div>
                 <div><strong>Znalazł:</strong> ${finderName}</div>
                 <div><strong>Świat:</strong> ${worldName}</div>
                 <div><strong>Czas:</strong> ${new Date().toLocaleString('pl-PL')}</div>
@@ -1004,7 +1006,7 @@ async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroD
 
     // Dodaj custom message do opisu jeśli istnieje
     let description = `**${heroName} (Lvl ${heroLevel})**\n\n` +
-                     `**Mapa:** ${mapName}\n` +
+                     `**Mapa:** ${mapName} ${heroData.coordinates || getHeroCoordinates(heroData.npcData) || '[?, ?]'}\n` +
                      `**Znalazł:** ${finderName}\n` +
                      `**Świat:** ${worldName}`;
 

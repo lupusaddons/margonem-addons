@@ -893,11 +893,10 @@ async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroD
     const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
     const customMessage = heroData.customMessage || '';
 
-    // Dodaj custom message do opisu jeśli istnieje
-    let description = `**${heroName} (Lvl ${heroLevel})**\n\n` +
-                     `**Mapa:** ${mapName} ${heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]'}\n`
-                     `**Znalazł:** ${finderName}\n` +
-                     `**Świat:** ${worldName}`;
+let description = `**${heroName} (Lvl ${heroLevel})**\n\n` +
+                 `**Mapa:** ${mapName} ${heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]'}\n` +
+                 `**Znalazł:** ${finderName}\n` +
+                 `**Świat:** ${worldName}`;
 
     if (customMessage) {
         description += `\n\n**Wiadomość:** ${customMessage}`;

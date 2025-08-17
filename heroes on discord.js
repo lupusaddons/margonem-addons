@@ -480,6 +480,34 @@ async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
         return false;
     }
 }
+function getHeroCoordinates(npcData) {
+    try {
+        let x = null;
+        let y = null;
+
+        // Różne struktury danych w zależności od metody
+        if (npcData && npcData.d) {
+            x = npcData.d.x;
+            y = npcData.d.y;
+        } else if (npcData && npcData[1] && npcData[1].d) {
+            x = npcData[1].d.x;
+            y = npcData[1].d.y;
+        } else if (npcData && typeof npcData === 'object') {
+            x = npcData.x;
+            y = npcData.y;
+        }
+
+        // Sprawdź czy udało się pobrać współrzędne
+        if (x !== null && y !== null && x !== undefined && y !== undefined) {
+            return `[${Math.round(x)}, ${Math.round(y)}]`;
+        }
+
+        return '[?, ?]'; // Jeśli nie udało się pobrać
+    } catch (error) {
+        console.error('Błąd pobierania koordynatów herosa:', error);
+        return '[?, ?]';
+    }
+}
 function getCurrentMapName() {
     try {
         // Próbuj różne sposoby pobrania nazwy mapy

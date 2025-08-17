@@ -653,12 +653,12 @@ async function checkHeroRespawns() {
 
                         // Pokaż okno tylko raz na 5 minut dla tego samego herosa
                         if (now - lastShown > COOLDOWN_TIME) {
-                            const additionalData = {
-                                mapName: getCurrentMapName(),
-                                finderName: getCurrentPlayerName(),
-                                npcData: npcData
-                                heroCoords: getHeroCoordinates(npcData)
-                            };
+                         const additionalData = {
+    mapName: getCurrentMapName(),
+    finderName: getCurrentPlayerName(),
+    npcData: npcData,
+    heroCoords: getHeroCoordinates(npcData)
+};
 
                             // TYLKO POKAŻ OKNO - bez automatycznego wysyłania
                             showHeroDetectionWindow(heroName, heroLevel, additionalData);
@@ -866,147 +866,8 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
 
         document.body.removeChild(gameWindow);
     };
-}function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
-    // Sprawdź czy okno już istnieje
-    if (document.getElementById('hero-detection-window')) return;
-
-    const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
-    const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
-    const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
-
-    const gameWindow = document.createElement('div');
-    gameWindow.id = 'hero-detection-window';
-    gameWindow.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 20%;
-        transform: translate(-50%, -50%);
-        width: 320px;
-        background: linear-gradient(135deg, #2e1a1a, #3e1616);
-        border: 3px solid #dc3545;
-        border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.7);
-        z-index: 9998;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #e8f4fd;
-        user-select: none;
-    `;
-
-    gameWindow.innerHTML = `
-        <div style="background: linear-gradient(135deg, #dc3545, #fd7e14); padding: 10px; border-radius: 8px 8px 0 0; cursor: move;" id="hero-window-header">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: bold; font-size: 14px;">🛡️ Wykryto Herosa!</span>
-                <button style="background: none; border: none; color: white; font-size: 16px; cursor: pointer; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;" id="hero-window-close">×</button>
-            </div>
-        </div>
-
-        <div style="padding: 15px;">
-            <div style="text-align: center; margin-bottom: 12px;">
-                <div style="font-size: 16px; color: #fd7e14; font-weight: bold; margin-bottom: 3px;">
-                    ${heroName}
-                </div>
-                <div style="font-size: 14px; color: #dc3545;">
-                    Poziom: ${heroLevel}
-                </div>
-            </div>
-
-            <div style="background: rgba(220,53,69,0.1); border: 1px solid #dc3545; border-radius: 6px; padding: 8px; margin: 10px 0; font-size: 11px;">
-                <div><strong>Mapa:</strong> ${mapName}</div>
-                <div><strong>Znalazł:</strong> ${finderName}</div>
-                <div><strong>Świat:</strong> ${worldName}</div>
-                <div><strong>Czas:</strong> ${new Date().toLocaleString('pl-PL')}</div>
-            </div>
-
-            <div style="margin: 10px 0;">
-                <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #fd7e14; font-size: 12px;">Dodatkowa wiadomość:</label>
-                <textarea id="hero-custom-message" placeholder="Wpisz dodatkową wiadomość (opcjonalne)..."
-                          style="width: 100%; height: 45px; padding: 6px; background: rgba(157,78,221,0.2); border: 1px solid #dc3545; border-radius: 4px; color: #e8f4fd; font-size: 11px; box-sizing: border-box; resize: vertical;"></textarea>
-            </div>
-
-            <div style="display: flex; gap: 8px; margin-top: 15px;">
-                <button id="hero-cancel-btn" style="flex: 1; padding: 8px; background: #666; border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: bold; font-size: 12px;">Anuluj</button>
-                <button id="hero-send-btn" style="flex: 1; padding: 8px; background: #dc3545; border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: bold; font-size: 12px;">Wyślij</button>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(gameWindow);
-
-    // Funkcjonalność przeciągania
-    let isDragging = false;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
-
-    const header = gameWindow.querySelector('#hero-window-header');
-    header.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        dragOffsetX = e.clientX - gameWindow.getBoundingClientRect().left;
-        dragOffsetY = e.clientY - gameWindow.getBoundingClientRect().top;
-        e.preventDefault();
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const x = Math.min(Math.max(0, e.clientX - dragOffsetX), window.innerWidth - gameWindow.offsetWidth);
-        const y = Math.min(Math.max(0, e.clientY - dragOffsetY), window.innerHeight - gameWindow.offsetHeight);
-        gameWindow.style.left = `${x}px`;
-        gameWindow.style.top = `${y}px`;
-        gameWindow.style.transform = 'none';
-    });
-
-    document.addEventListener('mouseup', () => {
-        isDragging = false;
-    });
-
-    // Event listeners dla przycisków
-    gameWindow.querySelector('#hero-window-close').onclick = () => {
-        document.body.removeChild(gameWindow);
-    };
-
-    gameWindow.querySelector('#hero-cancel-btn').onclick = () => {
-        document.body.removeChild(gameWindow);
-    };
-
-    gameWindow.querySelector('#hero-send-btn').onclick = async () => {
-        const customMessage = gameWindow.querySelector('#hero-custom-message').value.trim();
-
-        // TUTAJ DOPIERO WYSYŁAJ webhook z custom message
-        const success = await sendHeroRespawnNotificationWithMessage(heroName, heroLevel, {
-            ...heroData,
-            customMessage: customMessage
-        });
-
-        if (success) {
-            addToNotificationLog(heroName, heroLevel);
-
-            // Mini komunikat sukcesu w oknie gry
-            const successMsg = document.createElement('div');
-            successMsg.style.cssText = `
-                position: fixed; top: 20px; right: 20px;
-                background: #28a745; color: white; padding: 8px 12px;
-                border-radius: 6px; font-weight: bold; z-index: 9999;
-                font-size: 11px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            `;
-            successMsg.textContent = 'Powiadomienie wysłane!';
-            document.body.appendChild(successMsg);
-            setTimeout(() => successMsg.remove(), 2000);
-        } else {
-            // Mini komunikat błędu
-            const errorMsg = document.createElement('div');
-            errorMsg.style.cssText = `
-                position: fixed; top: 20px; right: 20px;
-                background: #dc3545; color: white; padding: 8px 12px;
-                border-radius: 6px; font-weight: bold; z-index: 9999;
-                font-size: 11px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            `;
-            errorMsg.textContent = 'Błąd wysyłania!';
-            document.body.appendChild(errorMsg);
-            setTimeout(() => errorMsg.remove(), 2000);
-        }
-
-        document.body.removeChild(gameWindow);
-    };
 }
+
 async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroData = {}) {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl || !isNotifierEnabled()) return false;
@@ -1144,7 +1005,7 @@ const popularHeroes = [
 
 const predefinedWorldRoles = {
     "Lupus": {
-        "Domina Ecclesiae": "",  
+        "Domina Ecclesiae": "",
         "Mietek Żul": "",
         "Mroczny Patryk": "1302725605611147315,1302725718165159978",
         "Karmazynowy Mściciel": "1302725605611147315,1302725718165159978",

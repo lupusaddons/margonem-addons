@@ -229,8 +229,6 @@
     const styles = `
         .addon-manager {
             position: fixed;
-            top: 10px;
-            right: 10px;
             z-index: 10000;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
@@ -239,7 +237,7 @@
             background: #2f3136;
             border: 1px solid #40444b;
             color: #dcddde;
-            padding: 8px 12px;
+            padding: 8px;
             border-radius: 4px;
             cursor: move;
             font-size: 13px;
@@ -250,15 +248,18 @@
             position: relative;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
-            min-width: 120px;
+            min-width: 32px;
+            width: 32px;
+            height: 32px;
         }
 
         .addon-toggle-btn::before {
             content: '';
-            width: 16px;
-            height: 16px;
-            background-image: url('https://raw.githubusercontent.com/lupusaddons/margonem-addons/main/images/ikonka.png');
+            width: 20px;
+            height: 20px;
+            background-image: url('https://raw.githubusercontent.com/krystianasaaa/margonem-addons/b939ec05fdd03f6f973cef7a931659c224596bde/ikonka.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -285,12 +286,12 @@
         .addon-menu {
             position: absolute;
             top: 50px;
-            right: 0;
+            left: 0;
             background: #2f3136;
             border: 1px solid #40444b;
             border-radius: 6px;
             padding: 16px;
-            min-width: 280px;
+            min-width: 300px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             display: none;
         }
@@ -331,7 +332,7 @@
             content: '';
             width: 18px;
             height: 18px;
-            background-image: url('https://raw.githubusercontent.com/lupusaddons/margonem-addons/main/images/ikonka.png');
+            background-image: url('https://raw.githubusercontent.com/krystianasaaa/margonem-addons/b939ec05fdd03f6f973cef7a931659c224596bde/ikonka.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;

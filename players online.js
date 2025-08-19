@@ -2042,12 +2042,54 @@ if (savedGuilds) {
         const parsed = JSON.parse(savedGuilds);
         Object.assign(playerGuilds, parsed);
         updateObservedGuilds();
-        console.log('Załadowano dane klanów:', observedGuilds.length, 'klanów');
+        console.log('Załadowano dane klanów z localStorage:', observedGuilds.length, 'klanów');
     } catch (error) {
         console.error('Błąd ładowania danych klanów:', error);
     }
 }
+
+// AUTOMATYCZNE ŁADOWANIE KLANÓW Z GITHUB PRZY STARCIE
+async function autoLoadGuilds() {
+    const githubUrl = 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json';
+    console.log('🔄 Automatyczne ładowanie klanów z GitHub...');
+    
+    const result = await loadGuildsFromGitHub(githubUrl);
+    
+    if (result.success) {
+        console.log('✅ Automatycznie załadowano klany z GitHub:', result.guildsCount, 'klanów,', result.playersCount, 'graczy');
+        
+        // Pokaż krótki komunikat użytkownikowi
+        const autoLoadMsg = document.createElement('div');
+        autoLoadMsg.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 10002;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 8px 16px; border-radius: 6px;
+            font-weight: bold; font-size: 11px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease-out;
+        `;
+        autoLoadMsg.innerHTML = `✅ Auto-załadowano ${result.guildsCount} klanów`;
+        document.body.appendChild(autoLoadMsg);
+        
+        setTimeout(() => {
+            if (autoLoadMsg.parentNode) {
+                autoLoadMsg.remove();
+            }
+        }, 3000);
+        
+    } else {
+        console.warn('⚠️ Nie udało się automatycznie załadować klanów:', result.error);
+        // Nie pokazujemy błędu użytkownikowi, żeby nie przeszkadzać
+    }
+}
+
+// Uruchom automatyczne ładowanie klanów, a potem inicjalizuj resztę
+autoLoadGuilds().then(() => {
     // Initialize
     fetchPlayers();
     setInterval(fetchPlayers, 60000);
+}).catch(() => {
+    // Jeśli nie uda się załadować, uruchom normalnie
+    fetchPlayers();
+    setInterval(fetchPlayers, 60000);
+});
 })();

@@ -827,17 +827,26 @@ function showGuildManagement() {
     modal.className = 'vip-modal';
     modal.innerHTML = `<div class="vip-dialog guild-management-dialog" style="width: 600px; max-height: 700px;">
         <h3>🏰 Zarządzanie Klanami</h3>
-                <div style="margin-bottom: 15px;">
+<div style="margin-bottom: 15px;">
             <h4 style="color: #3282b8; margin: 0 0 10px 0;">🔗 Załaduj z GitHub:</h4>
-            <input type="text" id="github-url-input" 
-                placeholder="https://raw.githubusercontent.com/.../guilds.json"
-                value="https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json"
-                style="width: 80%; background: rgba(50,130,184,0.2); border: 1px solid #0f4c75;
-                border-radius: 4px; color: #e8f4fd; padding: 8px; margin-right: 5px;">
-            <button id="load-github-btn" style="background: #28a745; border: none; color: white; padding: 8px 16px;
-                border-radius: 4px; cursor: pointer; font-weight: bold;">
-                🔗 Załaduj z GitHub
-            </button>
+            <div style="display: flex; gap: 5px; align-items: center;">
+                <input type="text" id="github-url-input" 
+                    placeholder="https://raw.githubusercontent.com/.../guilds.json"
+                    value="https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json"
+                    style="flex: 1; background: rgba(50,130,184,0.2); border: 1px solid #0f4c75;
+                    border-radius: 4px; color: #e8f4fd; padding: 8px;">
+                <button id="load-github-btn" style="background: #28a745; border: none; color: white; padding: 8px 16px;
+                    border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap;">
+                    🔗 Załaduj ręcznie
+                </button>
+                <button id="auto-load-btn" style="background: #17a2b8; border: none; color: white; padding: 8px 16px;
+                    border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap;">
+                    ⚡ Auto-załaduj
+                </button>
+            </div>
+            <div style="font-size: 10px; color: #a8dadc; margin-top: 5px;">
+                💡 <strong>Auto-załaduj:</strong> Pobiera domyślną listę klanów | <strong>Ręcznie:</strong> Użyj własnego URL
+            </div>
         </div>
 
         <div style="margin-bottom: 15px;">
@@ -1030,6 +1039,48 @@ dialog.querySelector('#load-github-btn').onclick = async () => {
             alert(`❌ Błąd ładowania z GitHub:\n${result.error}`);
         }
     };
+    dialog.querySelector('#auto-load-btn').onclick = async () => {
+    const autoBtn = dialog.querySelector('#auto-load-btn');
+    autoBtn.disabled = true;
+    autoBtn.innerHTML = '⏳ Auto-ładowanie...';
+
+    // Użyj domyślnego URL
+    const defaultUrl = 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json';
+    const result = await loadGuildsFromGitHub(defaultUrl);
+
+    autoBtn.disabled = false;
+    autoBtn.innerHTML = '⚡ Auto-załaduj';
+
+    if (result.success) {
+        updateGuildCheckboxes();
+        updateGuildStats();
+        updateFilterOptions();
+        
+        // Pokaż komunikat sukcesu
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 10003;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 12px 20px; border-radius: 8px;
+            font-weight: bold; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            animation: fadeIn 0.3s ease-out;
+        `;
+        successMsg.innerHTML = `✅ Auto-załadowano ${result.guildsCount} klanów, ${result.playersCount} graczy!`;
+        document.body.appendChild(successMsg);
+
+        setTimeout(() => {
+            if (successMsg.parentNode) {
+                successMsg.remove();
+            }
+        }, 4000);
+        
+        if (typeof fetchPlayers === 'function') {
+            fetchPlayers();
+        }
+    } else {
+        alert(`❌ Błąd auto-ładowania:\n${result.error}`);
+    }
+};
     dialog.querySelector('#import-guild-code').onclick = () => {
         const code = dialog.querySelector('#guild-code-input').value.trim();
         if (!code) {

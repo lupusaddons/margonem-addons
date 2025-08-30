@@ -1,0 +1,39 @@
+name: Update Guilds
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install deps
+      run: pip install requests beautifulsoup4 lxml
+      
+    - name: Run scraper
+      run: cd guilds && python update_guilds.py
+      
+    - name: Commit changes
+      run: |
+        git config user.name "Guild Bot"
+        git config user.email "bot@github.com"
+        git add guilds/guilds.json
+        if ! git diff --cached --quiet; then
+          git commit -m "Update guilds data"
+          git push
+          echo "Updated successfully"
+        else
+          echo "No changes"
+        fi

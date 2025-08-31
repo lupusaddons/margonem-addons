@@ -43,8 +43,20 @@
             name: 'Heroes on Discord',
             enabled: false,
             url: 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/heroes%20on%20discord.js'
-        }
-    };
+        },
+    
+        addon5: {
+        name: 'Inventory Search',
+        enabled: false,
+        url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/inventory%20search.js'
+    },
+        addon6: {
+        name: 'Shop Hotkey',
+        enabled: false,
+        url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/better%20sellings.js'
+    }
+};
+
 
     // Obiekt do przechowywania załadowanych dodatków
     const loadedAddons = {};

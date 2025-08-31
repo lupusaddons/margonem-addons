@@ -533,6 +533,21 @@ init: function() {
         return saved === 'true';
     }
 
+    // Funkcja do zapisywania pozycji
+    function savePosition(x, y) {
+        setCookie('addon_manager_x', x.toString());
+        setCookie('addon_manager_y', y.toString());
+    }
+
+    // Funkcja do wczytywania pozycji
+    function loadPosition() {
+        const x = getAddonCookie('addon_manager_x');
+        const y = getAddonCookie('addon_manager_y');
+        return {
+            x: x ? parseInt(x) : null,
+            y: y ? parseInt(y) : null
+        };
+    }
     // Make element draggable
     function makeDraggable(element, handle) {
         let isDragging = false;
@@ -592,6 +607,10 @@ init: function() {
 
             isDragging = false;
 
+            // Zapisz pozycję po zakończeniu przeciągnięcia
+            const rect = element.getBoundingClientRect();
+            savePosition(rect.left, rect.top);
+
             setTimeout(() => {
                 element.classList.remove('dragging');
                 handle.classList.remove('dragging');
@@ -610,9 +629,19 @@ init: function() {
         const container = document.createElement('div');
         container.className = 'addon-manager';
 
+        // Wczytaj zapisaną pozycję
+        const savedPosition = loadPosition();
+        if (savedPosition.x !== null && savedPosition.y !== null) {
+            container.style.left = savedPosition.x + 'px';
+            container.style.top = savedPosition.y + 'px';
+        } else {
+            // Domyślna pozycja
+            container.style.top = '10px';
+            container.style.right = '10px';
+        }
+
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'addon-toggle-btn';
-        toggleBtn.textContent = ' Kaczor Manager';
 
         const wasDragged = makeDraggable(container, toggleBtn);
 
@@ -700,6 +729,7 @@ init: function() {
         controls.appendChild(disableAllBtn);
         menu.appendChild(controls);
 
+
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             setTimeout(() => {
@@ -735,27 +765,52 @@ init: function() {
         });
     }
 
+
     // Inicjalizacja - załaduj wszystkie dodatki przy starcie
     loadAllAddons().then(() => {
         console.log('🚀 Manager dodatków gotowy!');
         console.log('Dostępne dodatki:', getAddonsList());
-        console.log(`👤 Zalogowany jako użytkownik: ${userId}`);
         
-        // Utwórz GUI po załadowaniu dodatków
-        setTimeout(() => {
-            createGUI();
-        }, 500);
+        // Stwórz GUI
+        createGUI();
+        
+        // Globalne API do zarządzania dodatkami
+        window.AddonManager = {
+            enable: enableAddon,
+            disable: disableAddon,
+            toggle: toggleAddon,
+            list: getAddonsList,
+            isEnabled: (addonId) => {
+                const addon = loadedAddons[addonId];
+                return addon ? addon.enabled : false;
+            },
+            getAddon: (addonId) => loadedAddons[addonId],
+            refresh: updateGUI,
+        };
+        
+        console.log('🎮 Dostępne komendy w konsoli:');
+        console.log('• AddonManager.enable("addon1") - włącz dodatek');
+        console.log('• AddonManager.disable("addon1") - wyłącz dodatek');
+        console.log('• AddonManager.toggle("addon1") - przełącz dodatek');
+        console.log('• AddonManager.list() - lista wszystkich dodatków');
+    }).catch(error => {
+        console.error('❌ Błąd podczas inicjalizacji managera dodatków:', error);
     });
 
-    // Eksportuj funkcje do użycia
-    window.AddonManager = {
-        enable: enableAddon,
-        disable: disableAddon,
-        toggle: toggleAddon,
-        getList: getAddonsList,
-        reload: loadAllAddons,
-        getCurrentUser: () => userId,
-        updateGUI: updateGUI
-    };
+    // Obsługa błędów
+    window.addEventListener('error', (e) => {
+        if (e.filename && e.filename.includes('addon')) {
+            console.error('Błąd w dodatku:', e.error);
+        }
+    });
+
+    // Cleanup przy odświeżeniu strony
+    window.addEventListener('beforeunload', () => {
+        Object.keys(loadedAddons).forEach(addonId => {
+            if (loadedAddons[addonId].enabled) {
+                cleanupAddon(addonId);
+            }
+        });
+    });
 
 })();

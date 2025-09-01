@@ -54,6 +54,12 @@
         name: 'Shop Hotkey',
         enabled: false,
         url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/better%20sellings.js'
+    },
+
+    addon7: {
+        name: 'Better UI',
+        enabled: false,
+        url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/betterui.js'
     }
 };
 

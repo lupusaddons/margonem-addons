@@ -742,14 +742,7 @@ async function checkTitanRespawns() {
             {name: "Maddok Magua", level: 231},
             {name: "Tezcatlipoca", level: 258},
             {name: "Barbatos Smoczy Strażnik", level: 285},
-            {name: "Tanroth", level: 300},
-            {name: "Kolga", level: 50},
-            {name: "Duva", level: 90},
-            {name: "Blodughadda", level: 130},
-            {name: "Bara", level: 170},
-            {name: "Unn", level: 210},
-            {name: "Himinglava", level: 250},
-            {name: "Hronn", level: 290}
+            {name: "Tanroth", level: 300}
         ];
 
         // Generuj ustawienia ról dla popularnych tytanów
@@ -775,14 +768,7 @@ async function checkTitanRespawns() {
         "Maddok Magua": "1302727693632143471",
         "Tezcatlipoca": "1302727709188685904",
         "Barbatos Smoczy Strażnik": "1302727725764706405",
-        "Tanroth": "1302727746992214096",
-        "Kolga": "1399319673014849597",
-        "Duva": "1399319984391458847",
-        "Blodughadda": "1399320060396441661",
-        "Bara": "1399320131967914126",
-        "Unn": "1399320273077010453",
-        "Himinglava": "1399320341775519826",
-        "Hronn": "1399321228044537968"
+        "Tanroth": "1302727746992214096"
     }
 };
 

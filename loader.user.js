@@ -1,4 +1,3 @@
-
 // ==UserScript==
 // @name         Kaczor Addons Manager - Lupus
 // @version      1.0

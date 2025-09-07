@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         Kaczor Addons Manager - Lupus
+// @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  loader
 // @author       kaczka

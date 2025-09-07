@@ -20,24 +20,28 @@
 let refreshRequired = false;
 const addonConfig = {
       addon1: {
+        id: 'players_online',
         name: 'Players Online',
         description: 'Wyświetla liczbę graczy online na serwerze, z podziałem na tytanów.',
         enabled: false,
         url: 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/players%20online.js'
     },
         addon2: {
+        id: 'players_online_alarm',
         name: 'Players Online - Alarm',
         description: 'Wysyła wiadmość na discorda gdy liczba graczy online przekroczy określony próg.',
         enabled: false,
         url: 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/players%20online%20alarm.js'
     },
     addon3: {
+        id: 'titans_on_discord',
         name: 'Titans on Discord',
         description: 'Wysyła powiadomienie na discorda gdy tytan zrespi.',
         enabled: false,
         url: 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/titans%20on%20discord.js'
     },
     addon4: {
+        id: 'heroes_on_discord',
         name: 'Heroes on Discord',
         description: 'Wysyła powiadomienie na discorda gdy znajdziesz herosa.',
         enabled: false,

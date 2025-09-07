@@ -26,7 +26,7 @@
     let currentVersion = GM_getValue(CONFIG.VERSION_KEY, '0');
 
 
-    if (!window.location.href.includes('dream.margonem')) {
+    if (!window.location.href.includes('lupus.margonem')) {
         return;
     }
 

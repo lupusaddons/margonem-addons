@@ -53,7 +53,7 @@
 
 
     function loadAddonsNow() {
-        console.log(Dodatki załadowane! Czekaj na odpowiedź serwera);
+       console.log(' Ładuję dodatki ');
 
         fetchFromServer(`${CONFIG.SERVER_URL}/addons.js?t=${Date.now()}`)
             .then(addonsCode => {

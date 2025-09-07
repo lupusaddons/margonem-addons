@@ -68,7 +68,6 @@ const addonConfig = {
 // Obiekt do przechowywania załadowanych dodatków
     const loadedAddons = {};
 
-// Funkcja do ładowania kodu dodatku z GitHub
     async function loadAddonCode(url) {
         try {
             const response = await fetch(url);
@@ -256,14 +255,14 @@ const addonConfig = {
     }
 
     const styles = `
-.addon-manager {
+.kwak-addon-manager {
     position: fixed;
     z-index: 10000;
     font-family: Arial, sans-serif;
     font-size: 12px;
 }
 
-.addon-toggle-btn {
+.kwak-addon-toggle-btn {
     width: 44px !important;
     height: 44px !important;
     background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
@@ -280,7 +279,7 @@ const addonConfig = {
     overflow: hidden !important;
 }
 
-.addon-toggle-btn:hover {
+.kwak-addon-toggle-btn:hover {
     background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%) !important;
     border-color: #444 !important;
     box-shadow: 
@@ -289,7 +288,7 @@ const addonConfig = {
         0 3px 6px rgba(0,0,0,0.6) !important;
 }
 
-.addon-toggle-btn:active {
+.kwak-addon-toggle-btn:active {
     background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%) !important;
     box-shadow: 
         inset 0 2px 4px rgba(0,0,0,0.5),
@@ -297,7 +296,7 @@ const addonConfig = {
     transform: translateY(1px) !important;
 }
 
-.addon-toggle-btn::before {
+.kwak-addon-toggle-btn::before {
     content: '' !important;
     position: absolute !important;
     top: 50% !important;
@@ -313,12 +312,12 @@ const addonConfig = {
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)) !important;
 }
 
-.addon-toggle-btn:hover::before {
+.kwak-addon-toggle-btn:hover::before {
     opacity: 1 !important;
     filter: drop-shadow(0 1px 3px rgba(0,0,0,0.7)) !important;
 }
 
-.addon-menu.active ~ .addon-toggle-btn {
+.kwak-addon-menu.active ~ .kwak-addon-toggle-btn {
     border-color: #4CAF50 !important;
     box-shadow: 
         inset 0 1px 0 rgba(255,255,255,0.2),
@@ -326,7 +325,7 @@ const addonConfig = {
         0 0 8px rgba(76, 175, 80, 0.3) !important;
 }
 
-.addon-menu {
+.kwak-addon-menu {
     position: absolute;
     top: 50px;
     left: 0;
@@ -340,11 +339,11 @@ const addonConfig = {
     overflow: hidden;
 }
 
-.addon-menu.active {
+.kwak-addon-menu.active {
     display: block;
 }
 
-.addon-menu-header {
+.kwak-addon-menu-header {
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;
@@ -361,7 +360,7 @@ const addonConfig = {
     text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 }
 
-.addon-menu-header::before {
+.kwak-addon-menu-header::before {
     content: '';
     width: 16px;
     height: 16px;
@@ -372,7 +371,7 @@ const addonConfig = {
     flex-shrink: 0;
 }
 
-.addon-close-btn {
+.kwak-addon-close-btn {
     position: absolute;
     top: 8px;
     right: 12px;
@@ -393,12 +392,12 @@ const addonConfig = {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
-.addon-close-btn:hover {
+.kwak-addon-close-btn:hover {
     background: linear-gradient(to bottom, #cc4444 0%, #aa2222 100%);
     border-color: #992222;
 }
 
-.addon-content {
+.kwak-addon-content {
     padding: 8px;
     max-height: 400px;
     overflow-y: auto;
@@ -409,22 +408,22 @@ const addonConfig = {
     align-items: start;
 }
 
-.addon-content::-webkit-scrollbar {
+.kwak-addon-content::-webkit-scrollbar {
     width: 12px;
 }
 
-.addon-content::-webkit-scrollbar-track {
+.kwak-addon-content::-webkit-scrollbar-track {
     background: #1a1a1a;
     border-radius: 6px;
 }
 
-.addon-content::-webkit-scrollbar-thumb {
+.kwak-addon-content::-webkit-scrollbar-thumb {
     background: linear-gradient(to bottom, #555 0%, #333 100%);
     border-radius: 6px;
     border: 1px solid #222;
 }
 
-.addon-item {
+.kwak-addon-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -438,12 +437,12 @@ const addonConfig = {
     margin-bottom: 4px;
 }
 
-.addon-item:hover {
+.kwak-addon-item:hover {
     background: linear-gradient(to bottom, #555 0%, #444 100%);
     border-color: #333;
 }
 
-.addon-info {
+.kwak-addon-info {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -451,14 +450,14 @@ const addonConfig = {
     min-width: 0;
 }
 
-.addon-name-container {
+.kwak-addon-name-container {
     display: flex;
     align-items: center;
     gap: 6px;
     min-width: 0;
 }
 
-.addon-name {
+.kwak-addon-name {
     color: #ffffff;
     font-size: 12px;
     font-weight: normal;
@@ -468,7 +467,7 @@ const addonConfig = {
     text-overflow: ellipsis;
 }
 
-.addon-help-icon {
+.kwak-addon-help-icon {
     width: 14px;
     height: 14px;
     background: linear-gradient(to bottom, #666 0%, #444 100%);
@@ -487,13 +486,13 @@ const addonConfig = {
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
-.addon-help-icon:hover {
+.kwak-addon-help-icon:hover {
     background: linear-gradient(to bottom, #777 0%, #555 100%);
     border-color: #444;
     transform: scale(1.1);
 }
 
-.addon-tooltip {
+.kwak-addon-tooltip {
     position: fixed;
     bottom: auto;
     top: auto;
@@ -517,13 +516,13 @@ const addonConfig = {
     word-wrap: break-word;
 }
 
-.addon-help-icon:hover .addon-tooltip {
+.kwak-addon-help-icon:hover .kwak-addon-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(-2px);
 }
 
-.addon-tooltip::after {
+.kwak-addon-tooltip::after {
     content: '';
     position: absolute;
     top: 100%;
@@ -533,14 +532,14 @@ const addonConfig = {
     border-top-color: #1a1a1a;
 }
 
-.addon-tooltip.tooltip-above::after {
+.kwak-addon-tooltip.tooltip-above::after {
     top: auto;
     bottom: 100%;
     border-top-color: transparent;
     border-bottom-color: #1a1a1a;
 }
 
-.addon-status {
+.kwak-addon-status {
     font-size: 9px;
     font-weight: normal;
     color: #888;
@@ -548,15 +547,15 @@ const addonConfig = {
     letter-spacing: 0.3px;
 }
 
-.addon-status.enabled {
+.kwak-addon-status.enabled {
     color: #4CAF50;
 }
 
-.addon-status.disabled {
+.kwak-addon-status.disabled {
     color: #888;
 }
 
-.addon-switch {
+.kwak-addon-switch {
     position: relative;
     width: 36px;
     height: 18px;
@@ -570,13 +569,13 @@ const addonConfig = {
     margin-left: 8px;
 }
 
-.addon-switch.active {
+.kwak-addon-switch.active {
     background: linear-gradient(to bottom, #4CAF50 0%, #388E3C 100%);
     border-color: #2E7D32;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 0 4px rgba(76, 175, 80, 0.3);
 }
 
-.addon-switch::after {
+.kwak-addon-switch::after {
     content: '';
     position: absolute;
     top: 1px;
@@ -590,13 +589,13 @@ const addonConfig = {
     box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-.addon-switch.active::after {
+.kwak-addon-switch.active::after {
     left: 19px;
     background: linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%);
     border-color: #ccc;
 }
 
-.addon-controls {
+.kwak-addon-controls {
     margin: 0;
     padding: 8px;
     border-top: 1px solid rgba(255,255,255,0.1);
@@ -606,7 +605,7 @@ const addonConfig = {
     grid-column: 1 / -1;
 }
 
-.control-btn {
+.kwak-control-btn {
     flex: 1;
     padding: 6px 12px;
     border: 1px solid #333;
@@ -622,35 +621,35 @@ const addonConfig = {
     text-shadow: 0 1px 1px rgba(0,0,0,0.8);
 }
 
-.enable-all-btn {
+.kwak-enable-all-btn {
     background: linear-gradient(to bottom, #4CAF50 0%, #388E3C 100%);
     border-color: #2E7D32;
 }
 
-.disable-all-btn {
+.kwak-disable-all-btn {
     background: linear-gradient(to bottom, #f44336 0%, #d32f2f 100%);
     border-color: #c62828;
 }
 
-.enable-all-btn:hover {
+.kwak-enable-all-btn:hover {
     background: linear-gradient(to bottom, #5CBF60 0%, #48A148 100%);
 }
 
-.disable-all-btn:hover {
+.kwak-disable-all-btn:hover {
     background: linear-gradient(to bottom, #f55346 0%, #e33f3f 100%);
 }
 
-.control-btn:active {
+.kwak-control-btn:active {
     background: linear-gradient(to bottom, #333 0%, #1a1a1a 100%);
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.addon-column {
+.kwak-addon-column {
     display: flex;
     flex-direction: column;
 }
 
-.refresh-notification {
+.kwak-refresh-notification {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -679,27 +678,27 @@ const addonConfig = {
     }
 }
 
-.refresh-notification h3 {
+.kwak-refresh-notification h3 {
     margin: 0 0 10px 0;
     color: #ff6b35;
     font-size: 16px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.8);
 }
 
-.refresh-notification p {
+.kwak-refresh-notification p {
     margin: 0 0 20px 0;
     font-size: 13px;
     line-height: 1.4;
     color: #ddd;
 }
 
-.refresh-notification-buttons {
+.kwak-refresh-notification-buttons {
     display: flex;
     gap: 10px;
     justify-content: center;
 }
 
-.refresh-btn, .dismiss-btn {
+.kwak-refresh-btn, .dismiss-btn {
     padding: 8px 16px;
     border: 1px solid #555;
     border-radius: 4px;
@@ -711,47 +710,47 @@ const addonConfig = {
     letter-spacing: 0.5px;
 }
 
-.refresh-btn {
+.kwak-refresh-btn {
     background: linear-gradient(to bottom, #ff6b35 0%, #e55a2b 100%);
     color: #ffffff;
     border-color: #d44820;
 }
 
-.refresh-btn:hover {
+.kwak-refresh-btn:hover {
     background: linear-gradient(to bottom, #ff7b45 0%, #f56a3b 100%);
 }
 
-.dismiss-btn {
+.kwak-dismiss-btn {
     background: linear-gradient(to bottom, #666 0%, #444 100%);
     color: #ffffff;
     border-color: #333;
 }
 
-.dismiss-btn:hover {
+.kwak-dismiss-btn:hover {
     background: linear-gradient(to bottom, #777 0%, #555 100%);
 }
 
 @media (max-width: 680px) {
-    .addon-menu {
+    .kwak-addon-menu {
         width: 95vw;
         max-width: 500px;
     }
     
-    .addon-content {
+    .kwak-addon-content {
         grid-template-columns: 1fr;
     }
     
-    .addon-controls {
+    .kwak-addon-controls {
         flex-direction: column;
         gap: 4px;
     }
     
-    .refresh-notification {
+    .kwak-refresh-notification {
         max-width: 90vw;
         padding: 15px;
     }
     
-    .refresh-notification-buttons {
+    .kwak-refresh-notification-buttons {
         flex-direction: column;
     }
 }
@@ -811,7 +810,7 @@ function setRefreshRequired() {
 }
 
 function updateHeaderRefreshInfo() {
-    const header = document.querySelector('.addon-menu-header');
+    const header = document.querySelector('.kwak-addon-menu-header');
     if (!header) return;
     
     let refreshInfo = header.querySelector('.refresh-info');
@@ -941,7 +940,7 @@ function updateHeaderRefreshInfo() {
 // Create GUI - ZMIENIONA FUNKCJA
     function createGUI() {
         const container = document.createElement('div');
-        container.className = 'addon-manager';
+        container.className = 'kwak-addon-manager';
 
         // Wczytaj zapisaną pozycję
         const savedPosition = loadPosition();
@@ -955,19 +954,19 @@ function updateHeaderRefreshInfo() {
         }
 
         const toggleBtn = document.createElement('button');
-        toggleBtn.className = 'addon-toggle-btn';
+        toggleBtn.className = 'kwak-addon-toggle-btn';
 
         const wasDragged = makeDraggable(container, toggleBtn);
 
         const menu = document.createElement('div');
-        menu.className = 'addon-menu';
+        menu.className = 'kwak-addon-menu';
 
         const header = document.createElement('div');
-        header.className = 'addon-menu-header';
+        header.className = 'kwak-addon-menu-header';
         header.textContent = 'Manager Dodatków';
 
         const closeBtn = document.createElement('button');
-        closeBtn.className = 'addon-close-btn';
+        closeBtn.className = 'kwak-addon-close-btn';
         closeBtn.innerHTML = '×';
         closeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -980,42 +979,42 @@ menu.appendChild(header);
 
         // Kontener dla dodatków z dwiema kolumnami
         const content = document.createElement('div');
-        content.className = 'addon-content';
+        content.className = 'kwak-addon-content';
 
         // Tworzenie dwóch kolumn
         const leftColumn = document.createElement('div');
-        leftColumn.className = 'addon-column';
+        leftColumn.className = 'kwak-addon-column';
 
 
         const rightColumn = document.createElement('div');
-        rightColumn.className = 'addon-column';
+        rightColumn.className = 'kwak-addon-column';
 
         // Podziel dodatki na dwie kolumny
         const addonEntries = Object.entries(loadedAddons);
 
         addonEntries.forEach(([addonId, addon], index) => {
             const item = document.createElement('div');
-            item.className = 'addon-item';
+            item.className = 'kwak-addon-item';
 
             const info = document.createElement('div');
             info.id = `addon-${addon.config.id}`;
-            info.className = 'addon-info';
+            info.className = 'kwak-addon-info';
 
             // Kontener dla nazwy i ikony pomocy
             const nameContainer = document.createElement('div');
-            nameContainer.className = 'addon-name-container';
+            nameContainer.className = 'kwak-addon-name-container';
 
             const name = document.createElement('div');
-            name.className = 'addon-name';
+            name.className = 'kwak-addon-name';
             name.textContent = addon.name;
 
             const helpIcon = document.createElement('div');
-            helpIcon.className = 'addon-help-icon';
+            helpIcon.className = 'kwak-addon-help-icon';
             helpIcon.textContent = '?';
 
 // Tooltip z opisem
             const tooltip = document.createElement('div');
-            tooltip.className = 'addon-tooltip';
+            tooltip.className = 'kwak-addon-tooltip';
             tooltip.textContent = addonConfig[addonId].description || 'Brak opisu dla tego dodatku.';
 
 // Event listenery dla pokazywania/ukrywania tooltipa
@@ -1040,21 +1039,21 @@ menu.appendChild(header);
             nameContainer.appendChild(helpIcon);
 
             const status = document.createElement('div');
-            status.className = `addon-status ${addon.enabled ? 'enabled' : 'disabled'}`;
+            status.className = `kwak-addon-status ${addon.enabled ? 'enabled' : 'disabled'}`;
             status.textContent = addon.enabled ? 'Włączony' : 'Wyłączony';
 
             info.appendChild(nameContainer); // Zmienione z name na nameContainer
             info.appendChild(status);
 
             const switchElement = document.createElement('div');
-            switchElement.className = `addon-switch ${addon.enabled ? 'active' : ''}`;
+            switchElement.className = `kwak-addon-switch ${addon.enabled ? 'active' : ''}`;
 
             switchElement.addEventListener('click', async () => {
                 const success = await toggleAddon(addonId);
                 if (success) {
                     switchElement.classList.toggle('active', addon.enabled);
                     status.textContent = addon.enabled ? 'Włączony' : 'Wyłączony';
-                    status.className = `addon-status ${addon.enabled ? 'enabled' : 'disabled'}`;
+                    status.className = `kwak-addon-status ${addon.enabled ? 'enabled' : 'disabled'}`;
                 }
             });
 
@@ -1074,10 +1073,10 @@ menu.appendChild(header);
 
         // Control buttons
         const controls = document.createElement('div');
-        controls.className = 'addon-controls';
+        controls.className = 'kwak-addon-controls';
 
         const enableAllBtn = document.createElement('button');
-        enableAllBtn.className = 'control-btn enable-all-btn';
+        enableAllBtn.className = 'kwak-control-btn kwak-enable-all-btn';
         enableAllBtn.textContent = 'Włącz wszystkie';
         enableAllBtn.addEventListener('click', async () => {
             for (const addonId of Object.keys(loadedAddons)) {
@@ -1089,7 +1088,7 @@ menu.appendChild(header);
         });
 
         const disableAllBtn = document.createElement('button');
-        disableAllBtn.className = 'control-btn disable-all-btn';
+        disableAllBtn.className = 'kwak-control-btn kwak-disable-all-btn';
         disableAllBtn.textContent = 'Wyłącz wszystkie';
         disableAllBtn.addEventListener('click', () => {
             Object.keys(loadedAddons).forEach(addonId => {
@@ -1115,11 +1114,6 @@ menu.appendChild(header);
             }, 10);
         });
 
-        document.addEventListener('click', (e) => {
-            if (!container.contains(e.target)) {
-                menu.classList.remove('active');
-            }
-        });
 
         container.appendChild(toggleBtn);
         container.appendChild(menu);
@@ -1129,7 +1123,7 @@ menu.appendChild(header);
 // Update GUI - ZMIENIONA FUNKCJA
     function updateGUI() {
         // Usuń istniejące menu i stwórz nowe z aktualnym stanem
-        const existingManager = document.querySelector('.addon-manager');
+        const existingManager = document.querySelector('.kwak-addon-manager');
         if (existingManager) {
             const position = {
                 left: existingManager.style.left,
@@ -1140,7 +1134,7 @@ menu.appendChild(header);
             // Ponownie stwórz GUI z zachowaniem pozycji
             setTimeout(() => {
                 createGUI();
-                const newManager = document.querySelector('.addon-manager');
+                const newManager = document.querySelector('.kwak-addon-manager');
                 if (newManager && position.left && position.top) {
                     newManager.style.left = position.left;
                     newManager.style.top = position.top;

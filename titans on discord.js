@@ -5,6 +5,39 @@ if (window.titanNotifierRunning) {
     return;
 }
 window.titanNotifierRunning = true;
+window.addEventListener('error', function(e) {
+    if (e.filename && e.filename.includes('titans')) {
+        e.preventDefault();
+        return false;
+    }
+});
+let config = {
+    enabled: localStorage.getItem('titanNotifierEnabled') !== 'false',
+    webhookUrl: localStorage.getItem('titanNotifierWebhook') || '',
+    roleIds: JSON.parse(localStorage.getItem('titanNotifierRoleIds') || '{}')
+};
+
+function saveConfig() {
+    localStorage.setItem('titanNotifierEnabled', config.enabled.toString());
+    localStorage.setItem('titanNotifierWebhook', config.webhookUrl);
+    localStorage.setItem('titanNotifierRoleIds', JSON.stringify(config.roleIds));
+    updateButtonAppearance();
+}
+const predefinedWorldRoles = {
+    "Lupus": {
+        "Dziewicza Orlica": "1302727499830263891",
+        "Zabójczy Królik": "1302727521929789451",
+        "Renegat Baulus": "1302727536031301632",
+        "Piekielny Arcymag": "1302727613135065218",
+        "Versus Zoons": "1302727635536711740",
+        "Łowczyni Wspomnień": "1302727657326252175",
+        "Przyzywacz Demonów": "1302727672845045800",
+        "Maddok Magua": "1302727693632143471",
+        "Tezcatlipoca": "1302727709188685904",
+        "Barbatos Smoczy Strażnik": "1302727725764706405",
+        "Tanroth": "1302727746992214096"
+    }
+};
 
     // Śledzenie wykrytych tytanów
     let lastDetectedTitans = new Set();
@@ -375,32 +408,32 @@ let titanCheckInterval = null;
 
     `;
 
-    // Funkcje pomocnicze do localStorage
-    function getWebhookUrl() {
-        return localStorage.getItem('titanNotifierWebhook') || '';
-    }
+function getWebhookUrl() {
+    return config.webhookUrl;
+}
 
-    function setWebhookUrl(url) {
-        localStorage.setItem('titanNotifierWebhook', url);
-    }
+function setWebhookUrl(url) {
+    config.webhookUrl = url;
+    saveConfig();
+}
 
-    function isNotifierEnabled() {
-        return localStorage.getItem('titanNotifierEnabled') !== 'false';
-    }
+function isNotifierEnabled() {
+    return config.enabled;
+}
 
-    function setNotifierEnabled(enabled) {
-        localStorage.setItem('titanNotifierEnabled', enabled.toString());
-        updateButtonAppearance();
-    }
+function setNotifierEnabled(enabled) {
+    config.enabled = enabled;
+    saveConfig();
+}
 
-    function getTitanRoleIds() {
-        return JSON.parse(localStorage.getItem('titanNotifierRoleIds') || '{}');
-    }
+function getTitanRoleIds() {
+    return config.roleIds;
+}
 
-    function setTitanRoleIds(roleIds) {
-        localStorage.setItem('titanNotifierRoleIds', JSON.stringify(roleIds));
-    }
-
+function setTitanRoleIds(roleIds) {
+    config.roleIds = roleIds;
+    saveConfig();
+}
     function getNotificationLog() {
         return JSON.parse(localStorage.getItem('titanNotifierLog') || '[]');
     }
@@ -695,296 +728,284 @@ async function checkTitanRespawns() {
                 e.stopPropagation();
                 return;
             }
-            showSettings();
+            return;
         });
     }
 
     // Funkcja pokazywania ustawień
-    function showSettings() {
-        const modal = document.createElement('div');
-        modal.className = 'titan-notifier-modal';
+ function addManagerSettingsButton(container) {
+    const helpIcon = container.querySelector('.kwak-addon-help-icon');
+    if (!helpIcon) return;
 
-        const log = getNotificationLog();
+    const settingsBtn = document.createElement('span');
+    settingsBtn.id = 'titans-on-discord-settings-btn';
+    settingsBtn.innerHTML = '⚙️';
+    settingsBtn.style.cssText = `
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 2px;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+        display: inline-block;
+    `;
 
-        const logHtml = log.length > 0 ?
-            log.map(entry => `
-                <div class="titan-log-item">
-                    <span class="titan-log-time">${entry.time}</span> -
-                    <span class="titan-log-titan">${entry.titan}</span> (poziom ${entry.level})
-                </div>
-            `).join('') :
-            '<div style="text-align: center; color: #a8dadc; font-style: italic; padding: 20px;">Brak powiadomień</div>';
+    settingsBtn.onmouseover = () => settingsBtn.style.opacity = '1';
+    settingsBtn.onmouseout = () => settingsBtn.style.opacity = '0.7';
 
-        const enabled = isNotifierEnabled();
-        const webhookUrl = getWebhookUrl();
-        const roleIds = getTitanRoleIds();
+    // Wstaw dokładnie po znaku zapytania
+    helpIcon.insertAdjacentElement('afterend', settingsBtn);
 
-        let statusClass = 'error';
-        let statusText = 'Dodatek wyłączony';
+    // Stwórz panel od razu
+    createSettingsPanel();
 
-        if (enabled && webhookUrl) {
-            statusClass = '';
-            statusText = 'Dodatek włączony i skonfigurowany';
-        } else if (enabled && !webhookUrl) {
-            statusClass = 'warning';
-            statusText = 'Dodatek włączony, ale brak webhook URL';
+    settingsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleSettingsPanel();
+    });
+}
+function loadPredefinedSettings() {
+    const worldName = window.location.hostname.split('.')[0] || 'Unknown';
+    
+    if (predefinedWorldRoles[worldName]) {
+        const worldRoles = predefinedWorldRoles[worldName];
+        const lupusWebhook = "https://discord.com/api/webhooks/1400588536910057492/4NyMnlFi3Nifrc3pmhywQ_UTNVVzh9qNXj0FdzFPTBcjiRnOWrIXNpbCiqoZjjunIBnY";
+        
+        config.webhookUrl = lupusWebhook;
+        config.roleIds = { ...worldRoles };
+        config.enabled = true;
+        
+        saveConfig();
+        
+        // Odśwież panel ustawień jeśli jest otwarty
+        const panel = document.getElementById('titans-on-discord-settings-panel');
+        if (panel && panel.style.display === 'block') {
+            toggleSettingsPanel();
+            setTimeout(() => toggleSettingsPanel(), 100);
         }
-
-        // Lista najpopularniejszych tytanów do ustawienia ról
-        const popularTitans = [
-            {name: "Dziewicza Orlica", level: 51},
-            {name: "Zabójczy Królik", level: 70},
-            {name: "Renegat Baulus", level: 101},
-            {name: "Piekielny Arcymag", level: 131},
-            {name: "Versus Zoons", level: 154},
-            {name: "Łowczyni Wspomnień", level: 177},
-            {name: "Przyzywacz Demonów", level: 204},
-            {name: "Maddok Magua", level: 231},
-            {name: "Tezcatlipoca", level: 258},
-            {name: "Barbatos Smoczy Strażnik", level: 285},
-            {name: "Tanroth", level: 300}
-        ];
-
-        // Generuj ustawienia ról dla popularnych tytanów
-        const roleSettingsHtml = popularTitans.map(titan => `
-            <div class="titan-role-item">
-                <span class="titan-name">${titan.name} (${titan.level} lvl)</span>
-<input type="text" class="titan-setting-input titan-role-input"
-       placeholder="ID roli, wiele ról przez przecinek, lub 'everyone'"
-       value="${roleIds[titan.name] || ''}"
-       data-titan="${titan.name}"
-       ${!enabled ? 'disabled' : ''}>
-            </div>
-        `).join('');
-		const predefinedWorldRoles = {
-    "Lupus": {
-        "Dziewicza Orlica": "1302727499830263891",
-        "Zabójczy Królik": "1302727521929789451",
-        "Renegat Baulus": "1302727536031301632",
-        "Piekielny Arcymag": "1302727613135065218",
-        "Versus Zoons": "1302727635536711740",
-        "Łowczyni Wspomnień": "1302727657326252175",
-        "Przyzywacz Demonów": "1302727672845045800",
-        "Maddok Magua": "1302727693632143471",
-        "Tezcatlipoca": "1302727709188685904",
-        "Barbatos Smoczy Strażnik": "1302727725764706405",
-        "Tanroth": "1302727746992214096"
+        
+        return true;
     }
-};
+    
+    return false;
+}
 
+function createSettingsPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'titans-on-discord-settings-panel';
+    panel.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 15px;
+        z-index: 10000;
+        display: none;
+        min-width: 350px;
+        max-height: 80vh;
+        overflow-y: auto;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    `;
 
-        modal.innerHTML = `
-            <div class="titan-notifier-dialog">
-                <h3>Ustawienia</h3>
+    const popularTitans = [
+        {name: "Dziewicza Orlica", level: 51},
+        {name: "Zabójczy Królik", level: 70},
+        {name: "Renegat Baulus", level: 101},
+        {name: "Piekielny Arcymag", level: 131},
+        {name: "Versus Zoons", level: 154},
+        {name: "Łowczyni Wspomnień", level: 177},
+        {name: "Przyzywacz Demonów", level: 204},
+        {name: "Maddok Magua", level: 231},
+        {name: "Tezcatlipoca", level: 258},
+        {name: "Barbatos Smoczy Strażnik", level: 285},
+        {name: "Tanroth", level: 300}
+    ];
 
-                <div class="titan-dialog-content">
-                    <div class="titan-setting-group">
-                        <label class="titan-setting-label">Status Dodatku:</label>
-                        <div class="titan-toggle-container">
-                            <label class="titan-toggle-switch">
-                                <input type="checkbox" id="titan-notifier-enabled" ${enabled ? 'checked' : ''}>
-                                <span class="titan-toggle-slider"></span>
-                            </label>
-                            <span>${enabled ? 'Włączony' : 'Wyłączony'}</span>
-                        </div>
-                        <div class="titan-setting-description">
-                            Włącz lub wyłącz wysyłanie powiadomień o respawnach tytanów
-                        </div>
-                    </div>
+    const worldName = window.location.hostname.split('.')[0] || 'Unknown';
+    const hasPredefSettings = predefinedWorldRoles[worldName];
 
-                    <div class="titan-setting-group">
-                        <label class="titan-setting-label">Discord Webhook URL:</label>
-                        <input type="text" class="titan-setting-input" id="titan-webhook-url"
-                               placeholder="https://discord.com/api/webhooks/..."
-                               value="${webhookUrl}" ${!enabled ? 'disabled' : ''}>
-                        <div class="titan-setting-description">
-                            Aby utworzyć webhook: Serwer Discord → Edytuj kanał → Integracje → Webhooks → Nowy Webhook<br>
-                            Dodatek może wykrywać tytanów z 5 sekundowym opóźnieniem
-                        </div>
-                    </div>
-					<div class="titan-setting-group">
-    <label class="titan-setting-label">Załaduj predefiniowane role dla świata:</label>
-    <div style="display: flex; gap: 10px;">
-        <select id="titan-world-select" class="titan-setting-select" ${!enabled ? 'disabled' : ''}>
-            <option value="">-- Wybierz świat --</option>
-            <option value="Lupus">Lupus</option>
+    panel.innerHTML = `
+        <div style="color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; font-weight: bold; padding-bottom: 8px; border-bottom: 1px solid #444;">
+            Titans on Discord - Settings
+        </div>
+
+        <div style="margin-bottom: 15px;">
+<div style="margin-bottom: 15px; padding: 12px; background: rgba(157,78,221,0.1); border: 1px solid #7b2cbf; border-radius: 6px;">
+    <div style="color: #a8dadc; font-size: 12px; margin-bottom: 8px; font-weight: bold;">Załaduj predefiniowane role dla świata:</div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+        <select id="world-selector" style="flex: 1; padding: 6px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;">
+            <option value="">— Wybierz Świat —</option>
+            <option value="Dream">Dream</option>
         </select>
-        <button class="titan-btn titan-btn-secondary" id="titan-load-world-roles" ${!enabled ? 'disabled' : ''}>Załaduj</button>
+        <button id="load-predefined-settings" style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+            Załaduj
+        </button>
     </div>
-    <div class="titan-setting-description">
-        Automatycznie uzupełnij ID ról dla wybranego świata.
-    </div>
+    <div style="color: #888; font-size: 10px; margin-top: 5px;">Automatycznie uzupełni ID ról dla wybranego świata.</div>
 </div>
 
-
-                    <div class="titan-setting-group">
-                        <label class="titan-setting-label">ID ról Discord dla pingów:</label>
-<div class="titan-setting-description">
-    Ustaw ID roli Discord dla popularnych tytanów. Zostanie ona wypingowana gdy tytan zrespi.<br>
-    Aby otrzymać ID roli: Ustawienia serwera → Role → Kliknij prawym na rolę → Kopiuj ID<br>
-    <strong>Wskazówki:</strong><br>
-    • Wpisz "everyone" (bez cudzysłowów) aby pingować @everyone<br>
-    • Aby pingować wiele ról, wpisz ID oddzielone przecinkami: 123456789,987654321<br>
-    <strong>Uwaga:</strong> Dodatek wykrywa tytanów automatycznie, ale pingi działają tylko dla ustawionych ról.
-</div>
-                        <div class="titan-role-settings">
-                            ${roleSettingsHtml}
-                        </div>
-                    </div>
-
-                    <div class="titan-setting-group">
-                        <label class="titan-setting-label">Ostatnie powiadomienia:</label>
-                        <div class="titan-notification-log">
-                            ${logHtml}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="titan-status-info ${statusClass}">
-                    <strong>Status:</strong> ${statusText}
-                </div>
-
-                <div class="titan-settings-buttons">
-                    <button class="titan-btn titan-btn-secondary" id="titan-close-settings">Anuluj</button>
-                    <button class="titan-btn titan-btn-primary" id="titan-save-settings">Zapisz ustawienia</button>
-                </div>
+            <div style="margin-bottom: 10px;">
+                <span style="color: #ccc; font-size: 12px; display: block; margin-bottom: 5px;">Discord Webhook URL:</span>
+                <input type="text" id="titan-webhook" style="width: 100%; padding: 5px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;" value="${config.webhookUrl}" placeholder="https://discord.com/api/webhooks/...">
             </div>
-        `;
 
-        document.body.appendChild(modal);
+            <div style="color: #ccc; font-size: 11px; margin-bottom: 10px;">
+                Role Discord (ID roli lub 'everyone'):
+            </div>
+            ${popularTitans.map(titan => `
+                <div style="margin: 5px 0; display: flex; align-items: center;">
+                    <span style="color: #aaa; font-size: 10px; min-width: 120px;">${titan.name} (${titan.level})</span>
+                    <input type="text" data-titan="${titan.name}" style="flex: 1; margin-left: 8px; padding: 3px; background: #555; color: #fff; border: 1px solid #666; border-radius: 2px; font-size: 10px;" value="${config.roleIds[titan.name] || ''}" placeholder="ID roli">
+                </div>
+            `).join('')}
+        </div>
 
-        // Event listeners
-        const enabledCheckbox = modal.querySelector('#titan-notifier-enabled');
-        const webhookInput = modal.querySelector('#titan-webhook-url');
-        const roleInputs = modal.querySelectorAll('.titan-role-input');
+        <div style="display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #444; padding-top: 12px;">
+            <button id="close-titans-settings" style="flex: 1; padding: 8px 12px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
+                Zamknij
+            </button>
+            <button id="save-titans-settings" style="flex: 1; padding: 8px 12px; background: #9d4edd; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                Zapisz
+            </button>
+        </div>
+    `;
 
-        enabledCheckbox.onchange = () => {
-            const isEnabled = enabledCheckbox.checked;
-            webhookInput.disabled = !isEnabled;
-            roleInputs.forEach(input => input.disabled = !isEnabled);
-        };
+    // Usuń stare style jeśli istnieją
+    const oldStyles = document.getElementById('titans-toggle-styles');
+    if (oldStyles) oldStyles.remove();
 
-        modal.querySelector('#titan-save-settings').onclick = () => {
-            const enabled = enabledCheckbox.checked;
-            const webhookUrl = webhookInput.value.trim();
+    document.body.appendChild(panel);
 
-            // Zbierz ID ról
-            const newRoleIds = {};
-            roleInputs.forEach(input => {
+// Event listener dla przycisku ładowania predefiniowanych ustawień
+const loadBtn = panel.querySelector('#load-predefined-settings');
+const worldSelector = panel.querySelector('#world-selector');
+if (loadBtn && worldSelector) {
+    loadBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const selectedWorld = worldSelector.value;
+        
+        if (!selectedWorld) {
+            loadBtn.style.background = '#dc3545';
+            loadBtn.textContent = '⚠️ Wybierz świat!';
+            setTimeout(() => {
+                loadBtn.style.background = '#4CAF50';
+                loadBtn.textContent = 'Załaduj';
+            }, 2000);
+            return;
+        }
+        
+        if (predefinedWorldRoles[selectedWorld]) {
+            const worldRoles = predefinedWorldRoles[selectedWorld];
+            const lupusWebhook = "https://discord.com/api/webhooks/1400588536910057492/4NyMnlFi3Nifrc3pmhywQ_UTNVVzh9qNXj0FdzFPTBcjiRnOWrIXNpbCiqoZjjunIBnY";
+            
+            config.webhookUrl = lupusWebhook
+            config.roleIds = { ...worldRoles };
+            config.enabled = true;
+            saveConfig();
+            
+            // Odśwież wartości w panelu
+            panel.querySelector('#titan-webhook').value = config.webhookUrl;
+            panel.querySelectorAll('input[data-titan]').forEach(input => {
                 const titanName = input.getAttribute('data-titan');
-                const roleId = input.value.trim();
-                if (roleId) {
-                    newRoleIds[titanName] = roleId;
-                }
+                input.value = config.roleIds[titanName] || '';
             });
-
-            setNotifierEnabled(enabled);
-            setWebhookUrl(webhookUrl);
-            setTitanRoleIds(newRoleIds);
-
-            document.body.removeChild(modal);
-
+            
             // Pokaż komunikat sukcesu
-            const successMsg = document.createElement('div');
-            successMsg.style.cssText = `
-                position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-                z-index: 10002; background: linear-gradient(135deg, #28a745, #20c997);
-                color: white; padding: 12px 20px; border-radius: 8px;
-                font-weight: bold; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            `;
-            successMsg.innerHTML = 'Ustawienia zapisane pomyślnie!';
-            document.body.appendChild(successMsg);
-
-            setTimeout(() => successMsg.remove(), 3000);
-        };
-
-        modal.querySelector('#titan-close-settings').onclick = () => {
-            document.body.removeChild(modal);
-        };
-modal.querySelector('#titan-load-world-roles').onclick = () => {
-    const selectedWorld = modal.querySelector('#titan-world-select').value;
-    if (!selectedWorld || !predefinedWorldRoles[selectedWorld]) return;
-
-    const rolesForWorld = predefinedWorldRoles[selectedWorld];
-    roleInputs.forEach(input => {
-        const titan = input.getAttribute('data-titan');
-        if (rolesForWorld[titan]) {
-            input.value = rolesForWorld[titan];
+            loadBtn.style.background = '#28a745';
+            loadBtn.textContent = '✅ Załadowano!';
+            setTimeout(() => {
+                loadBtn.style.background = '#4CAF50';
+                loadBtn.textContent = 'Załaduj';
+            }, 2000);
         }
     });
+}
 
-    // Ustaw także webhook dla Lupus
-    if (selectedWorld === 'Lupus') {
-        const webhookField = modal.querySelector('#titan-webhook-url');
-        if (webhookField) {
-            webhookField.value = 'https://discord.com/api/webhooks/1400588536910057492/4NyMnlFi3Nifrc3pmhywQ_UTNVVzh9qNXj0FdzFPTBcjiRnOWrIXNpbCiqoZjjunIBnY';
+    panel.querySelector('#save-titans-settings').addEventListener('click', (e) => {
+        e.preventDefault();
+        config.enabled = true; // Automatycznie włącz po zapisaniu
+        config.webhookUrl = panel.querySelector('#titan-webhook').value.trim();
+        
+        const newRoleIds = {};
+        panel.querySelectorAll('input[data-titan]').forEach(input => {
+            const titanName = input.getAttribute('data-titan');
+            const roleId = input.value.trim();
+            if (roleId) newRoleIds[titanName] = roleId;
+        });
+        config.roleIds = newRoleIds;
+        
+        saveConfig();
+        toggleSettingsPanel();
+    });
+
+    panel.querySelector('#close-titans-settings').addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleSettingsPanel();
+    });
+}
+
+function toggleSettingsPanel() {
+    const panel = document.getElementById('titans-on-discord-settings-panel');
+    if (panel) {
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+}
+function integrateWithAddonManager() {
+    const checkForManager = setInterval(() => {
+        const addonContainer = document.getElementById('addon-titans_on_discord');
+        if (!addonContainer) return;
+
+        // Sprawdź czy przycisk już istnieje
+        if (addonContainer.querySelector('#titans-on-discord-settings-btn')) {
+            clearInterval(checkForManager);
+            return;
         }
-    }
 
-    // Komunikat potwierdzający
-    const notice = document.createElement('div');
-    notice.style.cssText = `
-        position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-        background: #ffc107; color: black; padding: 10px 20px;
-        font-weight: bold; border-radius: 6px; z-index: 10003;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    `;
-    notice.textContent = `Wczytano ID ról i webhook dla świata: ${selectedWorld}`;
-    document.body.appendChild(notice);
-    setTimeout(() => notice.remove(), 3000);
-};
+        let addonNameContainer = addonContainer.querySelector('.kwak-addon-name-container');
+        if (addonNameContainer) {
+            addManagerSettingsButton(addonNameContainer);
+            clearInterval(checkForManager);
+        }
+    }, 500);
 
+    // Zatrzymaj po 20 sekundach jeśli nie znajdzie managera
+    setTimeout(() => clearInterval(checkForManager), 20000);
+}
 
-
-        modal.onclick = (e) => {
-            if (e.target === modal) {
-                document.body.removeChild(modal);
-            }
-        };
-    }
-
-    // Inicjalizacja
-    function init() {
+function init() {
     const existingButton = document.getElementById('titan-notifier-button');
     if (existingButton) {
         existingButton.remove();
         console.log('Usunięto duplikat przycisku Titans on Discord');
     }
-if (titanCheckInterval) {
-    clearInterval(titanCheckInterval);
-}
-        // Dodaj style
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = styles;
-        document.head.appendChild(styleSheet);
-
-        // Utwórz przycisk ustawień
-        const settingsButton = document.createElement('div');
-        settingsButton.id = 'titan-notifier-button';
-        settingsButton.innerHTML = '⚔️';
-
-        // Przywróć zapisaną pozycję
-        const savedPos = JSON.parse(localStorage.getItem('titanNotifierButtonPosition') || '{}');
-        if (savedPos.x !== undefined && savedPos.y !== undefined) {
-            settingsButton.style.left = `${savedPos.x}px`;
-            settingsButton.style.top = `${savedPos.y}px`;
-            settingsButton.style.right = 'auto';
-        }
-
-        document.body.appendChild(settingsButton);
-
-        // Dodaj funkcję przeciągania
-        makeDraggable(settingsButton);
-
-        // Ustaw wygląd przycisku
-        updateButtonAppearance();
-
-        // Rozpocznij sprawdzanie respawnów co 10 sekund
-       titanCheckInterval = setInterval(checkTitanRespawns, 10000);
-
-        console.log('Dodatek uruchomiony!');
+    
+    if (titanCheckInterval) {
+        clearInterval(titanCheckInterval);
     }
+    
+    // Dodaj style
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = styles;
+    document.head.appendChild(styleSheet);
+    
+    // Rozpocznij sprawdzanie respawnów co 10 sekund
+    titanCheckInterval = setInterval(checkTitanRespawns, 10000);
+    
+    // ZMIEŃ TĘ LINIĘ - dodaj try/catch:
+    try {
+        integrateWithAddonManager();
+    } catch (error) {
+        console.warn('Addon manager integration failed:', error);
+    }
+    
+    console.log('Dodatek uruchomiony!');
+}
+
 
 // Uruchom gdy strona się załaduje
     if (document.readyState === 'loading') {

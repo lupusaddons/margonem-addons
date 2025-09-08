@@ -1066,7 +1066,7 @@ function createSettingsPanel() {
                 <div style="display: flex; gap: 8px; align-items: center;">
                     <select id="world-selector" style="flex: 1; padding: 6px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;">
                         <option value="">— Wybierz Świat —</option>
-                        <option value="Dream">Dream</option>
+                        <option value="Lupus">Lupus</option>
                     </select>
                     <button id="load-predefined-settings" style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
                         Załaduj

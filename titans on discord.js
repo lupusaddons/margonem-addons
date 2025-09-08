@@ -802,12 +802,12 @@ function createSettingsPanel() {
         background: #2a2a2a;
         border: 1px solid #444;
         border-radius: 4px;
-        padding: 15px;
+        padding: 0; /* Zmienione z 15px na 0 dla nagłówka */
         z-index: 10000;
         display: none;
         min-width: 350px;
         max-height: 80vh;
-        overflow-y: auto;
+        overflow: hidden; /* Zmienione żeby nagłówek nie był przewijany */
         font-family: Arial, sans-serif;
         box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     `;
@@ -830,24 +830,24 @@ function createSettingsPanel() {
     const hasPredefSettings = predefinedWorldRoles[worldName];
 
     panel.innerHTML = `
-        <div style="color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; font-weight: bold; padding-bottom: 8px; border-bottom: 1px solid #444;">
+        <div id="titans-panel-header" style="color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; font-weight: bold; padding: 15px 15px 8px 15px; border-bottom: 1px solid #444; cursor: move; user-select: none; background: #333; border-radius: 4px 4px 0 0;">
             Titans on Discord - Settings
         </div>
 
-        <div style="margin-bottom: 15px;">
-<div style="margin-bottom: 15px; padding: 12px; background: rgba(157,78,221,0.1); border: 1px solid #7b2cbf; border-radius: 6px;">
-    <div style="color: #a8dadc; font-size: 12px; margin-bottom: 8px; font-weight: bold;">Załaduj predefiniowane role dla świata:</div>
-    <div style="display: flex; gap: 8px; align-items: center;">
-        <select id="world-selector" style="flex: 1; padding: 6px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;">
-            <option value="">— Wybierz Świat —</option>
-            <option value="Lupus">Lupus</option>
-        </select>
-        <button id="load-predefined-settings" style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
-            Załaduj
-        </button>
-    </div>
-    <div style="color: #888; font-size: 10px; margin-top: 5px;">Automatycznie uzupełni ID ról dla wybranego świata.</div>
-</div>
+        <div style="padding: 15px; max-height: calc(80vh - 60px); overflow-y: auto;">
+            <div style="margin-bottom: 15px; padding: 12px; background: rgba(157,78,221,0.1); border: 1px solid #7b2cbf; border-radius: 6px;">
+                <div style="color: #a8dadc; font-size: 12px; margin-bottom: 8px; font-weight: bold;">Załaduj predefiniowane role dla świata:</div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <select id="world-selector" style="flex: 1; padding: 6px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;">
+                        <option value="">— Wybierz Świat —</option>
+                        <option value="Lupus">Lupus</option>
+                    </select>
+                    <button id="load-predefined-settings" style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                        Załaduj
+                    </button>
+                </div>
+                <div style="color: #888; font-size: 10px; margin-top: 5px;">Automatycznie uzupełni ID ról dla wybranego świata.</div>
+            </div>
 
             <div style="margin-bottom: 10px;">
                 <span style="color: #ccc; font-size: 12px; display: block; margin-bottom: 5px;">Discord Webhook URL:</span>
@@ -863,15 +863,15 @@ function createSettingsPanel() {
                     <input type="text" data-titan="${titan.name}" style="flex: 1; margin-left: 8px; padding: 3px; background: #555; color: #fff; border: 1px solid #666; border-radius: 2px; font-size: 10px;" value="${config.roleIds[titan.name] || ''}" placeholder="ID roli">
                 </div>
             `).join('')}
-        </div>
 
-        <div style="display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #444; padding-top: 12px;">
-            <button id="close-titans-settings" style="flex: 1; padding: 8px 12px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
-                Zamknij
-            </button>
-            <button id="save-titans-settings" style="flex: 1; padding: 8px 12px; background: #9d4edd; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
-                Zapisz
-            </button>
+            <div style="display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #444; padding-top: 12px;">
+                <button id="close-titans-settings" style="flex: 1; padding: 8px 12px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
+                    Zamknij
+                </button>
+                <button id="save-titans-settings" style="flex: 1; padding: 8px 12px; background: #9d4edd; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                    Zapisz
+                </button>
+            </div>
         </div>
     `;
 
@@ -880,6 +880,8 @@ function createSettingsPanel() {
     if (oldStyles) oldStyles.remove();
 
     document.body.appendChild(panel);
+
+    // *** FUNKCJONALNOŚĆ PRZECIĄGANIA ***
     let isDragging = false;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
@@ -928,54 +930,54 @@ function createSettingsPanel() {
         panel.style.transform = 'none';
     }
 
-// Event listener dla przycisku ładowania predefiniowanych ustawień
-const loadBtn = panel.querySelector('#load-predefined-settings');
-const worldSelector = panel.querySelector('#world-selector');
-if (loadBtn && worldSelector) {
-    loadBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const selectedWorld = worldSelector.value;
-        
-        if (!selectedWorld) {
-            loadBtn.style.background = '#dc3545';
-            loadBtn.textContent = '⚠️ Wybierz świat!';
-            setTimeout(() => {
-                loadBtn.style.background = '#4CAF50';
-                loadBtn.textContent = 'Załaduj';
-            }, 2000);
-            return;
-        }
-        
-        if (predefinedWorldRoles[selectedWorld]) {
-            const worldRoles = predefinedWorldRoles[selectedWorld];
-            const lupusWebhook = "https://discord.com/api/webhooks/1400588536910057492/4NyMnlFi3Nifrc3pmhywQ_UTNVVzh9qNXj0FdzFPTBcjiRnOWrIXNpbCiqoZjjunIBnY";
+    // Event listener dla przycisku ładowania predefiniowanych ustawień
+    const loadBtn = panel.querySelector('#load-predefined-settings');
+    const worldSelector = panel.querySelector('#world-selector');
+    if (loadBtn && worldSelector) {
+        loadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const selectedWorld = worldSelector.value;
             
-            config.webhookUrl = lupusWebhook
-            config.roleIds = { ...worldRoles };
-            config.enabled = true;
-            saveConfig();
+            if (!selectedWorld) {
+                loadBtn.style.background = '#dc3545';
+                loadBtn.textContent = '⚠️ Wybierz świat!';
+                setTimeout(() => {
+                    loadBtn.style.background = '#4CAF50';
+                    loadBtn.textContent = 'Załaduj';
+                }, 2000);
+                return;
+            }
             
-            // Odśwież wartości w panelu
-            panel.querySelector('#titan-webhook').value = config.webhookUrl;
-            panel.querySelectorAll('input[data-titan]').forEach(input => {
-                const titanName = input.getAttribute('data-titan');
-                input.value = config.roleIds[titanName] || '';
-            });
-            
-            // Pokaż komunikat sukcesu
-            loadBtn.style.background = '#28a745';
-            loadBtn.textContent = '✅ Załadowano!';
-            setTimeout(() => {
-                loadBtn.style.background = '#4CAF50';
-                loadBtn.textContent = 'Załaduj';
-            }, 2000);
-        }
-    });
-}
+            if (predefinedWorldRoles[selectedWorld]) {
+                const worldRoles = predefinedWorldRoles[selectedWorld];
+                const lupusWebhook = "https://discord.com/api/webhooks/1400588536910057492/4NyMnlFi3Nifrc3pmhywQ_UTNVVzh9qNXj0FdzFPTBcjiRnOWrIXNpbCiqoZjjunIBnY";
+                
+                config.webhookUrl = lupusWebhook;
+                config.roleIds = { ...worldRoles };
+                config.enabled = true;
+                saveConfig();
+                
+                // Odśwież wartości w panelu
+                panel.querySelector('#titan-webhook').value = config.webhookUrl;
+                panel.querySelectorAll('input[data-titan]').forEach(input => {
+                    const titanName = input.getAttribute('data-titan');
+                    input.value = config.roleIds[titanName] || '';
+                });
+                
+                // Komunikat sukcesu
+                loadBtn.style.background = '#28a745';
+                loadBtn.textContent = '✅ Załadowano!';
+                setTimeout(() => {
+                    loadBtn.style.background = '#4CAF50';
+                    loadBtn.textContent = 'Załaduj';
+                }, 2000);
+            }
+        });
+    }
 
     panel.querySelector('#save-titans-settings').addEventListener('click', (e) => {
         e.preventDefault();
-        config.enabled = true; // Automatycznie włącz po zapisaniu
+        config.enabled = true;
         config.webhookUrl = panel.querySelector('#titan-webhook').value.trim();
         
         const newRoleIds = {};

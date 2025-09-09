@@ -54,11 +54,9 @@
 
 
     function loadAddonsNow() {
-       console.log(' Ładuję dodatki ');
 
         fetchFromServer(`${CONFIG.SERVER_URL}/addons.js?t=${Date.now()}`)
             .then(addonsCode => {
-                console.log('✅ Kod dodatków pobrany!');
 
 
                 const oldScript = document.getElementById('margonem-addons');
@@ -90,7 +88,6 @@
                 const serverVersion = JSON.parse(versionData);
 
                 if (serverVersion.version !== currentVersion) {
-                    console.log('🔄 Nowa wersja dostępna:', serverVersion.version);
                     GM_setValue(CONFIG.VERSION_KEY, serverVersion.version);
                     currentVersion = serverVersion.version;
 

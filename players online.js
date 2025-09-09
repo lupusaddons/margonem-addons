@@ -20,7 +20,6 @@
 	function updateObservedGuilds() {
     const guilds = [...new Set(Object.values(playerGuilds))];
     observedGuilds = guilds.sort();
-    console.log('Zaktualizowano listę klanów:', observedGuilds);
 }
 function getPlayerGuild(playerName) {
     return playerGuilds[playerName.toLowerCase()] || null;
@@ -819,7 +818,6 @@ function detachSummary() {
     // Zapisz zmiany
     localStorage.setItem('playerGuilds', JSON.stringify(playerGuilds));
 
-    console.log(`Usunięto klan: ${guildName}`);
 }
 
 function showGuildManagement() {
@@ -923,8 +921,6 @@ function updateGuildCheckboxes() {
                 if (typeof fetchPlayers === 'function') {
                     fetchPlayers();
                 }
-
-                console.log(`Zmieniono kolor klanu ${guildName} na ${newColor}`);
             });
         });
 
@@ -1141,7 +1137,6 @@ dialog.querySelector('#load-github-btn').onclick = async () => {
 function updateFilterOptions() {
     const filterSelect = document.querySelector('#filter-select');
     if (!filterSelect) {
-        console.log('Filter select nie istnieje jeszcze');
         return;
     }
 
@@ -2093,7 +2088,6 @@ if (savedGuilds) {
         const parsed = JSON.parse(savedGuilds);
         Object.assign(playerGuilds, parsed);
         updateObservedGuilds();
-        console.log('Załadowano dane klanów z localStorage:', observedGuilds.length, 'klanów');
     } catch (error) {
         console.error('Błąd ładowania danych klanów:', error);
     }
@@ -2102,12 +2096,12 @@ if (savedGuilds) {
 // AUTOMATYCZNE ŁADOWANIE KLANÓW Z GITHUB PRZY STARCIE
 async function autoLoadGuilds() {
     const githubUrl = 'https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/guilds/guilds.json';
-    console.log('🔄 Automatyczne ładowanie klanów z GitHub...');
+
     
     const result = await loadGuildsFromGitHub(githubUrl);
     
     if (result.success) {
-        console.log('✅ Automatycznie załadowano klany z GitHub:', result.guildsCount, 'klanów,', result.playersCount, 'graczy');
+ 
         
         // Pokaż krótki komunikat użytkownikowi
         const autoLoadMsg = document.createElement('div');

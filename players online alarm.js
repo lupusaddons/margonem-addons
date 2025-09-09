@@ -305,7 +305,6 @@
 
     function setNotifierEnabled(enabled) {
         localStorage.setItem('podAutoNotifierEnabled', enabled.toString());
-        updateButtonAppearance();
     }
 
     function getLastNotificationData() {
@@ -333,20 +332,6 @@
 
         localStorage.setItem('podAutoNotifierLog', JSON.stringify(log));
     }
-
-    function updateButtonAppearance() {
-        const button = document.getElementById('pod-settings-button');
-        if (button) {
-            if (isNotifierEnabled()) {
-                button.classList.remove('disabled');
-                button.title = 'Notifier włączony - kliknij aby otworzyć ustawienia';
-            } else {
-                button.classList.add('disabled');
-                button.title = 'Dodatek - kliknij aby otworzyć ustawienia';
-            }
-        }
-    }
-
     // Funkcja wysyłania na Discord
     async function sendDiscordNotification(titanName, players) {
         const webhookUrl = getDiscordWebhookUrl();
@@ -391,186 +376,6 @@
     }
 
     // Funkcja do przeciągania przycisku
-    function makeDraggable(element) {
-        let isDragging = false;
-        let offsetX = 0;
-        let offsetY = 0;
-        let hasMoved = false;
-
-        element.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return;
-            isDragging = true;
-            hasMoved = false;
-            offsetX = e.clientX - element.getBoundingClientRect().left;
-            offsetY = e.clientY - element.getBoundingClientRect().top;
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            hasMoved = true;
-            const x = Math.min(Math.max(0, e.clientX - offsetX), window.innerWidth - element.offsetWidth);
-            const y = Math.min(Math.max(0, e.clientY - offsetY), window.innerHeight - element.offsetHeight);
-            element.style.left = `${x}px`;
-            element.style.top = `${y}px`;
-            element.style.right = 'auto';
-
-            // Zapisz pozycję
-            localStorage.setItem('podSettingsButtonPosition', JSON.stringify({x, y}));
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-        });
-
-        // Zapobiegaj kliknięciu gdy przeciągamy
-        element.addEventListener('click', (e) => {
-            if (hasMoved) {
-                e.preventDefault();
-                e.stopPropagation();
-                return;
-            }
-            showSettings();
-        });
-    }
-
-    function showSettings() {
-        const modal = document.createElement('div');
-        modal.className = 'pod-settings-modal';
-
-        const log = getNotificationLog();
-        const logHtml = log.length > 0 ?
-            log.map(entry => `
-                <div class="pod-log-item">
-                    <span class="pod-log-time">${entry.time}</span> -
-                    <span class="pod-log-titan">${entry.titan}</span>: ${entry.count} graczy
-                </div>
-            `).join('') :
-            '<div style="text-align: center; color: #a8dadc; font-style: italic; padding: 20px;">Brak powiadomień</div>';
-
-        const enabled = isNotifierEnabled();
-        const webhookUrl = getDiscordWebhookUrl();
-
-        let statusClass = 'error';
-        let statusText = '❌ Dodatek wyłączony';
-
-        if (enabled && webhookUrl) {
-            statusClass = '';
-            statusText = '✅ Dodatek włączony i skonfigurowany';
-        } else if (enabled && !webhookUrl) {
-            statusClass = 'warning';
-            statusText = '⚠️ Dodatek włączony, ale brak webhook URL';
-        }
-
-        modal.innerHTML = `
-            <div class="pod-settings-dialog">
-                <h3>⚙️ Ustawienia</h3>
-
-                <div class="pod-setting-group">
-                    <label class="pod-setting-label">🔌 Status notifierа:</label>
-                    <div class="pod-toggle-container">
-                        <label class="pod-toggle-switch">
-                            <input type="checkbox" id="pod-notifier-enabled" ${enabled ? 'checked' : ''}>
-                            <span class="pod-toggle-slider"></span>
-                        </label>
-                        <span>${enabled ? 'Włączony' : 'Wyłączony'}</span>
-                    </div>
-                    <div class="pod-setting-description">
-                        Włącz lub wyłącz wysyłanie powiadomień na Discord
-                    </div>
-                </div>
-
-                <div class="pod-setting-group">
-                    <label class="pod-setting-label">🔗 Discord Webhook URL:</label>
-                    <input type="text" class="pod-setting-input" id="pod-webhook-url"
-                           placeholder="https://discord.com/api/webhooks/..."
-                           value="${webhookUrl}" ${!enabled ? 'disabled' : ''}>
-                    <div class="pod-setting-description">
-                        💡 Aby utworzyć webhook: Serwer Discord → Edytuj kanał → Integracje → Webhooks → Nowy Webhook
-                    </div>
-                </div>
-
-                <div class="pod-setting-group">
-                    <label class="pod-setting-label">📊 Próg powiadomień:</label>
-                    <div class="pod-threshold-setting">
-                        <input type="number" class="pod-setting-input pod-threshold-input" id="pod-threshold-input"
-                               min="1" max="50" value="${getPlayerThreshold()}" ${!enabled ? 'disabled' : ''}>
-                        <span>graczy na przedziale</span>
-                    </div>
-                    <div class="pod-setting-description">
-                        Powiadomienie zostanie wysłane gdy na dowolnym przedziale będzie co najmniej tyle osób
-                    </div>
-                </div>
-
-                <div class="pod-setting-group">
-                    <label class="pod-setting-label">📋 Ostatnie powiadomienia:</label>
-                    <div class="pod-notification-log">
-                        ${logHtml}
-                    </div>
-                </div>
-
-                <div class="pod-status-info ${statusClass}">
-                    <strong>Status:</strong> ${statusText}
-                </div>
-
-                <div class="pod-settings-buttons">
-                    <button class="pod-btn pod-btn-secondary" id="pod-close-settings">Anuluj</button>
-                    <button class="pod-btn pod-btn-primary" id="pod-save-settings">Zapisz ustawienia</button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-
-        // Event listeners
-        const enabledCheckbox = modal.querySelector('#pod-notifier-enabled');
-        const webhookInput = modal.querySelector('#pod-webhook-url');
-        const thresholdInput = modal.querySelector('#pod-threshold-input');
-
-        enabledCheckbox.onchange = () => {
-            const isEnabled = enabledCheckbox.checked;
-            webhookInput.disabled = !isEnabled;
-            thresholdInput.disabled = !isEnabled;
-        };
-
-        modal.querySelector('#pod-save-settings').onclick = () => {
-            const enabled = enabledCheckbox.checked;
-            const webhookUrl = webhookInput.value.trim();
-            const threshold = parseInt(thresholdInput.value);
-
-            setNotifierEnabled(enabled);
-            setDiscordWebhookUrl(webhookUrl);
-            setPlayerThreshold(threshold);
-
-            document.body.removeChild(modal);
-
-            // Pokaż komunikat sukcesu
-            const successMsg = document.createElement('div');
-            successMsg.style.cssText = `
-                position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-                z-index: 10002; background: linear-gradient(135deg, #28a745, #20c997);
-                color: white; padding: 12px 20px; border-radius: 8px;
-                font-weight: bold; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            `;
-            successMsg.innerHTML = '✅ Ustawienia zapisane pomyślnie!';
-            document.body.appendChild(successMsg);
-
-            setTimeout(() => successMsg.remove(), 3000);
-        };
-
-        modal.querySelector('#pod-close-settings').onclick = () => {
-            document.body.removeChild(modal);
-        };
-
-        modal.onclick = (e) => {
-            if (e.target === modal) {
-                document.body.removeChild(modal);
-            }
-        };
-    }
-
     function getPreviousPlayerCounts() {
         return JSON.parse(localStorage.getItem('podAutoNotifierPreviousCounts') || '{}');
     }
@@ -645,8 +450,6 @@
 
                             setLastNotificationData(lastNotificationData);
                             addToNotificationLog(titanName, currentCount);
-
-                            console.log(`✅ Wysłano powiadomienie: ${titanName} - wzrost z ${previousCount} do ${currentCount} graczy`);
                         }
                     }
                 }
@@ -670,51 +473,252 @@
             checkPlayersTimeout = null;
         }
     }
+    function integrateWithAddonManager() {
+    const checkForManager = setInterval(() => {
+        const addonContainer = document.getElementById('addon-players_online_alarm');
+        if (!addonContainer) return;
 
-    // Inicjalizacja
-    function init() {
-    const existingButton = document.getElementById('pod-settings-button');
-    if (existingButton) {
-        existingButton.remove();
-        console.log('Usunięto duplikat przycisku POD Settings');
-    }
-        // Dodaj style
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = styles;
-        document.head.appendChild(styleSheet);
-
-        // Utwórz przycisk ustawień
-        const settingsButton = document.createElement('div');
-        settingsButton.id = 'pod-settings-button';
-        settingsButton.innerHTML = '⚙️';
-
-        // Przywróć zapisaną pozycję
-        const savedPos = JSON.parse(localStorage.getItem('podSettingsButtonPosition') || '{}');
-        if (savedPos.x !== undefined && savedPos.y !== undefined) {
-            settingsButton.style.left = `${savedPos.x}px`;
-            settingsButton.style.top = `${savedPos.y}px`;
-            settingsButton.style.right = 'auto';
+        if (addonContainer.querySelector('#kwak-alarm-settings-btn')) {
+            clearInterval(checkForManager);
+            return;
         }
 
-        document.body.appendChild(settingsButton);
+        let addonNameContainer = addonContainer.querySelector('.kwak-addon-name-container');
+        addSettingsButton(addonNameContainer);
+        clearInterval(checkForManager);
+    }, 500);
 
-        // Dodaj funkcję przeciągania
-        makeDraggable(settingsButton);
+    setTimeout(() => {
+        clearInterval(checkForManager);
+    }, 20000);
+}
 
-        // Ustaw wygląd przycisku
-        updateButtonAppearance();
+function addSettingsButton(container) {
+    const helpIcon = container.querySelector('.kwak-addon-help-icon');
+    if (!helpIcon) return;
 
-        // Rozpocznij sprawdzanie po minucie (używając setTimeout zamiast setInterval)
-        setTimeout(() => {
-            checkPlayers(); // Pierwsze sprawdzenie po minucie
-            scheduleNextCheck(); // Zaplanuj kolejne sprawdzenia
-        }, 60000);
+    const settingsBtn = document.createElement('span');
+    settingsBtn.id = 'kwak-alarm-settings-btn';
+    settingsBtn.innerHTML = '⚙️';
+    settingsBtn.style.cssText = `
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        margin-left: 2px;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+        display: inline-block;
+    `;
 
-        // Zatrzymaj timer gdy strona się wyładowuje
-        window.addEventListener('beforeunload', stopTimer);
+    settingsBtn.onmouseover = () => settingsBtn.style.opacity = '1';
+    settingsBtn.onmouseout = () => settingsBtn.style.opacity = '0.7';
 
-        console.log('🚀 Dodatek uruchomiony!');
+    helpIcon.insertAdjacentElement('afterend', settingsBtn);
+
+    createManagerSettingsPanel();
+
+    settingsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleManagerSettingsPanel();
+    });
+}
+
+function createManagerSettingsPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'kwak-alarm-manager-panel';
+    panel.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 0;
+        z-index: 10000;
+        display: none;
+        min-width: 350px;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    `;
+
+    const webhookUrl = getDiscordWebhookUrl();
+    const log = getNotificationLog();
+
+    let statusClass = '';
+    let statusText = '✅ Dodatek włączony i skonfigurowany';
+
+    if (!webhookUrl) {
+        statusClass = 'warning';
+        statusText = '⚠️ Brak webhook URL';
     }
+
+    const logHtml = log.length > 0 ?
+        log.map(entry => `
+            <div style="font-size: 11px; margin-bottom: 3px; padding: 3px; background: rgba(50,130,184,0.1); border-radius: 3px;">
+                <span style="color: #a8dadc; font-style: italic;">${entry.time}</span> -
+                <span style="font-weight: bold; color: #3282b8;">${entry.titan}</span>: ${entry.count} graczy
+            </div>
+        `).join('') :
+        '<div style="text-align: center; color: #a8dadc; font-style: italic; padding: 10px;">Brak powiadomień</div>';
+
+    panel.innerHTML = `
+        <div id="alarm-panel-header" style="color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; font-weight: bold; padding: 15px 15px 8px 15px; border-bottom: 1px solid #444; cursor: move; user-select: none; background: #333; border-radius: 4px 4px 0 0;">
+            Players Online Alarm - Settings
+        </div>
+
+        <div style="padding: 15px;">
+            <div style="margin-bottom: 15px;">
+                <div style="margin-bottom: 12px;">
+                    <label style="color: #ccc; font-size: 12px; display: block; margin-bottom: 4px;">Discord Webhook URL:</label>
+                    <input type="text" id="manager-webhook-url" placeholder="https://discord.com/api/webhooks/..." 
+                           value="${webhookUrl}"
+                           style="width: 100%; padding: 6px; background: rgba(50,130,184,0.2); border: 1px solid #0f4c75; border-radius: 3px; color: #e8f4fd; font-size: 12px; box-sizing: border-box;">
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="color: #ccc; font-size: 12px; display: block; margin-bottom: 4px;">Próg powiadomień (graczy):</label>
+                    <input type="number" id="manager-threshold-input" min="1" max="50" value="${getPlayerThreshold()}"
+                           style="width: 80px; padding: 6px; background: rgba(50,130,184,0.2); border: 1px solid #0f4c75; border-radius: 3px; color: #e8f4fd; font-size: 12px; text-align: center;">
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="color: #ccc; font-size: 12px; display: block; margin-bottom: 4px;">Ostatnie powiadomienia:</label>
+                    <div style="max-height: 100px; overflow-y: auto; background: rgba(0,0,0,0.3); border: 1px solid #0f4c75; border-radius: 3px; padding: 8px;">
+                        ${logHtml}
+                    </div>
+                </div>
+
+                <div style="padding: 8px; border-radius: 3px; margin-bottom: 12px; ${statusClass === 'warning' ? 'background: rgba(255, 193, 7, 0.1); border: 1px solid #ffc107; color: #ffc107;' : 'background: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745;'}">
+                    <strong>Status:</strong> ${statusText}
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 12px; border-top: 1px solid #444; padding-top: 12px;">
+                <button id="manager-close-settings" style="flex: 1; padding: 8px 12px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
+                    Zamknij
+                </button>
+                <button id="manager-save-settings" style="flex: 1; padding: 8px 12px; background: #3282b8; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                    Zapisz
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(panel);
+
+    // *** DODAJ FUNKCJONALNOŚĆ PRZECIĄGANIA ***
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    const header = panel.querySelector('#alarm-panel-header');
+    
+    header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        const rect = panel.getBoundingClientRect();
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        e.preventDefault();
+        
+        // Dodaj visual feedback
+        header.style.background = '#444';
+        panel.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        
+        const x = Math.min(Math.max(0, e.clientX - dragOffsetX), window.innerWidth - panel.offsetWidth);
+        const y = Math.min(Math.max(0, e.clientY - dragOffsetY), window.innerHeight - panel.offsetHeight);
+        
+        panel.style.left = `${x}px`;
+        panel.style.top = `${y}px`;
+        panel.style.transform = 'none';
+        
+        // Zapisz pozycję w localStorage
+        localStorage.setItem('podAlarmPanelPosition', JSON.stringify({x, y}));
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            
+            // Usuń visual feedback
+            header.style.background = '#333';
+            panel.style.cursor = 'default';
+        }
+    });
+
+    // Przywróć zapisaną pozycję przy otwieraniu
+    const savedPosition = JSON.parse(localStorage.getItem('podAlarmPanelPosition') || 'null');
+    if (savedPosition) {
+        panel.style.left = `${savedPosition.x}px`;
+        panel.style.top = `${savedPosition.y}px`;
+        panel.style.transform = 'none';
+    }
+
+    // Event listenery
+    const webhookInput = panel.querySelector('#manager-webhook-url');
+    const thresholdInput = panel.querySelector('#manager-threshold-input');
+
+    panel.querySelector('#manager-save-settings').onclick = () => {
+        const enabled = true;
+        const webhookUrl = webhookInput.value.trim();
+        const threshold = parseInt(thresholdInput.value);
+
+        setNotifierEnabled(enabled);
+        setDiscordWebhookUrl(webhookUrl);
+        setPlayerThreshold(threshold);
+
+        toggleManagerSettingsPanel();
+
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = `
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 10002; background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 12px 20px; border-radius: 8px;
+            font-weight: bold; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        `;
+        successMsg.innerHTML = '✅ Ustawienia zapisane pomyślnie!';
+        document.body.appendChild(successMsg);
+
+        setTimeout(() => successMsg.remove(), 3000);
+    };
+
+    panel.querySelector('#manager-close-settings').onclick = () => {
+        toggleManagerSettingsPanel();
+    };
+}
+
+function toggleManagerSettingsPanel() {
+    const panel = document.getElementById('kwak-alarm-manager-panel');
+    if (panel) {
+        panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+    // Inicjalizacja
+ function init() {
+    // Dodaj style
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = styles;
+    document.head.appendChild(styleSheet);
+
+    // Integracja z addon managerem (bez tworzenia osobnego przycisku)
+    integrateWithAddonManager();
+
+    // Rozpocznij sprawdzanie po minucie (używając setTimeout zamiast setInterval)
+    setTimeout(() => {
+        checkPlayers(); // Pierwsze sprawdzenie po minucie
+        scheduleNextCheck(); // Zaplanuj kolejne sprawdzenia
+    }, 60000);
+
+    // Zatrzymaj timer gdy strona się wyładowuje
+    window.addEventListener('beforeunload', stopTimer);
+}
 
     // Uruchom gdy strona się załaduje
     if (document.readyState === 'loading') {
@@ -723,4 +727,5 @@
         init();
     }
 
-})();
+})()
+;

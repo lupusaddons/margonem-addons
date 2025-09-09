@@ -1,7 +1,6 @@
 (function() {
     'use strict';
 if (window.titanNotifierRunning) {
-    console.log('Titans on Discord już działa - pomijam duplikat');
     return;
 }
 window.titanNotifierRunning = true;
@@ -1030,7 +1029,7 @@ function init() {
     const existingButton = document.getElementById('titan-notifier-button');
     if (existingButton) {
         existingButton.remove();
-        console.log('Usunięto duplikat przycisku Titans on Discord');
+
     }
     
     if (titanCheckInterval) {
@@ -1052,7 +1051,7 @@ function init() {
         console.warn('Addon manager integration failed:', error);
     }
     
-    console.log('Dodatek uruchomiony!');
+
 }
 
 

@@ -967,7 +967,7 @@ function updateHeaderRefreshInfo() {
 
         const header = document.createElement('div');
         header.className = 'kwak-addon-menu-header';
-        header.textContent = `${Engine.hero.d.nick} - Pełny dostęp`;
+        header.textContent = `${userId} (${Engine.hero.d.nick}) - Pełny dostęp`;
 
         const closeBtn = document.createElement('button');
         closeBtn.className = 'kwak-addon-close-btn';

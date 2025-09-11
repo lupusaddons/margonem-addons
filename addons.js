@@ -282,7 +282,7 @@ const addonConfig = {
     function cleanupAddon(addonId) {
     }
 
-    const styles = `
+const styles = `
 .kwak-addon-manager {
     position: fixed;
     z-index: 10000;
@@ -424,6 +424,71 @@ const addonConfig = {
 .kwak-addon-close-btn:hover {
     background: linear-gradient(to bottom, #cc4444 0%, #aa2222 100%);
     border-color: #992222;
+}
+
+.kwak-addon-tabs {
+    display: flex !important;
+    background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%) !important;
+    border-bottom: 1px solid #333 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.kwak-addon-tab {
+    flex: 1 !important;
+    padding: 12px 16px !important;
+    background: linear-gradient(to bottom, #333 0%, #222 100%) !important;
+    border: none !important;
+    border-right: 1px solid #111 !important;
+    color: #ccc !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    position: relative !important;
+    outline: none !important;
+}
+
+.kwak-addon-tab:last-child {
+    border-right: none !important;
+}
+
+.kwak-addon-tab:hover {
+    background: linear-gradient(to bottom, #444 0%, #333 100%) !important;
+    color: #fff !important;
+}
+
+.kwak-addon-tab.active {
+    background: linear-gradient(to bottom, #4CAF50 0%, #388E3C 100%) !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+
+.kwak-addon-tab.active::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -1px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 2px !important;
+    background: #4CAF50 !important;
+}
+
+.kwak-tab-content {
+    display: none !important;
+}
+
+.kwak-tab-content.active {
+    display: block !important;
+}
+
+.kwak-custom-content {
+    padding: 16px !important;
+    color: #fff !important;
+    text-align: center !important;
+    font-size: 14px !important;
 }
 
 .kwak-addon-content {
@@ -966,6 +1031,7 @@ function updateHeaderRefreshInfo() {
         tooltip.style.top = top + 'px';
     }
 
+
 function createGUI() {
     // Stwórz menu
     const menu = document.createElement('div');
@@ -989,7 +1055,7 @@ function createGUI() {
 
     const header = document.createElement('div');
     header.className = 'kwak-addon-menu-header';
-    header.textContent = `${userId} (${Engine.hero.d.nick}) - Pełny Dostęp`;
+    header.textContent = `${userId} (${Engine.hero.d.nick}) - DEV`;
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'kwak-addon-close-btn';
@@ -1004,6 +1070,33 @@ function createGUI() {
     updateHeaderRefreshInfo();
     makeDraggable(menu, header);
     menu.appendChild(header);
+
+    // NOWE: Dodaj zakładki
+    const tabsContainer = document.createElement('div');
+    tabsContainer.className = 'kwak-addon-tabs';
+
+    const addonsTab = document.createElement('button');
+    addonsTab.className = 'kwak-addon-tab active';
+    addonsTab.textContent = 'Dodatki';
+    addonsTab.addEventListener('click', () => switchTab('addons'));
+
+    const customTab = document.createElement('button');
+    customTab.className = 'kwak-addon-tab';
+    customTab.textContent = 'Informacje';
+    customTab.addEventListener('click', () => switchTab('custom'));
+
+    tabsContainer.appendChild(addonsTab);
+    tabsContainer.appendChild(customTab);
+    menu.appendChild(tabsContainer);
+
+    // NOWE: Kontener dla zawartości zakładek
+    const tabContent = document.createElement('div');
+    tabContent.className = 'kwak-tab-content';
+
+    // Zakładka dodatków (istniejący kod)
+    const addonsContent = document.createElement('div');
+    addonsContent.id = 'addons-tab';
+    addonsContent.className = 'kwak-tab-content active';
 
     // Kontener dla dodatków z dwiema kolumnami
     const content = document.createElement('div');
@@ -1123,8 +1216,45 @@ function createGUI() {
     controls.appendChild(enableAllBtn);
     controls.appendChild(disableAllBtn);
 
-    menu.appendChild(content);
-    menu.appendChild(controls);
+    addonsContent.appendChild(content);
+    addonsContent.appendChild(controls);
+
+    // NOWE: Zakładka custom
+    const customContent = document.createElement('div');
+    customContent.id = 'custom-tab';
+    customContent.className = 'kwak-tab-content';
+
+    const customContentText = document.createElement('div');
+    customContentText.className = 'kwak-custom-content';
+    customContentText.innerHTML = `
+    <h3 style="color: #4CAF50; margin-bottom: 16px;">Kontakt</h3>
+    <p>Discord: zabujczakwaczuszka</p>
+    <p><a href="https://discord.gg/GXgmeRtkSt" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Serwer Discord(Lupus)</a></p>
+    <p style="color: #888; font-size: 12px; margin-top: 16px;">kiedyś coś tu będzie.....</p>
+`;
+    customContent.appendChild(customContentText);
+
+    menu.appendChild(addonsContent);
+    menu.appendChild(customContent);
+
+       function switchTab(tabName) {
+        // Usuń aktywne klasy z zakładek
+        const tabs = menu.querySelectorAll('.kwak-addon-tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        // Usuń aktywne klasy z zawartości
+        const contents = menu.querySelectorAll('.kwak-tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+
+        // Dodaj aktywne klasy do wybranej zakładki i zawartości
+        if (tabName === 'addons') {
+            addonsTab.classList.add('active');
+            addonsContent.classList.add('active');
+        } else if (tabName === 'custom') {
+            customTab.classList.add('active');
+            customContent.classList.add('active');
+        }
+    }
 
     document.body.appendChild(menu);
 

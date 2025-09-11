@@ -102,6 +102,13 @@ const addonConfig = {
             description: 'Zmienia nazwy statystyk, bonusów legendarnych oraz dodaje kalkulator ulepszania do tipów.',
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/betterui.js'
+        },
+        addon8: {
+            id: 'quack',
+            name: 'QUACK',
+            description: 'QUAAAAAAAAAAAAAAAAAAAAAAAAAAAACK!',
+            enabled: false,
+            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/quack.js'
         }
     };
 // Obiekt do przechowywania załadowanych dodatków

@@ -1055,7 +1055,7 @@ function createGUI() {
 
     const header = document.createElement('div');
     header.className = 'kwak-addon-menu-header';
-    header.textContent = `${userId} (${Engine.hero.d.nick}) - DEV`;
+    header.textContent = `${userId} (${Engine.hero.d.nick}) - Pełny Dostęp`;
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'kwak-addon-close-btn';

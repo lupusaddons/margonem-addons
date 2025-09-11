@@ -1230,6 +1230,7 @@ function createGUI() {
     <h3 style="color: #4CAF50; margin-bottom: 16px;">Kontakt</h3>
     <p>Discord: zabujczakwaczuszka</p>
     <p><a href="https://discord.gg/GXgmeRtkSt" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Serwer Discord(Lupus)</a></p>
+    <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1" target="_blank" style="color: #FF0000; text-decoration: none; font-weight: bold;">Profil na Pornhubie</a></p>
     <p style="color: #888; font-size: 12px; margin-top: 16px;">kiedyś coś tu będzie.....</p>
 `;
     customContent.appendChild(customContentText);

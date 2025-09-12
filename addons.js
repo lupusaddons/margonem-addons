@@ -854,6 +854,47 @@ const styles = `
     .kwak-refresh-notification-buttons {
         flex-direction: column;
     }
+.kwak-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    z-index: 99999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kwak-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+}
+
+.kwak-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,0.7);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 999999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.kwak-close:hover {
+    background: rgba(255,0,0,0.8);
+}
 }
 `;
 
@@ -1062,7 +1103,7 @@ function createGUI() {
 
     const header = document.createElement('div');
     header.className = 'kwak-addon-menu-header';
-    header.textContent = `${userId} (${Engine.hero.d.nick}) - Pełny Dostęp`;
+    header.textContent = `${userId} (${Engine.hero.d.nick}) - Pełny dostęp`;
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'kwak-addon-close-btn';
@@ -1226,21 +1267,29 @@ function createGUI() {
     addonsContent.appendChild(content);
     addonsContent.appendChild(controls);
 
-    // NOWE: Zakładka custom
-    const customContent = document.createElement('div');
-    customContent.id = 'custom-tab';
-    customContent.className = 'kwak-tab-content';
+const customContent = document.createElement('div');
+customContent.id = 'custom-tab';
+customContent.className = 'kwak-tab-content';
 
-    const customContentText = document.createElement('div');
-    customContentText.className = 'kwak-custom-content';
-    customContentText.innerHTML = `
+const customContentText = document.createElement('div');
+customContentText.className = 'kwak-custom-content';
+customContentText.innerHTML = `
     <h3 style="color: #4CAF50; margin-bottom: 16px;">Kontakt</h3>
     <p>Discord: zabujczakwaczuszka</p>
     <p><a href="https://discord.gg/GXgmeRtkSt" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Serwer Discord(Lupus)</a></p>
-    <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1" target="_blank" style="color: #FF0000; text-decoration: none; font-weight: bold;">Profil na Pornhubie</a></p>
+    <p><a href="#" id="fake-pornhub-link" style="color: #FF0000; text-decoration: none; font-weight: bold;">Profil na Pornhubie</a></p>
     <p style="color: #888; font-size: 12px; margin-top: 16px;">kiedyś coś tu będzie.....</p>
 `;
-    customContent.appendChild(customContentText);
+
+// Dodaj event listener do fake linku
+customContentText.addEventListener('click', (e) => {
+    if (e.target.id === 'fake-pornhub-link') {
+        e.preventDefault(); // Zapobiega domyślnej akcji linku
+        playCustomVideo(); // Odtwórz video
+    }
+});
+
+customContent.appendChild(customContentText);
 
     menu.appendChild(addonsContent);
     menu.appendChild(customContent);
@@ -1267,6 +1316,52 @@ function createGUI() {
     document.body.appendChild(menu);
 
     return menu;
+}
+function playCustomVideo() {
+    // Sprawdź czy video już jest otwarte
+    if (document.querySelector('.kwak-fullscreen')) return;
+
+    // Stwórz fullscreen container
+    const fullscreen = document.createElement('div');
+    fullscreen.className = 'kwak-fullscreen';
+
+    // Przycisk zamknięcia
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'kwak-close';
+    closeBtn.innerHTML = '×';
+    closeBtn.onclick = closeVideo;
+
+    // Video element
+    const video = document.createElement('video');
+    video.className = 'kwak-video';
+    video.src = 'https://github.com/krystianasaaa/margonem-addons/raw/refs/heads/main/videos/heheheh.mp4';
+    video.autoplay = true;
+    video.volume = 0.7;
+
+    // Auto-zamknięcie po skończeniu
+    video.onended = closeVideo;
+
+    // ESC = zamknij
+    const escHandler = (e) => {
+        if (e.key === 'Escape') {
+            closeVideo();
+            document.removeEventListener('keydown', escHandler);
+        }
+    };
+    document.addEventListener('keydown', escHandler);
+
+    // Dodaj elementy
+    fullscreen.appendChild(closeBtn);
+    fullscreen.appendChild(video);
+    document.body.appendChild(fullscreen);
+
+    function closeVideo() {
+        const fs = document.querySelector('.kwak-fullscreen');
+        if (fs) {
+            fs.remove();
+        }
+        document.removeEventListener('keydown', escHandler);
+    }
 }
 function createAddonWidget() {
     const logoImage = 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/b939ec05fdd03f6f973cef7a931659c224596bde/ikonka.png';

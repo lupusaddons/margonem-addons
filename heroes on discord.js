@@ -740,7 +740,7 @@ async function checkHeroRespawns() {
             showSettings();
         });
     }
-function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
+unction showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
     // Sprawdź czy okno już istnieje
     if (document.getElementById('hero-detection-window')) return;
 
@@ -748,50 +748,151 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
     gameWindow.id = 'hero-detection-window';
     gameWindow.style.cssText = `
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #2a2a2a;
-        border: 1px solid #444;
-        border-radius: 4px;
+        top: 200px;
+        left: 240px;
+        background: linear-gradient(180deg, #4a3c5e 0%, #3d2f4f 50%, #2f1f3f 100%);
+        border: 2px solid #6b5b7b;
+        border-radius: 8px;
         padding: 0;
         z-index: 10000;
         display: flex;
         flex-direction: column;
-        min-width: 200px;
-        max-width: 220px;
+        width: 240px;
         font-family: Arial, sans-serif;
         color: #fff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
         user-select: none;
     `;
 
     gameWindow.innerHTML = `
-        <div id="hero-window-header" style="color: #fff; font-size: 12px; text-align: center; font-weight: bold; padding: 10px; border-bottom: 1px solid #444; flex-shrink: 0; cursor: move; user-select: none; background: #333; border-radius: 4px 4px 0 0; display: flex; justify-content: space-between; align-items: center;">
-            <span style="flex: 1; text-align: center;">¡HEROS!</span>
-            <button style="background: none; border: none; color: #ccc; font-size: 14px; cursor: pointer; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border-radius: 2px; flex-shrink: 0;" id="hero-window-close" onmouseover="this.style.background='#555'" onmouseout="this.style.background='none'">×</button>
+        <div id="hero-window-header" style="
+            background: linear-gradient(180deg, #6b4f7a 0%, #5a3e69 100%);
+            color: #fff; 
+            font-size: 14px; 
+            text-align: center; 
+            font-weight: bold; 
+            padding: 12px 15px; 
+            border-bottom: 1px solid #4a3c5e; 
+            border-radius: 6px 6px 0 0;
+            cursor: move; 
+            user-select: none;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        ">
+            <span style="flex: 1; text-align: center;">Heros!</span>
+            <button style="
+                background: none; 
+                border: none; 
+                color: #ddd; 
+                font-size: 16px; 
+                cursor: pointer; 
+                width: 18px; 
+                height: 18px; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                border-radius: 3px; 
+                flex-shrink: 0;
+                font-weight: bold;
+            " id="hero-window-close" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='none'">×</button>
         </div>
 
-        <div style="flex: 1; padding: 15px;">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 16px; color: #fff; font-weight: bold;">
+        <div style="padding: 20px 15px 15px 15px;">
+            <!-- Hero Name and Level -->
+            <div style="
+                text-align: center; 
+                margin-bottom: 20px;
+                padding: 10px;
+                background: linear-gradient(180deg, rgba(255,215,0,0.15) 0%, rgba(255,140,0,0.1) 100%);
+                border: 1px solid rgba(255,215,0,0.3);
+                border-radius: 6px;
+            ">
+                <div style="
+                    font-size: 18px; 
+                    color: #ffd700; 
+                    font-weight: bold;
+                    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+                    margin-bottom: 4px;
+                ">
                     ${heroName}
+                </div>
+                <div style="
+                    font-size: 12px; 
+                    color: #ffeb3b;
+                    font-style: italic;
+                ">
+                    (${heroLevel} lvl)
                 </div>
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <div style="color: #ccc; font-size: 10px; margin-bottom: 6px; font-weight: bold;">Dodatkowa wiadomość:</div>
+            <!-- Message Input Section -->
+            <div style="margin-bottom: 20px;">
+                <div style="
+                    color: #e0d0f0; 
+                    font-size: 12px; 
+                    margin-bottom: 8px; 
+                    font-weight: bold;
+                    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+                ">Dodatkowa wiadomość:</div>
                 <textarea id="hero-custom-message" placeholder="Wpisz dodatkową wiadomość..."
-                          style="width: 100%; height: 40px; padding: 6px; background: #555; border: 1px solid #666; border-radius: 3px; color: #fff; font-size: 10px; box-sizing: border-box; resize: vertical; font-family: Arial, sans-serif;"></textarea>
-                <div style="color: #888; font-size: 8px; margin-top: 3px;">Zostanie dodana do powiadomienia</div>
+                          style="
+                            width: 100%; 
+                            height: 60px; 
+                            padding: 8px; 
+                            background: rgba(0,0,0,0.4); 
+                            border: 1px solid #6b5b7b; 
+                            border-radius: 4px; 
+                            color: #fff; 
+                            font-size: 11px; 
+                            box-sizing: border-box; 
+                            resize: vertical; 
+                            font-family: Arial, sans-serif;
+                            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+                "></textarea>
+                <div style="
+                    color: #b8a8c8; 
+                    font-size: 10px; 
+                    margin-top: 5px;
+                    font-style: italic;
+                ">Zostanie dodana do powiadomienia Discord</div>
             </div>
         </div>
 
-        <div style="display: flex; gap: 6px; margin: 10px; border-top: 1px solid #444; padding-top: 10px; flex-shrink: 0;">
-            <button id="hero-cancel-btn" style="flex: 1; padding: 6px 10px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 10px; font-weight: bold;" onmouseover="this.style.background='#666'" onmouseout="this.style.background='#555'">
-                Anuluj
+        <!-- Action Buttons -->
+        <div style="
+            display: flex; 
+            border-top: 1px solid #4a3c5e; 
+            border-radius: 0 0 6px 6px;
+            overflow: hidden;
+        ">
+            <button id="hero-cancel-btn" style="
+                flex: 1; 
+                padding: 12px; 
+                background: linear-gradient(180deg, #5a4a6a 0%, #4a3a5a 100%); 
+                color: #ddd; 
+                border: none; 
+                cursor: pointer; 
+                font-size: 12px; 
+                font-weight: bold;
+                border-right: 1px solid #4a3c5e;
+                transition: all 0.2s;
+            " onmouseover="this.style.background='linear-gradient(180deg, #6a5a7a 0%, #5a4a6a 100%)'" onmouseout="this.style.background='linear-gradient(180deg, #5a4a6a 0%, #4a3a5a 100%)'">
+                Zamknij
             </button>
-            <button id="hero-send-btn" style="flex: 1; padding: 6px 10px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 10px; font-weight: bold;" onmouseover="this.style.background='#c82333'" onmouseout="this.style.background='#dc3545'">
+            <button id="hero-send-btn" style="
+                flex: 1; 
+                padding: 12px; 
+                background: linear-gradient(180deg, #dc3545 0%, #c82333 100%); 
+                color: white; 
+                border: none; 
+                cursor: pointer; 
+                font-size: 12px; 
+                font-weight: bold;
+                transition: all 0.2s;
+                text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+            " onmouseover="this.style.background='linear-gradient(180deg, #e85565 0%, #d43545 100%)'" onmouseout="this.style.background='linear-gradient(180deg, #dc3545 0%, #c82333 100%)'">
                 Wyślij
             </button>
         </div>
@@ -810,7 +911,7 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
         dragOffsetX = e.clientX - gameWindow.getBoundingClientRect().left;
         dragOffsetY = e.clientY - gameWindow.getBoundingClientRect().top;
         e.preventDefault();
-        header.style.background = '#444';
+        header.style.background = 'linear-gradient(180deg, #7b5f8a 0%, #6a4e79 100%)';
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -825,7 +926,7 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
     document.addEventListener('mouseup', () => {
         if (isDragging) {
             isDragging = false;
-            header.style.background = '#333';
+            header.style.background = 'linear-gradient(180deg, #6b4f7a 0%, #5a3e69 100%)';
         }
     });
 
@@ -854,10 +955,12 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
             const successMsg = document.createElement('div');
             successMsg.style.cssText = `
                 position: fixed; top: 20px; right: 20px;
-                background: #28a745; color: white; padding: 10px 15px;
-                border-radius: 4px; font-weight: bold; z-index: 10001;
-                font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                background: linear-gradient(135deg, #28a745, #20c997); 
+                color: white; padding: 12px 18px;
+                border-radius: 6px; font-weight: bold; z-index: 10001;
+                font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
                 font-family: Arial, sans-serif;
+                border: 1px solid rgba(255,255,255,0.2);
             `;
             successMsg.textContent = '✅ Powiadomienie wysłane!';
             document.body.appendChild(successMsg);
@@ -867,10 +970,12 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
             const errorMsg = document.createElement('div');
             errorMsg.style.cssText = `
                 position: fixed; top: 20px; right: 20px;
-                background: #dc3545; color: white; padding: 10px 15px;
-                border-radius: 4px; font-weight: bold; z-index: 10001;
-                font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                background: linear-gradient(135deg, #dc3545, #c82333); 
+                color: white; padding: 12px 18px;
+                border-radius: 6px; font-weight: bold; z-index: 10001;
+                font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
                 font-family: Arial, sans-serif;
+                border: 1px solid rgba(255,255,255,0.2);
             `;
             errorMsg.textContent = '❌ Błąd wysyłania!';
             document.body.appendChild(errorMsg);
@@ -879,69 +984,6 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
 
         document.body.removeChild(gameWindow);
     };
-}
-
-async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroData = {}) {
-    const webhookUrl = getWebhookUrl();
-    if (!webhookUrl || !isNotifierEnabled()) return false;
-
-    const timestamp = new Date().toLocaleString('pl-PL');
-    const roleIds = getHeroRoleIds();
-    const roleId = roleIds[heroName];
-
-    // Obsługa wielu ról i @everyone
-    let rolePing = '';
-    if (roleId) {
-        if (roleId.toLowerCase() === 'everyone') {
-            rolePing = '@everyone';
-        } else {
-            const roleIdsList = roleId.split(',').map(id => id.trim()).filter(id => id);
-            rolePing = roleIdsList.map(id => `<@&${id}>`).join(' ');
-        }
-    }
-
-    // Pobierz dodatkowe informacje
-    const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
-    const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
-    const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
-    const customMessage = heroData.customMessage || '';
-
-let description = `**${heroName} (Lvl ${heroLevel})**\n\n` +
-                 `**Mapa:** ${mapName} ${heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]'}\n` +
-                 `**Znalazł:** ${finderName}\n` +
-                 `**Świat:** ${worldName}`;
-
-    if (customMessage) {
-        description += `\n\n**Wiadomość:** ${customMessage}`;
-    }
-
-    const embed = {
-        title: `!#HEROS#!`,
-        description: description,
-        color: 0xdc3545,
-        footer: {
-            text: `Kaczor Addons - Heroes on Discord • ${timestamp}`
-        },
-        timestamp: new Date().toISOString()
-    };
-
-    try {
-        const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: rolePing,
-                embeds: [embed]
-            })
-        });
-
-        return response.ok;
-    } catch (error) {
-        console.error('Błąd wysyłania powiadomienia na Discord:', error);
-        return false;
-    }
 }
 
 function addManagerSettingsButton(container) {

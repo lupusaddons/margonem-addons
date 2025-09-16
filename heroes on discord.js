@@ -740,7 +740,7 @@ async function checkHeroRespawns() {
             showSettings();
         });
     }
-unction showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
+function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
     // Sprawdź czy okno już istnieje
     if (document.getElementById('hero-detection-window')) return;
 

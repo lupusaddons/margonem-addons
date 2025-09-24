@@ -809,41 +809,42 @@ function showHeroDetectionWindow(heroName, heroLevel, heroData = {}) {
 
     const gameWindow = document.createElement('div');
     gameWindow.id = 'hero-detection-window';
-    gameWindow.style.cssText = `
-        position: fixed;
-        top: 200px;
-        left: 240px;
-        background: linear-gradient(180deg, #4a3c5e 0%, #3d2f4f 50%, #2f1f3f 100%);
-        border: 2px solid #6b5b7b;
-        border-radius: 8px;
-        padding: 0;
-        z-index: 10000;
-        display: flex;
-        flex-direction: column;
-        width: 240px;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-        user-select: none;
-    `;
+gameWindow.style.cssText = `
+    position: fixed;
+    top: 200px;
+    left: 240px;
+    background: rgba(74, 60, 94, 0.85);  /* Zmienione: dodana przezroczystość 0.85 */
+    border: 2px solid rgba(107, 91, 123, 0.9);  /* Zmienione: lekko przezroczysta ramka */
+    border-radius: 8px;
+    padding: 0;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);  /* Zmienione: lżejszy cień */
+    user-select: none;
+    backdrop-filter: blur(5px);  /* Dodane: efekt rozmycia tła */
+`;
 
     gameWindow.innerHTML = `
-        <div id="hero-window-header" style="
-            background: linear-gradient(180deg, #6b4f7a 0%, #5a3e69 100%);
-            color: #fff; 
-            font-size: 14px; 
-            text-align: center; 
-            font-weight: bold; 
-            padding: 12px 15px; 
-            border-bottom: 1px solid #4a3c5e; 
-            border-radius: 6px 6px 0 0;
-            cursor: move; 
-            user-select: none;
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-        ">
+<div id="hero-window-header" style="
+    background: rgba(107, 79, 122, 0.9);  /* Zmienione: przezroczystość 0.9 */
+    color: #fff; 
+    font-size: 14px; 
+    text-align: center; 
+    font-weight: bold; 
+    padding: 12px 15px; 
+    border-bottom: 1px solid rgba(74, 60, 94, 0.7);  /* Zmienione: przezroczysta linia */
+    border-radius: 6px 6px 0 0;
+    cursor: move; 
+    user-select: none;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+">
             <span style="flex: 1; text-align: center;">Heros!</span>
             <button style="
                 background: none; 

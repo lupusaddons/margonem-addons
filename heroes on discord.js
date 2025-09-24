@@ -495,6 +495,69 @@ async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
         return false;
     }
 }
+
+async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroData = {}) {
+    const webhookUrl = getWebhookUrl();
+    if (!webhookUrl || !isNotifierEnabled()) return false;
+
+    const timestamp = new Date().toLocaleString('pl-PL');
+    const roleIds = getHeroRoleIds();
+    const roleId = roleIds[heroName];
+
+    // Obsługa wielu ról i @everyone
+    let rolePing = '';
+    if (roleId) {
+        if (roleId.toLowerCase() === 'everyone') {
+            rolePing = '@everyone';
+        } else {
+            const roleIdsList = roleId.split(',').map(id => id.trim()).filter(id => id);
+            rolePing = roleIdsList.map(id => `<@&${id}>`).join(' ');
+        }
+    }
+
+    // Pobierz dodatkowe informacje
+    const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
+    const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
+    const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
+    const customMessage = heroData.customMessage || '';
+
+let description = `**${heroName} (Lvl ${heroLevel})**\n\n` +
+                 `**Mapa:** ${mapName} ${heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]'}\n` +
+                 `**Znalazł:** ${finderName}\n` +
+                 `**Świat:** ${worldName}`;
+
+    if (customMessage) {
+        description += `\n\n**Wiadomość:** ${customMessage}`;
+    }
+
+    const embed = {
+        title: `!#HEROS#!`,
+        description: description,
+        color: 0xdc3545,
+        footer: {
+            text: `Kaczor Addons - Heroes on Discord • ${timestamp}`
+        },
+        timestamp: new Date().toISOString()
+    };
+
+    try {
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: rolePing,
+                embeds: [embed]
+            })
+        });
+
+        return response.ok;
+    } catch (error) {
+        console.error('Błąd wysyłania powiadomienia na Discord:', error);
+        return false;
+    }
+}
 function getHeroCoordinates(npcData) {
     try {
         let x = null;

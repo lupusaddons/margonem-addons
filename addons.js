@@ -111,8 +111,8 @@ const addonConfig = {
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/quack.js'
         },
         addon9: {
-            id: 'white_notifs',
-            name: 'White Notifs',
+            id: 'notif_styler',
+            name: 'Notif Styler',
             description: 'Zmniejsza czat, koloruje oraz zmniejsza powiadomienia',
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/white%20notifs.js'

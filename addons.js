@@ -112,8 +112,8 @@ const addonConfig = {
         },
         addon9: {
             id: 'notif_styler',
-            name: 'Notif Styler',
-            description: 'Zmniejsza czat, koloruje oraz zmniejsza powiadomienia',
+            name: 'Chat&Notifs Styler',
+            description: 'Zmienia czcionki i ich rozmiar. Dotyczy czatu w grze oraz powiadomień',
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/white%20notifs.js'
         }

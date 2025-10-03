@@ -743,7 +743,7 @@ gameWindow.style.cssText = `
 
 gameWindow.innerHTML = `
 <div id="hero-window-header" style="
-    background: #000;
+    background: #1a1a1a;
     color: #fff;
     font-size: 13px;
     text-align: center;

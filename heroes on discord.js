@@ -832,7 +832,7 @@ gameWindow.innerHTML = `
                 color: #666;
                 font-size: 9px;
                 margin-top: 3px;
-            ">Zostanie dodana do powiadomienia Discord</div>
+            ">Zostanie dodana do powiadomienia</div>
         </div>
     </div>
 

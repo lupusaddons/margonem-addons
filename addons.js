@@ -116,7 +116,21 @@ const addonConfig = {
             description: 'Zmienia czcionki i ich rozmiar. Dotyczy czatu w grze oraz powiadomień',
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/white%20notifs.js'
-        }
+        },
+        addon10: {
+            id: 'resizable_timer',
+            name: 'Resizable Timer',
+            description: 'Dodaje możliwość zmiany wielkości okna minutnika',
+            enabled: false,
+            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/minutnik.js'
+        },
+        addon11: {
+            id: 'mushrooms_abusers',
+            name: 'Mushrooms Abusers',
+            description: 'Wykrywacz grzybków który wysyła na discorda ',
+            enabled: false,
+            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/grzybki.js'
+        },
     };
 // Obiekt do przechowywania załadowanych dodatków
     const loadedAddons = {};

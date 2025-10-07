@@ -996,7 +996,9 @@ document.addEventListener('mouseup', () => {
         // BEZ zmiany koloru headera
     }
 });
-
+gameWindow.querySelector('#hero-window-close').onclick = () => {
+    document.body.removeChild(gameWindow);
+};
 gameWindow.querySelector('#hero-clan-btn').onclick = () => {
     const mapName = heroData.mapName || getCurrentMapName();
     const coords = heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]';

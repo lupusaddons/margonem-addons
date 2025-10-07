@@ -595,7 +595,7 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
     
     const embed = {
         title: `!#TYTAN#!`,
-        description: `**${titanName} (Lvl ${titanLevel})**\n\n` +
+        description: `**${titanName} (${titanLevel})**\n\n` +
                     `**Mapa:** ${mapName}\n` +
                     `**Znalazł:** ${finderName}\n` +
                     `**Świat:** ${worldName}`,

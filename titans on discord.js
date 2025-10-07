@@ -1276,7 +1276,7 @@ function showTitanDetectionWindow(titanName, titanLevel, titanData = {}) {
 
     gameWindow.querySelector('#titan-clan-btn').onclick = () => {
         const mapName = titanData.mapName || getCurrentMapName();
-        const message = `Tytan! ${titanName} na mapie ${mapName}`;
+        const message = `Tytan! ${titanName} ${titanLevel ? (${titanLevel}) : ''} na mapie ${mapName}`;
         
         const success = sendClanMessage(message);
         const statusDiv = gameWindow.querySelector('#titan-send-status');

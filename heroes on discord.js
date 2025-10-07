@@ -1001,7 +1001,7 @@ gameWindow.querySelector('#hero-clan-btn').onclick = () => {
     const mapName = heroData.mapName || getCurrentMapName();
     const coords = heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]';
     
-    const message = Heros! ${heroName} ${heroLevel ? (${heroLevel}) : ''} na mapie ${mapName} ${coords};
+const message = `Heros! ${heroName} ${heroLevel ? `(${heroLevel})` : ''} na mapie ${mapName} ${coords}`;
     
     const success = sendClanMessage(message);
     

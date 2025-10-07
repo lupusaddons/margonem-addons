@@ -471,41 +471,115 @@
     }
 
     async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
-        const webhookUrl = getWebhookUrl();
-        if (!webhookUrl || !isNotifierEnabled()) return false;
+    const webhookUrl = getWebhookUrl();
+    if (!webhookUrl || !isNotifierEnabled()) return false;
+    
+    const timestamp = new Date().toLocaleString('pl-PL');
+    const roleIds = getHeroRoleIds();
+    const roleId = roleIds[heroName];
+    
+    let rolePing = '';
+    if (roleId) {
+        if (roleId.toLowerCase() === 'everyone') {
+            rolePing = '@everyone';
+        } else {
+            const roleIdsList = roleId.split(',').map(id => id.trim()).filter(id => id);
+            rolePing = roleIdsList.map(id => `<@&${id}>`).join(' ');
+        }
+    }
+    
+    const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
+    const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
+    const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
+    
+    // Pobierz obrazek NPC jako plik
+    let npcImageFile = null;
+    try {
+        if (heroData.npcData) {
+            const npcData = heroData.npcData;
+            let npcIcon = '';
+            if (npcData && npcData.d && npcData.d.icon) {
+                npcIcon = npcData.d.icon;
+            } else if (npcData && npcData.icon) {
+                npcIcon = npcData.icon;
+            }
 
-        const timestamp = new Date().toLocaleString('pl-PL');
-        const roleIds = getHeroRoleIds();
-        const roleId = roleIds[heroName];
+            if (npcIcon) {
+                const getCookie = (name) => {
+                    const regex = new RegExp(`(^| )${name}=([^;]+)`);
+                    const match = document.cookie.match(regex);
+                    return match ? match[2] : null;
+                };
 
-        let rolePing = '';
-        if (roleId) {
-            if (roleId.toLowerCase() === 'everyone') {
-                rolePing = '@everyone';
-            } else {
-                const roleIdsList = roleId.split(',').map(id => id.trim()).filter(id => id);
-                rolePing = roleIdsList.map(id => `<@&${id}>`).join(' ');
+                let baseUrl = 'https://micc.garmory-cdn.cloud/obrazki/npc/';
+
+                if (getCookie('interface') === 'ni') {
+                    baseUrl = 'https://micc.garmory-cdn.cloud/obrazki/npc/';
+                }
+
+                let npcImageUrl = '';
+                if (!npcIcon.startsWith('http://') && !npcIcon.startsWith('https://')) {
+                    npcImageUrl = baseUrl + npcIcon;
+                } else {
+                    npcImageUrl = npcIcon;
+                }
+
+                // Pobierz obrazek jako blob i utwórz plik
+                const response = await fetch(npcImageUrl);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    npcImageFile = new File([blob], 'npc.gif', { type: blob.type });
+                }
             }
         }
-
-        const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
-        const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
-        const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
-
-        const embed = {
-            title: `!#HEROS#!`,
-            description: `**${heroName} (Lvl ${heroLevel})**\n\n` +
-                        `**Mapa:** ${mapName}\n` +
-                        `**Znalazł:** ${finderName}\n` +
-                        `**Świat:** ${worldName}`,
-            color: 0xdc3545,
-            footer: {
-                text: `Kaczor Addons - Heroes on Discord • ${timestamp}`
-            },
-            timestamp: new Date().toISOString()
+    } catch (error) {
+        console.error('Błąd pobierania obrazka NPC:', error);
+    }
+    
+    const embed = {
+        title: `!#HEROS#!`,
+        description: `**${heroName} (Lvl ${heroLevel})**\n\n` +
+                    `**Mapa:** ${mapName}\n` +
+                    `**Znalazł:** ${finderName}\n` +
+                    `**Świat:** ${worldName}`,
+        color: 0xdc3545,
+        footer: {
+            text: `Kaczor Addons - Heroes on Discord • ${timestamp}`
+        },
+        timestamp: new Date().toISOString()
+    };
+    
+    // Jeśli udało się pobrać obrazek, użyj go jako thumbnail
+    if (npcImageFile) {
+        embed.thumbnail = {
+            url: 'attachment://npc.gif'
         };
+    }
+    
+    try {
+        // Użyj FormData jeśli mamy plik obrazka
+        if (npcImageFile) {
+            const formData = new FormData();
+            formData.append('files[0]', npcImageFile);
+            formData.append('payload_json', JSON.stringify({
+                content: rolePing,
+                embeds: [embed]
+            }));
 
-        try {
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                console.error('Discord webhook response:', response.status, response.statusText);
+                const text = await response.text();
+                console.error('Response body:', text);
+            }
+
+            return response.ok;
+        } else {
+            // Fallback - wyślij bez obrazka
             const response = await fetch(webhookUrl, {
                 method: 'POST',
                 headers: {
@@ -517,13 +591,19 @@
                 })
             });
 
-            return response.ok;
-        } catch (error) {
-            console.error('Błąd wysyłania powiadomienia na Discord:', error);
-            return false;
-        }
-    }
+            if (!response.ok) {
+                console.error('Discord webhook response:', response.status, response.statusText);
+                const text = await response.text();
+                console.error('Response body:', text);
+            }
 
+            return response.ok;
+        }
+    } catch (error) {
+        console.error('Błąd wysyłania powiadomienia na Discord:', error);
+        return false;
+    }
+}
     function getHeroCoordinates(npcData) {
         try {
             let x = null;

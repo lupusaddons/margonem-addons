@@ -768,6 +768,21 @@ function getCurrentPlayerName() {
             return;
         });
     }
+    function sendClanMessage(message) {
+    try {
+        if (typeof _g === 'function') {
+            _g('chat&channel=clan', false, {
+                c: message
+            });
+            return true;
+        }
+        console.error('Funkcja _g nie jest dostępna');
+        return false;
+    } catch (error) {
+        console.error('Błąd wysyłania wiadomości na klan:', error);
+        return false;
+    }
+}
 
     // Funkcja pokazywania ustawień
  function addManagerSettingsButton(container) {
@@ -1191,7 +1206,7 @@ function showTitanDetectionWindow(titanName, titanLevel, titanData = {}) {
             </div>
             ` : ''}
 
-            <div style="
+            <div id="titan-send-status" style="
                 text-align: center;
                 color: #28a745;
                 font-size: 11px;
@@ -1210,18 +1225,18 @@ function showTitanDetectionWindow(titanName, titanLevel, titanData = {}) {
             border-radius: 0 0 8px 8px;
             overflow: hidden;
         ">
-            <button id="titan-close-btn" style="
+            <button id="titan-clan-btn" style="
                 width: 100%;
                 padding: 10px;
-                background: #2a2a2a;
-                color: #aaa;
+                background: #17a2b8;
+                color: #fff;
                 border: none;
                 cursor: pointer;
                 font-size: 11px;
                 font-weight: bold;
                 transition: all 0.2s;
-            " onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
-                Zamknij
+            " onmouseover="this.style.background='#138496'" onmouseout="this.style.background='#17a2b8'">
+                Klan
             </button>
         </div>
     `;
@@ -1259,8 +1274,24 @@ function showTitanDetectionWindow(titanName, titanLevel, titanData = {}) {
         document.body.removeChild(gameWindow);
     };
 
-    gameWindow.querySelector('#titan-close-btn').onclick = () => {
-        document.body.removeChild(gameWindow);
+    gameWindow.querySelector('#titan-clan-btn').onclick = () => {
+        const mapName = titanData.mapName || getCurrentMapName();
+        const message = `Tytan! ${titanName} na mapie ${mapName}`;
+        
+        const success = sendClanMessage(message);
+        const statusDiv = gameWindow.querySelector('#titan-send-status');
+        
+        if (success) {
+            statusDiv.style.background = 'rgba(40, 167, 69, 0.1)';
+            statusDiv.style.borderColor = '#28a745';
+            statusDiv.style.color = '#28a745';
+            statusDiv.textContent = '✓ Wiadomość wysłana na klan!';
+        } else {
+            statusDiv.style.background = 'rgba(220, 53, 69, 0.1)';
+            statusDiv.style.borderColor = '#dc3545';
+            statusDiv.style.color = '#dc3545';
+            statusDiv.textContent = '✗ Błąd - nie można wysłać na klan';
+        }
     };
 }
 

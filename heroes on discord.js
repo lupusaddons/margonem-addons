@@ -469,7 +469,21 @@
         }
         return 'normal';
     }
-
+function sendClanMessage(message) {
+    try {
+        if (typeof _g === 'function') {
+            _g('chat&channel=clan', false, {
+                c: message
+            });
+            return true;
+        }
+        console.error('Funkcja _g nie jest dostępna');
+        return false;
+    } catch (error) {
+        console.error('Błąd wysyłania wiadomości na klan:', error);
+        return false;
+    }
+}
     async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl || !isNotifierEnabled()) return false;
@@ -916,40 +930,40 @@ gameWindow.innerHTML = `
         </div>
     </div>
 
-    <div style="
-        display: flex;
-        border-top: 1px solid #000;
-        border-radius: 0 0 8px 8px;
-        overflow: hidden;
-    ">
-        <button id="hero-cancel-btn" style="
-            flex: 1;
-            padding: 10px;
-            background: #2a2a2a;
-            color: #aaa;
-            border: none;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: bold;
-            border-right: 1px solid #000;
-            transition: all 0.2s;
-        " onmouseover="this.style.background='#333'" onmouseout="this.style.background='#2a2a2a'">
-            Zamknij
-        </button>
-        <button id="hero-send-btn" style="
-            flex: 1;
-            padding: 10px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: bold;
-            transition: all 0.2s;
-        " onmouseover="this.style.background='#45a049'" onmouseout="this.style.background='#4CAF50'">
-            Wyślij
-        </button>
-    </div>
+<div style="
+    display: flex;
+    border-top: 1px solid #000;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+">
+    <button id="hero-clan-btn" style="
+        flex: 1;
+        padding: 10px;
+        background: #17a2b8;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+        border-right: 1px solid #000;
+        transition: all 0.2s;
+    " onmouseover="this.style.background='#138496'" onmouseout="this.style.background='#17a2b8'">
+        Klan
+    </button>
+    <button id="hero-send-btn" style="
+        flex: 1;
+        padding: 10px;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+        transition: all 0.2s;
+    " onmouseover="this.style.background='#45a049'" onmouseout="this.style.background='#4CAF50'">
+        Discord
+    </button>
+</div>
 `;
 
         document.body.appendChild(gameWindow);
@@ -983,56 +997,89 @@ document.addEventListener('mouseup', () => {
     }
 });
 
-        gameWindow.querySelector('#hero-window-close').onclick = () => {
-            document.body.removeChild(gameWindow);
-        };
+gameWindow.querySelector('#hero-clan-btn').onclick = () => {
+    const mapName = heroData.mapName || getCurrentMapName();
+    const coords = heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]';
+    
+    const message = `Heros! ${heroName} na mapie ${mapName} ${coords}`;
+    
+    const success = sendClanMessage(message);
+    
+    if (success) {
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = `
+            position: fixed; top: 20px; right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 12px 18px;
+            border-radius: 6px; font-weight: bold; z-index: 10001;
+            font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            font-family: Arial, sans-serif;
+            border: 1px solid rgba(255,255,255,0.2);
+        `;
+        successMsg.textContent = 'Wiadomość wysłana na klan!';
+        document.body.appendChild(successMsg);
+        setTimeout(() => successMsg.remove(), 3000);
+    } else {
+        const errorMsg = document.createElement('div');
+        errorMsg.style.cssText = `
+            position: fixed; top: 20px; right: 20px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white; padding: 12px 18px;
+            border-radius: 6px; font-weight: bold; z-index: 10001;
+            font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            font-family: Arial, sans-serif;
+            border: 1px solid rgba(255,255,255,0.2);
+        `;
+        errorMsg.textContent = 'Błąd - nie można wysłać na klan';
+        document.body.appendChild(errorMsg);
+        setTimeout(() => errorMsg.remove(), 3000);
+    }
+    
+    document.body.removeChild(gameWindow);
+};
 
-        gameWindow.querySelector('#hero-cancel-btn').onclick = () => {
-            document.body.removeChild(gameWindow);
-        };
+gameWindow.querySelector('#hero-send-btn').onclick = async () => {
+    const customMessage = gameWindow.querySelector('#hero-custom-message').value.trim();
 
-        gameWindow.querySelector('#hero-send-btn').onclick = async () => {
-            const customMessage = gameWindow.querySelector('#hero-custom-message').value.trim();
+    const success = await sendHeroRespawnNotificationWithMessage(heroName, heroLevel, {
+        ...heroData,
+        customMessage: customMessage
+    });
 
-            const success = await sendHeroRespawnNotificationWithMessage(heroName, heroLevel, {
-                ...heroData,
-                customMessage: customMessage
-            });
+    if (success) {
+        addToNotificationLog(heroName, heroLevel);
 
-            if (success) {
-                addToNotificationLog(heroName, heroLevel);
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = `
+            position: fixed; top: 20px; right: 20px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; padding: 12px 18px;
+            border-radius: 6px; font-weight: bold; z-index: 10001;
+            font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            font-family: Arial, sans-serif;
+            border: 1px solid rgba(255,255,255,0.2);
+        `;
+        successMsg.textContent = 'Powiadomienie wysłane!';
+        document.body.appendChild(successMsg);
+        setTimeout(() => successMsg.remove(), 3000);
+    } else {
+        const errorMsg = document.createElement('div');
+        errorMsg.style.cssText = `
+            position: fixed; top: 20px; right: 20px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white; padding: 12px 18px;
+            border-radius: 6px; font-weight: bold; z-index: 10001;
+            font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            font-family: Arial, sans-serif;
+            border: 1px solid rgba(255,255,255,0.2);
+        `;
+        errorMsg.textContent = 'Błąd wysyłania!';
+        document.body.appendChild(errorMsg);
+        setTimeout(() => errorMsg.remove(), 3000);
+    }
 
-                const successMsg = document.createElement('div');
-                successMsg.style.cssText = `
-                    position: fixed; top: 20px; right: 20px;
-                    background: linear-gradient(135deg, #28a745, #20c997);
-                    color: white; padding: 12px 18px;
-                    border-radius: 6px; font-weight: bold; z-index: 10001;
-                    font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-                    font-family: Arial, sans-serif;
-                    border: 1px solid rgba(255,255,255,0.2);
-                `;
-                successMsg.textContent = 'Powiadomienie wysłane!';
-                document.body.appendChild(successMsg);
-                setTimeout(() => successMsg.remove(), 3000);
-            } else {
-                const errorMsg = document.createElement('div');
-                errorMsg.style.cssText = `
-                    position: fixed; top: 20px; right: 20px;
-                    background: linear-gradient(135deg, #dc3545, #c82333);
-                    color: white; padding: 12px 18px;
-                    border-radius: 6px; font-weight: bold; z-index: 10001;
-                    font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-                    font-family: Arial, sans-serif;
-                    border: 1px solid rgba(255,255,255,0.2);
-                `;
-                errorMsg.textContent = 'Błąd wysyłania!';
-                document.body.appendChild(errorMsg);
-                setTimeout(() => errorMsg.remove(), 3000);
-            }
-
-            document.body.removeChild(gameWindow);
-        };
+    document.body.removeChild(gameWindow);
+};
     }
 
     async function sendHeroRespawnNotificationWithMessage(heroName, heroLevel, heroData = {}) {

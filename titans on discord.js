@@ -527,12 +527,12 @@ function updateButtonAppearance() {
 async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {}) {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl || !isNotifierEnabled()) return false;
-
+    
     const timestamp = new Date().toLocaleString('pl-PL');
     const roleIds = getTitanRoleIds();
     const roleId = roleIds[titanName];
-
-    // NOWA LOGIKA: Obsługa wielu ról i @everyone
+    
+    // Obsługa wielu ról i @everyone
     let rolePing = '';
     if (roleId) {
         if (roleId.toLowerCase() === 'everyone') {
@@ -543,12 +543,56 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
             rolePing = roleIdsList.map(id => `<@&${id}>`).join(' ');
         }
     }
-
+    
     // Pobierz dodatkowe informacje
     const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
     const mapName = titanData.mapName || getCurrentMapName() || 'Nieznana mapa';
     const finderName = titanData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
+    
+    // Pobierz obrazek NPC jako plik
+    let npcImageFile = null;
+    try {
+        if (titanData.npcData) {
+            const npcData = titanData.npcData;
+            let npcIcon = '';
+            if (npcData && npcData.d && npcData.d.icon) {
+                npcIcon = npcData.d.icon;
+            } else if (npcData && npcData.icon) {
+                npcIcon = npcData.icon;
+            }
 
+            if (npcIcon) {
+                const getCookie = (name) => {
+                    const regex = new RegExp(`(^| )${name}=([^;]+)`);
+                    const match = document.cookie.match(regex);
+                    return match ? match[2] : null;
+                };
+
+                let baseUrl = 'https://micc.garmory-cdn.cloud/obrazki/npc/';
+
+                if (getCookie('interface') === 'ni') {
+                    baseUrl = 'https://micc.garmory-cdn.cloud/obrazki/npc/';
+                }
+
+                let npcImageUrl = '';
+                if (!npcIcon.startsWith('http://') && !npcIcon.startsWith('https://')) {
+                    npcImageUrl = baseUrl + npcIcon;
+                } else {
+                    npcImageUrl = npcIcon;
+                }
+
+                // Pobierz obrazek jako blob i utwórz plik
+                const response = await fetch(npcImageUrl);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    npcImageFile = new File([blob], 'npc.gif', { type: blob.type });
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Błąd pobierania obrazka NPC:', error);
+    }
+    
     const embed = {
         title: `!#TYTAN#!`,
         description: `**${titanName} (Lvl ${titanLevel})**\n\n` +
@@ -561,20 +605,57 @@ async function sendTitanRespawnNotification(titanName, titanLevel, titanData = {
         },
         timestamp: new Date().toISOString()
     };
-
+    
+    // Jeśli udało się pobrać obrazek, użyj go jako thumbnail
+    if (npcImageFile) {
+        embed.thumbnail = {
+            url: 'attachment://npc.gif'
+        };
+    }
+    
     try {
-        const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content: rolePing, // ZMIANA: Ping roli jest teraz w content (poza embedem)
-                embeds: [embed]    // Embed bez pingu
-            })
-        });
+        // Użyj FormData jeśli mamy plik obrazka
+        if (npcImageFile) {
+            const formData = new FormData();
+            formData.append('files[0]', npcImageFile);
+            formData.append('payload_json', JSON.stringify({
+                content: rolePing,
+                embeds: [embed]
+            }));
 
-        return response.ok;
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                console.error('Discord webhook response:', response.status, response.statusText);
+                const text = await response.text();
+                console.error('Response body:', text);
+            }
+
+            return response.ok;
+        } else {
+            // Fallback - wyślij bez obrazka
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: rolePing,
+                    embeds: [embed]
+                })
+            });
+
+            if (!response.ok) {
+                console.error('Discord webhook response:', response.status, response.statusText);
+                const text = await response.text();
+                console.error('Response body:', text);
+            }
+
+            return response.ok;
+        }
     } catch (error) {
         console.error('Błąd wysyłania powiadomienia na Discord:', error);
         return false;

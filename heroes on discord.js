@@ -1035,7 +1035,6 @@ const message = `Heros! ${heroName} ${heroLevel ? `(${heroLevel})` : ''} na mapi
         setTimeout(() => errorMsg.remove(), 3000);
     }
     
-    document.body.removeChild(gameWindow);
 };
 
 gameWindow.querySelector('#hero-send-btn').onclick = async () => {
@@ -1078,7 +1077,6 @@ gameWindow.querySelector('#hero-send-btn').onclick = async () => {
         setTimeout(() => errorMsg.remove(), 3000);
     }
 
-    document.body.removeChild(gameWindow);
 };
     }
 

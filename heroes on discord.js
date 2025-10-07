@@ -852,7 +852,7 @@ gameWindow.innerHTML = `
     align-items: center;
     transition: background 0.2s;
 ">
-    <span style="flex: 1; text-align: center;">Heros!</span>
+    <span style="flex: 1; text-align: center;"></span>
     <button style="
         background: none;
         border: none;
@@ -1001,7 +1001,7 @@ gameWindow.querySelector('#hero-clan-btn').onclick = () => {
     const mapName = heroData.mapName || getCurrentMapName();
     const coords = heroData.heroCoords || getHeroCoordinates(heroData.npcData) || '[?, ?]';
     
-    const message = `Heros! ${heroName} na mapie ${mapName} ${coords}`;
+    const message = Heros! ${heroName} ${heroLevel ? (${heroLevel}) : ''} na mapie ${mapName} ${coords};
     
     const success = sendClanMessage(message);
     

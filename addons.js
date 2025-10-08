@@ -127,9 +127,16 @@ const addonConfig = {
         addon11: {
             id: 'mushrooms_abusers',
             name: 'Mushrooms Abusers',
-            description: 'Wykrywacz grzybków który wysyła na discorda ',
+            description: 'Wykrywacz grzybków który wysyła na discorda',
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/grzybki.js'
+        },
+        addon12: {
+            id: 'mini_widgets',
+            name: 'Custom Widgets Size',
+            description: 'Skaluje rozmiar widgetów',
+            enabled: false,
+            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/mini%20widgets.js'
         },
     };
 // Obiekt do przechowywania załadowanych dodatków

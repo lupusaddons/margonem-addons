@@ -2112,7 +2112,7 @@ async function autoLoadGuilds() {
             font-weight: bold; font-size: 11px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s ease-out;
         `;
-        autoLoadMsg.innerHTML = `✅ Auto-załadowano ${result.guildsCount} klanów`;
+        autoLoadMsg.innerHTML = `✅ Załadowano ${result.guildsCount} klanów`;
         document.body.appendChild(autoLoadMsg);
         
         setTimeout(() => {

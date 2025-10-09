@@ -1335,6 +1335,11 @@ gameWindow.querySelector('#hero-send-btn').onclick = async () => {
         document.head.appendChild(style);
 
         document.body.appendChild(panel);
+        const heroesList = panel.querySelector('#heroes-list');
+heroesList.addEventListener("wheel", e => e.stopPropagation());
+
+const scrollableDiv = panel.querySelector('div[style*="overflow-y: auto"]');
+scrollableDiv.addEventListener("wheel", e => e.stopPropagation());
 
         let isDragging = false;
         let dragOffsetX = 0;

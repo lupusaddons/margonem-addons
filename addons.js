@@ -1185,6 +1185,8 @@ function createGUI() {
     const content = document.createElement('div');
     content.className = 'kwak-addon-content';
 
+    content.addEventListener("wheel", e => e.stopPropagation());
+
     const leftColumn = document.createElement('div');
     leftColumn.className = 'kwak-addon-column';
 

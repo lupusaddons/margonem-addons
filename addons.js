@@ -535,7 +535,7 @@ const styles = `
 
 .kwak-addon-content {
     padding: 8px;
-    max-height: 400px;
+    max-height: 300px;
     overflow-y: auto;
     background: #2a2a2a;
     display: grid;

@@ -140,7 +140,7 @@ const addonConfig = {
         },
         addon13: {
             id: 'custom_tooltips',
-            name: 'Tooltips Styler',
+            name: 'Tooltips Styler [DEV]',
             description: 'Zmienia wygląd tooltipów, do wyboru do koloru :)',
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/custom%20tooltips.js'

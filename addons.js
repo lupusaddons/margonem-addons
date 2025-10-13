@@ -138,6 +138,13 @@ const addonConfig = {
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/mini%20widgets.js'
         },
+        addon13: {
+            id: 'custom_tooltips',
+            name: 'Tooltips Styler',
+            description: 'Zmienia wygląd tooltipów, do wyboru do koloru :)',
+            enabled: false,
+            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/custom%20tooltips.js'
+        },
     };
 // Obiekt do przechowywania załadowanych dodatków
     const loadedAddons = {};
@@ -1306,7 +1313,7 @@ customContentText.innerHTML = `
     <p>Discord: zabujczakwaczuszka</p>
     <p><a href="https://discord.gg/GXgmeRtkSt" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: bold;">Serwer Discord</a></p>
     <p><a href="#" id="fake-pornhub-link" style="color: #FF0000; text-decoration: none; font-weight: bold;">Profil na Pornhubie</a></p>
-    <p style="color: #888; font-size: 12px; margin-top: 16px;">kiedyś coś tu będzie.....</p>
+    <p style="color: #888; font-size: 12px; margin-top: 16px;">Dowód na to, że nie trzeba umieć żeby zrobić, trzeba tylko poświęcić trochę czasu :) ~Yukki</p>
 `;
 
 // Dodaj event listener do fake linku

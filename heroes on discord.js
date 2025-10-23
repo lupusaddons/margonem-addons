@@ -24,8 +24,9 @@
         "Obłąkany Łowca Orków": "1302726541385404426,1302726620716601425",
         "Lichwiarz Grauhaz": "1302726541385404426,1302726620716601425",
         "Viviana Nandin": "1302726620716601425,1302726646645653575",
-        "Mulher Ma": "1302726620716601425,1302726646645653575",
+        "Przeraza": "1302726620716601425,1302726646645653575",
         "Demonis Pan Nicości": "1302726646645653575,1302726731941023784",
+        "Mulher Ma": "1302726620716601425,1302726646645653575",
         "Vapor Veneno": "1302726646645653575,1302726731941023784,1302726761381101675",
         "Dęborożec": "1302726761381101675,1302726786559246407",
         "Tepeyollotl": "1302726786559246407,1302726826384425171",
@@ -1197,91 +1198,127 @@ gameWindow.querySelector('#hero-send-btn').onclick = async () => {
         return false;
     }
 
-    function createSettingsPanel() {
-        const panel = document.createElement('div');
-        panel.id = 'heroes-on-discord-settings-panel';
-        panel.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #2a2a2a;
-            border: 1px solid #444;
-            border-radius: 4px;
-            padding: 0;
-            z-index: 10000;
-            display: none;
-            min-width: 350px;
-            max-width: 400px;
-            max-height: 80vh;
-            font-family: Arial, sans-serif;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            flex-direction: column;
-        `;
+function createSettingsPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'heroes-on-discord-settings-panel';
+    panel.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 0;
+        z-index: 10000;
+        display: none;
+        min-width: 350px;
+        max-width: 400px;
+        max-height: 80vh;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        flex-direction: column;
+    `;
 
-        const popularHeroes = [
-            {name: "Domina Ecclesiae", level: 21},
-            {name: "Mietek Żul", level: 25},
-            {name: "Mroczny Patryk", level: 35},
-            {name: "Karmazynowy Mściciel", level: 45},
-            {name: "Złodziej", level: 51},
-            {name: "Zły Przewodnik", level: 63},
-            {name: "Opętany Paladyn", level: 74},
-            {name: "Piekielny Kościej", level: 85},
-            {name: "Koziec Mąciciel Ścieżek", level: 94},
-            {name: "Kochanka Nocy", level: 102},
-            {name: "Książę Kasim", level: 116},
-            {name: "Święty Braciszek", level: 123},
-            {name: "Złoty Roger", level: 135},
-            {name: "Baca bez Łowiec", level: 144},
-            {name: "Czarująca Atalia", level: 157},
-            {name: "Obłąkany Łowca Orków", level: 165},
-            {name: "Lichwiarz Grauhaz", level: 177},
-            {name: "Viviana Nandin", level: 184},
-            {name: "Mulher Ma", level: 197},
-            {name: "Demonis Pan Nicości", level: 210},
-            {name: "Vapor Veneno", level: 227},
-            {name: "Dęborożec", level: 242},
-            {name: "Tepeyollotl", level: 260},
-            {name: "Negthotep Czarny Kapłan", level: 271},
-            {name: "Młody Smok", level: 282}
-        ];
+    const regularHeroes = [
+        {name: "Domina Ecclesiae", level: 21},
+        {name: "Mietek Żul", level: 25},
+        {name: "Mroczny Patryk", level: 35},
+        {name: "Karmazynowy Mściciel", level: 45},
+        {name: "Złodziej", level: 51},
+        {name: "Zły Przewodnik", level: 63},
+        {name: "Opętany Paladyn", level: 74},
+        {name: "Piekielny Kościej", level: 85},
+        {name: "Koziec Mąciciel Ścieżek", level: 94},
+        {name: "Kochanka Nocy", level: 102},
+        {name: "Książę Kasim", level: 116},
+        {name: "Święty Braciszek", level: 123},
+        {name: "Złoty Roger", level: 135},
+        {name: "Baca bez Łowiec", level: 144},
+        {name: "Czarująca Atalia", level: 157},
+        {name: "Obłąkany Łowca Orków", level: 165},
+        {name: "Lichwiarz Grauhaz", level: 177},
+        {name: "Viviana Nandin", level: 184},
+        {name: "Przeraza", level: 194},
+        {name: "Demonis Pan Nicości", level: 205},
+        {name: "Mulher Ma", level: 214},
+        {name: "Vapor Veneno", level: 231},
+        {name: "Dęborożec", level: 242},
+        {name: "Tepeyollotl", level: 260},
+        {name: "Negthotep Czarny Kapłan", level: 271},
+        {name: "Młody Smok", level: 282}
+    ];
 
-        const worldName = window.location.hostname.split('.')[0] || 'Unknown';
-        const hasPredefSettings = predefinedWorldRoles[worldName];
-        const roleIds = getHeroRoleIds();
+    const eventHeroes = [
+        {name: "Rogogłowy Anthony", level: "62w"},
+        {name: "Czteroręka Sophia", level: "120m"},
+        {name: "Jednoręki Noah", level: "164p"},
+        {name: "Dwugłowa Charlotte", level: "202t"}
+    ];
 
-        panel.innerHTML = `
-            <div id="settings-panel-header" style="color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; font-weight: bold; padding: 15px 15px 8px 15px; border-bottom: 1px solid #444; flex-shrink: 0; cursor: move; user-select: none; background: #333; border-radius: 4px 4px 0 0;">
-                Heroes on Discord - Settings
+    const worldName = window.location.hostname.split('.')[0] || 'Unknown';
+    const roleIds = getHeroRoleIds();
+
+    panel.innerHTML = `
+        <div id="settings-panel-header" style="color: #fff; font-size: 14px; margin-bottom: 0; text-align: center; font-weight: bold; padding: 15px 15px 8px 15px; border-bottom: 1px solid #444; flex-shrink: 0; cursor: move; user-select: none; background: #333; border-radius: 4px 4px 0 0;">
+            Heroes on Discord - Settings
+        </div>
+
+        <!-- ZAKŁADKI -->
+        <div style="display: flex; background: #1a1a1a; border-bottom: 1px solid #444;">
+            <button class="hero-tab-btn active" data-tab="regular" style="
+                flex: 1;
+                padding: 10px;
+                background: #dc3545;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: bold;
+                border-right: 1px solid #000;
+                transition: all 0.2s;
+            ">Zwykli Herosi</button>
+            <button class="hero-tab-btn" data-tab="event" style="
+                flex: 1;
+                padding: 10px;
+                background: #555;
+                color: #ccc;
+                border: none;
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: bold;
+                transition: all 0.2s;
+            ">Herosi Eventowi</button>
+        </div>
+
+        <div style="flex: 1; overflow-y: auto; padding: 15px; padding-right: 10px; margin-right: 5px;">
+            <div style="margin-bottom: 15px; padding: 12px; background: rgba(220,53,69,0.1); border: 1px solid #dc3545; border-radius: 6px;">
+                <div style="color: #fd7e14; font-size: 12px; margin-bottom: 8px; font-weight: bold;">Załaduj predefiniowane role dla świata:</div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <select id="world-selector" style="flex: 1; padding: 6px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;">
+                        <option value="">— Wybierz Świat —</option>
+                        <option value="Lupus">Lupus</option>
+                    </select>
+                    <button id="load-predefined-settings" style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                        Załaduj
+                    </button>
+                </div>
+                <div style="color: #888; font-size: 10px; margin-top: 5px;">Automatycznie uzupełni ID ról dla wybranego świata.</div>
             </div>
 
-            <div style="flex: 1; overflow-y: auto; padding: 15px; padding-right: 10px; margin-right: 5px;">
-                <div style="margin-bottom: 15px; padding: 12px; background: rgba(220,53,69,0.1); border: 1px solid #dc3545; border-radius: 6px;">
-                    <div style="color: #fd7e14; font-size: 12px; margin-bottom: 8px; font-weight: bold;">Załaduj predefiniowane role dla świata:</div>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <select id="world-selector" style="flex: 1; padding: 6px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px;">
-                            <option value="">— Wybierz Świat —</option>
-                            <option value="Lupus">Lupus</option>
-                        </select>
-                        <button id="load-predefined-settings" style="padding: 6px 12px; background: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
-                            Załaduj
-                        </button>
-                    </div>
-                    <div style="color: #888; font-size: 10px; margin-top: 5px;">Automatycznie uzupełni ID ról dla wybranego świata.</div>
-                </div>
+            <div style="margin-bottom: 15px;">
+                <span style="color: #ccc; font-size: 12px; display: block; margin-bottom: 5px;">Discord Webhook URL:</span>
+                <input type="text" id="hero-webhook" style="width: 100%; padding: 5px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px; box-sizing: border-box;" value="${getWebhookUrl()}" placeholder="https://discord.com/api/webhooks/...">
+            </div>
 
-                <div style="margin-bottom: 15px;">
-                    <span style="color: #ccc; font-size: 12px; display: block; margin-bottom: 5px;">Discord Webhook URL:</span>
-                    <input type="text" id="hero-webhook" style="width: 100%; padding: 5px; background: #555; color: #fff; border: 1px solid #666; border-radius: 3px; font-size: 11px; box-sizing: border-box;" value="${getWebhookUrl()}" placeholder="https://discord.com/api/webhooks/...">
-                </div>
-
+            <!-- ZAKŁADKA ZWYKŁYCH HEROSÓW -->
+            <div class="hero-tab-content" data-tab="regular" style="display: block;">
                 <div style="margin-bottom: 10px;">
                     <div style="color: #ccc; font-size: 11px; margin-bottom: 10px;">
                         Role Discord (ID roli lub 'everyone'):
                     </div>
-                    <div id="heroes-list" style="max-height: 300px; overflow-y: auto; padding-right: 8px; margin-right: -8px; scrollbar-width: thin; scrollbar-color: #666 #333;">
-                        ${popularHeroes.map(hero => `
+                    <div id="heroes-list-regular" style="max-height: 300px; overflow-y: auto; padding-right: 8px; margin-right: -8px; scrollbar-width: thin; scrollbar-color: #666 #333;">
+                        ${regularHeroes.map(hero => `
                             <div style="margin: 5px 0; display: flex; align-items: center; padding: 4px; background: rgba(255,255,255,0.05); border-radius: 3px;">
                                 <span style="color: #aaa; font-size: 10px; min-width: 120px; font-weight: 500;">${hero.name} (${hero.level})</span>
                                 <input type="text" data-hero="${hero.name}" style="flex: 1; margin-left: 8px; padding: 4px; background: #555; color: #fff; border: 1px solid #666; border-radius: 2px; font-size: 10px; box-sizing: border-box;" value="${roleIds[hero.name] || ''}" placeholder="ID roli">
@@ -1291,164 +1328,228 @@ gameWindow.querySelector('#hero-send-btn').onclick = async () => {
                 </div>
             </div>
 
-            <div style="display: flex; gap: 8px; margin: 12px 15px 15px 15px; border-top: 1px solid #444; padding-top: 12px; flex-shrink: 0;">
-                <button id="close-heroes-settings" style="flex: 1; padding: 8px 12px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
-                    Zamknij
-                </button>
-                <button id="save-heroes-settings" style="flex: 1; padding: 8px 12px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
-                    Zapisz
-                </button>
+            <!-- ZAKŁADKA EVENTOWYCH HEROSÓW -->
+            <div class="hero-tab-content" data-tab="event" style="display: none;">
+                <div style="margin-bottom: 10px;">
+                    <div style="color: #fd7e14; font-size: 11px; margin-bottom: 10px; font-weight: bold;">
+                        Herosi Eventowi - Role Discord:
+                    </div>
+                    <div id="heroes-list-event" style="max-height: 300px; overflow-y: auto; padding-right: 8px; margin-right: -8px; scrollbar-width: thin; scrollbar-color: #666 #333;">
+                        ${eventHeroes.map(hero => `
+                            <div style="margin: 5px 0; display: flex; align-items: center; padding: 4px; background: rgba(253,126,20,0.1); border: 1px solid rgba(253,126,20,0.3); border-radius: 3px;">
+                                <span style="color: #fd7e14; font-size: 10px; min-width: 120px; font-weight: 500;">${hero.name} (${hero.level})</span>
+                                <input type="text" data-hero="${hero.name}" style="flex: 1; margin-left: 8px; padding: 4px; background: #555; color: #fff; border: 1px solid #666; border-radius: 2px; font-size: 10px; box-sizing: border-box;" value="${roleIds[hero.name] || ''}" placeholder="ID roli">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             </div>
-        `;
+        </div>
 
-        const style = document.createElement('style');
-        style.textContent = `
-            #heroes-list::-webkit-scrollbar {
-                width: 8px;
-            }
-            #heroes-list::-webkit-scrollbar-track {
-                background: #333;
-                border-radius: 4px;
-            }
-            #heroes-list::-webkit-scrollbar-thumb {
-                background: #666;
-                border-radius: 4px;
-            }
-            #heroes-list::-webkit-scrollbar-thumb:hover {
-                background: #888;
-            }
-            #heroes-on-discord-settings-panel > div:nth-child(2)::-webkit-scrollbar {
-                width: 8px;
-            }
-            #heroes-on-discord-settings-panel > div:nth-child(2)::-webkit-scrollbar-track {
-                background: #333;
-                border-radius: 4px;
-            }
-            #heroes-on-discord-settings-panel > div:nth-child(2)::-webkit-scrollbar-thumb {
-                background: #666;
-                border-radius: 4px;
-            }
-            #heroes-on-discord-settings-panel > div:nth-child(2)::-webkit-scrollbar-thumb:hover {
-                background: #888;
-            }
-        `;
-        document.head.appendChild(style);
+        <div style="display: flex; gap: 8px; margin: 12px 15px 15px 15px; border-top: 1px solid #444; padding-top: 12px; flex-shrink: 0;">
+            <button id="close-heroes-settings" style="flex: 1; padding: 8px 12px; background: #555; color: #ccc; border: none; border-radius: 3px; cursor: pointer; font-size: 11px;">
+                Zamknij
+            </button>
+            <button id="save-heroes-settings" style="flex: 1; padding: 8px 12px; background: #dc3545; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: bold;">
+                Zapisz
+            </button>
+        </div>
+    `;
 
-        document.body.appendChild(panel);
-        const heroesList = panel.querySelector('#heroes-list');
-heroesList.addEventListener("wheel", e => e.stopPropagation());
-
-const scrollableDiv = panel.querySelector('div[style*="overflow-y: auto"]');
-scrollableDiv.addEventListener("wheel", e => e.stopPropagation());
-
-        let isDragging = false;
-        let dragOffsetX = 0;
-        let dragOffsetY = 0;
-
-        const header = panel.querySelector('#settings-panel-header');
-
-        header.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            const rect = panel.getBoundingClientRect();
-            dragOffsetX = e.clientX - rect.left;
-            dragOffsetY = e.clientY - rect.top;
-            e.preventDefault();
-
-            header.style.background = '#444';
-            panel.style.cursor = 'grabbing';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-
-            const x = Math.min(Math.max(0, e.clientX - dragOffsetX), window.innerWidth - panel.offsetWidth);
-            const y = Math.min(Math.max(0, e.clientY - dragOffsetY), window.innerHeight - panel.offsetHeight);
-
-            panel.style.left = `${x}px`;
-            panel.style.top = `${y}px`;
-            panel.style.transform = 'none';
-
-            localStorage.setItem('heroSettingsPanelPosition', JSON.stringify({x, y}));
-        });
-
-        document.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-
-                header.style.background = '#333';
-                panel.style.cursor = 'default';
-            }
-        });
-
-        const savedPosition = JSON.parse(localStorage.getItem('heroSettingsPanelPosition') || 'null');
-        if (savedPosition) {
-            panel.style.left = `${savedPosition.x}px`;
-            panel.style.top = `${savedPosition.y}px`;
-            panel.style.transform = 'none';
+    const style = document.createElement('style');
+    style.textContent = `
+        #heroes-list-regular::-webkit-scrollbar,
+        #heroes-list-event::-webkit-scrollbar {
+            width: 8px;
         }
-
-        const loadBtn = panel.querySelector('#load-predefined-settings');
-        const worldSelector = panel.querySelector('#world-selector');
-        if (loadBtn && worldSelector) {
-            loadBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const selectedWorld = worldSelector.value;
-
-                if (!selectedWorld) {
-                    loadBtn.style.background = '#dc3545';
-                    loadBtn.textContent = 'Wybierz świat!';
-                    setTimeout(() => {
-                        loadBtn.style.background = '#4CAF50';
-                        loadBtn.textContent = 'Załaduj';
-                    }, 2000);
-                    return;
-                }
-
-                if (predefinedWorldRoles[selectedWorld]) {
-                    const worldRoles = predefinedWorldRoles[selectedWorld];
-                     const lupusWebhook = "https://discord.com/api/webhooks/1406241018117881927/FU_SFc7Jauu2R5gSbSw48TgtbaLwt6g2qL8wVBmhyp94zVjwTEJRbVuShCA2u6i0nshy";
-
-                    setWebhookUrl(lupusWebhook);
-                    setHeroRoleIds({ ...worldRoles });
-                    setNotifierEnabled(true);
-
-                    panel.querySelector('#hero-webhook').value = getWebhookUrl();
-                    panel.querySelectorAll('input[data-hero]').forEach(input => {
-                        const heroName = input.getAttribute('data-hero');
-                        input.value = getHeroRoleIds()[heroName] || '';
-                    });
-
-                    loadBtn.style.background = '#28a745';
-                    loadBtn.textContent = 'Załadowano!';
-                    setTimeout(() => {
-                        loadBtn.style.background = '#4CAF50';
-                        loadBtn.textContent = 'Załaduj';
-                    }, 2000);
-                }
-            });
+        #heroes-list-regular::-webkit-scrollbar-track,
+        #heroes-list-event::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
         }
+        #heroes-list-regular::-webkit-scrollbar-thumb,
+        #heroes-list-event::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+        }
+        #heroes-list-regular::-webkit-scrollbar-thumb:hover,
+        #heroes-list-event::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        .hero-tab-btn:hover {
+            background: #666 !important;
+        }
+        .hero-tab-btn.active {
+            background: #dc3545 !important;
+            color: white !important;
+        }
+        #heroes-on-discord-settings-panel > div:nth-child(3)::-webkit-scrollbar {
+            width: 8px;
+        }
+        #heroes-on-discord-settings-panel > div:nth-child(3)::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+        #heroes-on-discord-settings-panel > div:nth-child(3)::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+        }
+        #heroes-on-discord-settings-panel > div:nth-child(3)::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+    `;
+    document.head.appendChild(style);
 
-        panel.querySelector('#save-heroes-settings').addEventListener('click', (e) => {
-            e.preventDefault();
-            setNotifierEnabled(true);
-            setWebhookUrl(panel.querySelector('#hero-webhook').value.trim());
+    document.body.appendChild(panel);
 
-            const newRoleIds = {};
-            panel.querySelectorAll('input[data-hero]').forEach(input => {
-                const heroName = input.getAttribute('data-hero');
-                const roleId = input.value.trim();
-                if (roleId) newRoleIds[heroName] = roleId;
+    // OBSŁUGA ZAKŁADEK
+    const tabButtons = panel.querySelectorAll('.hero-tab-btn');
+    const tabContents = panel.querySelectorAll('.hero-tab-content');
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.dataset.tab;
+
+            // Zmień aktywną zakładkę
+            tabButtons.forEach(b => {
+                b.classList.remove('active');
+                b.style.background = '#555';
+                b.style.color = '#ccc';
             });
-            setHeroRoleIds(newRoleIds);
+            btn.classList.add('active');
+            btn.style.background = '#dc3545';
+            btn.style.color = 'white';
 
-            toggleSettingsPanel();
+            // Pokaż odpowiednią zawartość
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            const targetContent = panel.querySelector(`.hero-tab-content[data-tab="${targetTab}"]`);
+            if (targetContent) {
+                targetContent.style.display = 'block';
+            }
         });
+    });
 
-        panel.querySelector('#close-heroes-settings').addEventListener('click', (e) => {
+    // Zablokuj scrollowanie strony podczas scrollowania list herosów
+    const heroesList1 = panel.querySelector('#heroes-list-regular');
+    const heroesList2 = panel.querySelector('#heroes-list-event');
+    heroesList1.addEventListener("wheel", e => e.stopPropagation());
+    heroesList2.addEventListener("wheel", e => e.stopPropagation());
+
+    const scrollableDiv = panel.querySelector('div[style*="overflow-y: auto"]');
+    scrollableDiv.addEventListener("wheel", e => e.stopPropagation());
+
+    // PRZECIĄGANIE
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    const header = panel.querySelector('#settings-panel-header');
+
+    header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        const rect = panel.getBoundingClientRect();
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        e.preventDefault();
+
+        header.style.background = '#444';
+        panel.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        const x = Math.min(Math.max(0, e.clientX - dragOffsetX), window.innerWidth - panel.offsetWidth);
+        const y = Math.min(Math.max(0, e.clientY - dragOffsetY), window.innerHeight - panel.offsetHeight);
+
+        panel.style.left = `${x}px`;
+        panel.style.top = `${y}px`;
+        panel.style.transform = 'none';
+
+        localStorage.setItem('heroSettingsPanelPosition', JSON.stringify({x, y}));
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+
+            header.style.background = '#333';
+            panel.style.cursor = 'default';
+        }
+    });
+
+    const savedPosition = JSON.parse(localStorage.getItem('heroSettingsPanelPosition') || 'null');
+    if (savedPosition) {
+        panel.style.left = `${savedPosition.x}px`;
+        panel.style.top = `${savedPosition.y}px`;
+        panel.style.transform = 'none';
+    }
+
+    // PRZYCISKI ŁADOWANIA I ZAPISU
+    const loadBtn = panel.querySelector('#load-predefined-settings');
+    const worldSelector = panel.querySelector('#world-selector');
+    if (loadBtn && worldSelector) {
+        loadBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            toggleSettingsPanel();
+            const selectedWorld = worldSelector.value;
+
+            if (!selectedWorld) {
+                loadBtn.style.background = '#dc3545';
+                loadBtn.textContent = 'Wybierz świat!';
+                setTimeout(() => {
+                    loadBtn.style.background = '#4CAF50';
+                    loadBtn.textContent = 'Załaduj';
+                }, 2000);
+                return;
+            }
+
+            if (predefinedWorldRoles[selectedWorld]) {
+                const worldRoles = predefinedWorldRoles[selectedWorld];
+                const lupusWebhook = "https://discord.com/api/webhooks/1406241018117881927/FU_SFc7Jauu2R5gSbSw48TgtbaLwt6g2qL8wVBmhyp94zVjwTEJRbVuShCA2u6i0nshy";
+
+                setWebhookUrl(lupusWebhook);
+                setHeroRoleIds({ ...worldRoles });
+                setNotifierEnabled(true);
+
+                panel.querySelector('#hero-webhook').value = getWebhookUrl();
+                panel.querySelectorAll('input[data-hero]').forEach(input => {
+                    const heroName = input.getAttribute('data-hero');
+                    input.value = getHeroRoleIds()[heroName] || '';
+                });
+
+                loadBtn.style.background = '#28a745';
+                loadBtn.textContent = 'Załadowano!';
+                setTimeout(() => {
+                    loadBtn.style.background = '#4CAF50';
+                    loadBtn.textContent = 'Załaduj';
+                }, 2000);
+            }
         });
     }
+
+    panel.querySelector('#save-heroes-settings').addEventListener('click', (e) => {
+        e.preventDefault();
+        setNotifierEnabled(true);
+        setWebhookUrl(panel.querySelector('#hero-webhook').value.trim());
+
+        const newRoleIds = {};
+        panel.querySelectorAll('input[data-hero]').forEach(input => {
+            const heroName = input.getAttribute('data-hero');
+            const roleId = input.value.trim();
+            if (roleId) newRoleIds[heroName] = roleId;
+        });
+        setHeroRoleIds(newRoleIds);
+
+        toggleSettingsPanel();
+    });
+
+    panel.querySelector('#close-heroes-settings').addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleSettingsPanel();
+    });
+}
 
     function toggleSettingsPanel() {
         const panel = document.getElementById('heroes-on-discord-settings-panel');

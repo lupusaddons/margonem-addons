@@ -484,14 +484,14 @@ function sendClanMessage(message) {
         return false;
     }
 }
-    async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
+async function sendHeroRespawnNotification(heroName, heroLevel, heroData = {}) {
     const webhookUrl = getWebhookUrl();
     if (!webhookUrl || !isNotifierEnabled()) return false;
-    
+
     const timestamp = new Date().toLocaleString('pl-PL');
     const roleIds = getHeroRoleIds();
     const roleId = roleIds[heroName];
-    
+
     let rolePing = '';
     if (roleId) {
         if (roleId.toLowerCase() === 'everyone') {
@@ -501,11 +501,11 @@ function sendClanMessage(message) {
             rolePing = roleIdsList.map(id => `<@&${id}>`).join(' ');
         }
     }
-    
+
     const worldName = window.location.hostname.split('.')[0] || 'Nieznany';
     const mapName = heroData.mapName || getCurrentMapName() || 'Nieznana mapa';
     const finderName = heroData.finderName || getCurrentPlayerName() || 'Nieznany gracz';
-    
+
     // Pobierz obrazek NPC jako plik
     let npcImageFile = null;
     try {
@@ -549,10 +549,10 @@ function sendClanMessage(message) {
     } catch (error) {
         console.error('Błąd pobierania obrazka NPC:', error);
     }
-    
+
     const embed = {
         title: `!#HEROS#!`,
-        description: `**${heroName} (Lvl ${heroLevel})**\n\n` +
+        description: `**${heroName} (${heroLevel})**\n\n` +
                     `**Mapa:** ${mapName}\n` +
                     `**Znalazł:** ${finderName}\n` +
                     `**Świat:** ${worldName}`,
@@ -562,14 +562,14 @@ function sendClanMessage(message) {
         },
         timestamp: new Date().toISOString()
     };
-    
+
     // Jeśli udało się pobrać obrazek, użyj go jako thumbnail
     if (npcImageFile) {
         embed.thumbnail = {
             url: 'attachment://npc.gif'
         };
     }
-    
+
     try {
         // Użyj FormData jeśli mamy plik obrazka
         if (npcImageFile) {

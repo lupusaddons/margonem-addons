@@ -145,20 +145,6 @@ const addonConfig = {
             enabled: false,
             url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/custom%20tooltips.js'
         },
-        addon14: {
-            id: 'custom_redstone',
-            name: 'Custom Redstone',
-            description: 'Grafiki mobów do kcsów',
-            enabled: false,
-            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/custom%20redstone.js'
-        },
-        addon15: {
-            id: 'berserk',
-            name: 'Berserk',
-            description: 'BInd toggle dodatku z agresywnością potworów',
-            enabled: false,
-            url: 'https://raw.githubusercontent.com/krystianasaaa/margonem-addons/refs/heads/main/waleniemobow.js'
-        },
     };
 // Obiekt do przechowywania załadowanych dodatków
     const loadedAddons = {};

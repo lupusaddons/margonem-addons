@@ -1,3 +1,6 @@
+koniec naura
+const jebac garmory
+    
 (function() {
     'use strict';
     function getCookie(name) {

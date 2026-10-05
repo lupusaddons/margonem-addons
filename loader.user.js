@@ -1,20 +1,22 @@
 // ==UserScript==
-// @name         Kaczor Addons Manager - Lupus
+// @name         grzib
 // @namespace    http://tampermonkey.net/
 // @version      1.0
-// @description  zestaw dodateczkow
+// @description  grzib
 // @author       kaczka
-// @match        https://lupus.margonem.pl/*
+// @match        https://luvia.margonem.pl/*
 // @grant        GM_xmlhttpRequest
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @icon         https://raw.githubusercontent.com/krystianasaaa/margonem-addons/b939ec05fdd03f6f973cef7a931659c224596bde/ikonka.png
-// @run-at       document-body
-// @updateURL    https://lupusaddons.github.io/margonem-addons/heroes.on.discord.js
-// @downloadURL  https://lupusaddons.github.io/margonem-addons/heroes.on.discord.js
+// @connect      raw.githubusercontent.com
+// @run-at       document-idle
 // ==/UserScript==
 (function() {
-    const s = document.createElement("script");
-    s.src = "https://lupusaddons.github.io/margonem-addons/heroes.on.discord.js?" + Date.now();
-    document.head.appendChild(s);
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: "https://raw.githubusercontent.com/lupusaddons/margonem-addons/refs/heads/main/heroes%20on%20discord.js?t=" + Date.now(),
+        onload: r => {
+            const s = document.createElement("script");
+            s.textContent = r.responseText;
+            document.documentElement.appendChild(s);
+        }
+    });
 })();
